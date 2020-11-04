@@ -2,5 +2,7 @@
 
 TODO
 -review git lecture
+
 -scaffolding
+
 -try gitKraken
