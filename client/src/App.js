@@ -1,13 +1,16 @@
 import "./App.css";
 //import Search from "./Search";
 import React, { Component, useState, useEffect } from "react";
-/*import {
+import {
   BrowserRouter as Router,
   Switch,
   Route,
   NavLink,
-} from "react-router-dom";*/
-//import axios from "axios";
+} from "react-router-dom";
+import Favorite from "./components/Favorite";
+import About from "./components/About";
+import Search from "./components/Search";
+import Home from "./components/Home";
 import api from "./api";
 
 export default class App extends Component {
@@ -30,6 +33,63 @@ export default class App extends Component {
   }
 
   render() {
-    return <div>works.</div>;
+    return (
+      <div className="Background1">
+        <Router>
+          <div>
+            <nav className="navbar  navbar-expand-lg navbar-light bg-warning">
+              <NavLink className=" nav-item nav-link" to="/">
+                Home
+              </NavLink>
+              <button
+                className="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span className="navbar-toggler-icon"></span>
+              </button>
+              <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav">
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/search">
+                      Search for Charities
+                    </NavLink>
+                  </li>
+                  <li className="nav-item  ">
+                    <NavLink className="nav-link" to="/about">
+                      About us
+                    </NavLink>
+                  </li>
+                  <li className="nav-item  ">
+                    <NavLink className="nav-link" to="/favorite">
+                      Favorite
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+
+            <Switch>
+              <Route path="/favorite" component={Search}>
+                <Favorite />
+              </Route>
+              <Route path="/search" component={Search}>
+                <Search />
+              </Route>
+              <Route path="/about">
+                <About />
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      </div>
+    );
   }
 }
