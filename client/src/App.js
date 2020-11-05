@@ -1,13 +1,13 @@
 import "./App.css";
-import Search from "./Search";
+//import Search from "./Search";
 import React, { Component, useState, useEffect } from "react";
-import {
+/*import {
   BrowserRouter as Router,
   Switch,
   Route,
   NavLink,
-} from "react-router-dom";
-import axios from "axios";
+} from "react-router-dom";*/
+//import axios from "axios";
 import api from "./api";
 
 export default class App extends Component {
@@ -16,13 +16,11 @@ export default class App extends Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    api.getProjects();
+  }
+
   render() {
-    console.log(api.getProjects());
-    return (
-      <div>
-        works.
-        {Search}
-      </div>
-    );
+    return <div>works.</div>;
   }
 }
