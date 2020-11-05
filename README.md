@@ -5,7 +5,7 @@ DB schema:
 
 API routes:
 
-GlobalGibingAPI: https://www.globalgiving.org/api/methods/
+GlobalGivingAPI: https://www.globalgiving.org/api/methods/
 
 **Technologies used:**
 
@@ -13,6 +13,7 @@ React.js
 Express.js
 Bootstrap
 MySQL
+
 (GitKraken here?)
 
 **Dependencies**
@@ -32,6 +33,7 @@ cd client and run yarn start to start client server in development mode with hot
 Client is configured so API calls will be proxied to port 5000.
 
 Test client app at http://localhost:3000
+
 Test API at http://localhost:5000/api
 
 ### Database Prep
