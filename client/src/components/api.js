@@ -21,6 +21,7 @@ export default {
       }
       const data = await response.json();
       console.log(data);
+      return data
     } catch (err) {
       console.log(err);
     }
@@ -39,7 +40,8 @@ export default {
         throw new Error();
       }
       const data = await response.json();
-      console.log(data);
+      // console.log("data",data)
+      return data
     } catch (err) {
       console.log(err);
     }
@@ -58,7 +60,8 @@ export default {
         throw new Error();
       }
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
+      return data
     } catch (err) {
       console.log(err);
     }
@@ -77,7 +80,8 @@ export default {
         throw new Error();
       }
       const data = await response.json();
-      console.log(data);
+      // console.log("data.themes.theme",data.themes.theme)
+      return data
     } catch (err) {
       console.log(err);
     }
@@ -96,7 +100,8 @@ export default {
         throw new Error();
       }
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
+      return data
     } catch (err) {
       console.log(err);
     }
