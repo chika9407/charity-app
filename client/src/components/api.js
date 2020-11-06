@@ -4,7 +4,6 @@
 export default {
   async getProjects() {
     //fetch all Projects from the API
-    // call Global Giving API
 
     const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
 
@@ -106,4 +105,40 @@ export default {
       console.log(err);
     }
   },
+
+  async getFilteredProjects(keyword='*', countryISO='', themeId='') {
+
+    const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
+    let countryAndTheme=''
+    if (!!countryISO && !!themeId) {
+      countryAndTheme="&filter="+"country:"+countryISO+','+"theme:"+themeId
+      console.log("both")
+    } else if (!!countryISO || !!themeId) {
+      console.log("or")
+      countryAndTheme="&filter="+(!!countryISO?"country:"+countryISO:"theme:"+themeId)
+    } else {
+      countryAndTheme=''
+      console.log("neither")
+    }
+
+
+    const APIcall = `https://api.globalgiving.org/api/public/services/search/projects?api_key=${APIkey}&q=${keyword}${countryAndTheme}`;
+
+    try {
+      const response = await fetch(APIcall, {
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error();
+      }
+      const data = await response.json();
+      console.log(data);
+      return data
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
 };

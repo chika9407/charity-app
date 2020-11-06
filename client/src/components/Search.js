@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import api from "./api";
+import CountryDict from "./CountryDict.js";
 
 //make calls to the api to get regions, (later counrties) themes, for now ids (later name)
 //so get all regions and put in state, api.getAllRegions(); use to populate regional selector
@@ -20,33 +21,49 @@ class Search extends Component {
     this.state = {
       regions: [],
       themes: [],
+      countries:[],
       country_input: "",
       theme_input: "",
     };
   }
   
   async componentDidMount() {
+    //grabs themes and regions from api to populate select options
     let themesData = await api.getAllThemesByName();
-    // console.log("themesData.themes.theme",themesData.themes.theme)
     this.setState({
       themes: themesData.themes.theme
     });
     let regionsData = await api.getAllRegions();
-    console.log("regionsData.regions.region",regionsData.regions.region)
     this.setState({
       regions: regionsData.regions.region
     });
+    let countriesData = CountryDict.countriesAndISO()
+    this.setState({
+      countries: countriesData
+    });
+
+  }
+
+  async test() {
+  let keywords = "pakistan+flood"
+  let country = "PK"
+  let theme = "ecdev"
+  let searchResults= await api.getFilteredProjects(keywords, country, theme)
+  console.log("results", searchResults)
   }
 
   render() {
-    // let regionsOptions = regions.map(e=>)
-    let themes = this.state.themes
-    console.log("themes",themes)
-    let themeOptions = !!themes? themes.map(e=><option value={e.name}> {e.name}</option>): "no themes in state"
-    let regions = this.state.regions
-    console.log("regions",regions)
-    let regionOptions = !!regions? regions.map(e=><option value={e.name}> {e.name}</option>): "no regions in state"
+    console.log(this.state.countries)
 
+    this.test()
+
+    let themes = this.state.themes
+    let regions = this.state.regions
+
+    let themeOptions = !!themes? themes.map(e=>
+      <option value={e.name}> {e.name}</option>): "no themes in state"
+    let regionOptions = !!regions? regions.map(e=>
+      <option value={e.name}> {e.name}</option>): "no regions in state"
 
     return (
       <div className="container-xl">
@@ -69,9 +86,6 @@ class Search extends Component {
                     theme
                   </option>
                   {themeOptions}
-                  {/* <option value="selection1"> selection 1</option>
-                  <option value="selection2">selection 2</option>
-                  <option value="selection3">selection 3</option> */}
                 </select>
               </div>
             </div>
@@ -121,7 +135,7 @@ class Search extends Component {
               </div>
               <button
                 className="btn btn-warning shadow"
-                //onClick={(e) => this.addUser(e)}
+                //onClick={(e) => this.search(e)}
               >
                 SUBMIT
               </button>
