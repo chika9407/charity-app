@@ -11,7 +11,7 @@ import Favorite from "./components/Favorite";
 import About from "./components/About";
 import Search from "./components/Search";
 import Home from "./components/Home";
-import api from "./api";
+import api from "./components/api";
 
 export default class App extends Component {
   constructor(props) {
@@ -23,13 +23,13 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    let country_input = "IN";
-    let themeId = "edu";
+    // let country_input = "IN";
+    // let themeId = "edu";
     //api.getProjects();
     //api.getProjectsByCountry(country_input);
     //api.getAllThemesByName();
-    api.getProjectsByTheme(themeId);
-    api.getAllRegions();
+    // api.getProjectsByTheme(themeId);
+    // api.getAllRegions();
   }
 
   render() {
@@ -74,7 +74,7 @@ export default class App extends Component {
             </nav>
 
             <Switch>
-              <Route path="/favorite" component={Search}>
+              <Route path="/favorite" component={Favorite}>
                 <Favorite />
               </Route>
               <Route path="/search" component={Search}>
