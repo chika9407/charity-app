@@ -23,6 +23,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+<<<<<<< HEAD
     // let country_input = "IN";
     // let themeId = "edu";
     //api.getProjects();
@@ -30,6 +31,15 @@ export default class App extends Component {
     //api.getAllThemesByName();
     // api.getProjectsByTheme(themeId);
     // api.getAllRegions();
+=======
+    let country_input = "IN";
+    let themeId = "edu";
+    //api.getProjects();
+    //api.getProjectsByCountry(country_input);
+    //api.getAllThemesByName();
+    api.getProjectsByTheme(themeId);
+    api.getAllRegions();
+>>>>>>> staging
   }
 
   render() {
