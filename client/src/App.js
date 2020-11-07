@@ -1,5 +1,4 @@
 import "./App.css";
-//import Search from "./Search";
 import React, { Component, useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -22,8 +21,7 @@ export default class App extends Component {
     };
   }
 
-  componentDidMount() {
-<<<<<<< HEAD
+  /*componentDidMount() {
     // let country_input = "IN";
     // let themeId = "edu";
     //api.getProjects();
@@ -31,16 +29,7 @@ export default class App extends Component {
     //api.getAllThemesByName();
     // api.getProjectsByTheme(themeId);
     // api.getAllRegions();
-=======
-    let country_input = "IN";
-    let themeId = "edu";
-    //api.getProjects();
-    //api.getProjectsByCountry(country_input);
-    //api.getAllThemesByName();
-    api.getProjectsByTheme(themeId);
-    api.getAllRegions();
->>>>>>> staging
-  }
+  }*/
 
   render() {
     return (
