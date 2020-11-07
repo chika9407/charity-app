@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "Debaty2019!",
+    "database": "charity",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "Debaty2019!",
+    "database": "charity",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "Debaty2019!",
+    "database": "charity",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
