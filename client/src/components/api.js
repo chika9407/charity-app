@@ -106,21 +106,19 @@ export default {
     }
   },
 
-  async getFilteredProjects(keyword='*', countryISO='', themeId='') {
+  async getFilteredProjects(key='', countryISO='', themeId='') {
 
     const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
+    let keyword='*'
+
+    if (!!key) {keyword=key}
+
     let countryAndTheme=''
     if (!!countryISO && !!themeId) {
-      countryAndTheme="&filter="+"country:"+countryISO+','+"theme:"+themeId
-      console.log("both")
+      countryAndTheme="&filter="+"country:"+countryISO+","+"theme:"+themeId
     } else if (!!countryISO || !!themeId) {
-      console.log("or")
       countryAndTheme="&filter="+(!!countryISO?"country:"+countryISO:"theme:"+themeId)
-    } else {
-      countryAndTheme=''
-      console.log("neither")
-    }
-
+    } else {countryAndTheme=''}
 
     const APIcall = `https://api.globalgiving.org/api/public/services/search/projects?api_key=${APIkey}&q=${keyword}${countryAndTheme}`;
 
