@@ -46,7 +46,6 @@ class Home extends Component {
 
         <div className="row">
           <div className="col-7"></div>
-          {/* Log IN ................................. */}
           <div className="col">
             <div className="card">
               <h5 className="card-header">Sign into Giving</h5>

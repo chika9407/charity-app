@@ -2,83 +2,117 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import api from "./api";
 import CountryDict from "./CountryDict.js";
-//lated git push attempt 
-
-//need to get selected country, theme, keywords sent to api
-
-  //api.getProjects();
-  //api.getProjectsByCountry(country_input);
-  //api.getAllThemesByName();
-  //api.getProjectsByTheme(themeId);
-  //api.getAllRegions();
 
 class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      regions: [],
       themes: [],
       countries:[],
       country_input: "",
       theme_input: "",
       keyword_input:"",
-      projects: []
+      projects: [],
+      searchStatus: "Featured Projects" 
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
-    //grabs themes from api and countries with ISO codes from dict to populate select options
+    //grabs themes from api,countries ISO codes, and featured projects
+    let defaultProjects = await api.getFeaturedProjects();
     let themesData = await api.getAllThemesByName();
+    let countriesData = CountryDict.countriesAndISO()
+    this.setState({
+      projects: defaultProjects.projects.project
+    });
     this.setState({
       themes: themesData.themes.theme,
     });
-    let regionsData = await api.getAllRegions();
-    this.setState({
-      regions: regionsData.regions.region,
-    });
-    let countriesData = CountryDict.countriesAndISO()
     this.setState({
       countries: countriesData
     });
-
   }
+
   handleChange(event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    console.log(`name:${name}, value:${value}`)
-
     this.setState({
       [name]: value
     });
   }
 
+//only fetches 10 at a time, can deal with later
   async filterSearch(event) {
     event.preventDefault();
+    this.setState({
+      searchStatus: "loading projects..."})
+
     let keywords = this.state.keyword_input
     let country = this.state.country_input
     let theme = this.state.theme_input
+
     console.log(`keywords:${keywords}, country:${country}, theme:${theme}`)
+
+    try {
     let searchResults= await api.getFilteredProjects(keywords, country, theme)
-    console.log("results", searchResults)
-    this.setState({
-      projects: searchResults
+      this.setState({
+      projects: searchResults.search.response.projects.project
     })
+    this.setState({
+      searchStatus: "results"})
+
+    }catch (err) {
+      console.log(err.message)
+      this.setState({
+        searchStatus: "no projects match the query"})
+      }
+    }
+
+  favorite(){
+    console.log("clicked!")
   }
 
   render() {
-
+    let status = this.state.searchStatus
     let themes = this.state.themes
-    let regions = this.state.regions
     let countries = this.state.countries
+    let projects = this.state.projects
+
+    console.log("projects in state are:",this.state.projects)
 
     let themeOptions = !!themes? themes.map(e=>
-      <option value={e.id}> {e.name}</option>): "no themes in state"
-    let regionOptions = !!regions? regions.map(e=>
-      <option value={e.name}> {e.name}</option>): "no regions in state"
+      <option value={e.id}> {e.name}</option>): "loading themes...";
+
     let countryOptions = !!countries? countries.map(e=>
-      <option value={e.code}> {e.name}</option>): "no countries in state"
+      <option value={e.code}> {e.name}</option>): "loading countries...";
+
+    let projectResults = !!projects.length? projects.map(e=>
+      <div className="container-xl" key={e.id}>
+      <div className="row">
+          <div className="card">
+            <h5 className="card-header">{e.title}</h5>
+            <div className="card-body">
+              <div class="row">
+                <div class="col">
+                  <img src={e.image.imagelink[2].url} alt={e.title} 
+                    class="img-fluid" alt="Responsive image"></img>
+                  <div className="text-left mt-3">
+                    <button className=" btn btn-dark" onClick={this.favorite()}>
+                      Add to favorites +
+                    </button>
+                  </div>
+                </div>
+                <div class="col">
+                  <p>{e.summary}</p>
+                  <ul><li><a href="url">{e.contactUrl}</a></li></ul>
+                </div>
+                </div>
+        </div>
+      </div>
+    </div>
+    </div>):<div className="mt-4 text-white">loading projects...</div>
 
     return (
       <div className="container-xl">
@@ -139,13 +173,14 @@ class Search extends Component {
               </div>
               <button
                 className="btn btn-warning shadow"
-                onClick={(event) => this.filterSearch(event)}
-              >
+                onClick={(event) => this.filterSearch(event)}>
                 SUBMIT
               </button>
             </div>
           </div>
         </form>
+        <div className="mt-4 text-white">{status}</div>
+      {projectResults}
       </div>
     );
   }
