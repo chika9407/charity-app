@@ -47,6 +47,14 @@ router.get("/:id/projects", async (req, res) => {
   res.send(projects);
 });
 
+//add a user to users
+router.post("/", async (req, res) => {
+  const { username } = req.body;
+  //const {password} = req.body
+  const user = await models.Users.create({ username });
+  //add password later as part of the authentication (TBD by Rasini)
+  res.send(user);
+
 //Login User
 router.post("/login", async (req, res, next) => {
   const { username, password } = req.body;
