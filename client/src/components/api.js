@@ -133,10 +133,33 @@ export default {
         throw new Error();
       }
       const data = await response.json();
+      // console.log(data);
+      return data
+    } catch (err) {
+      console.log(err.message);
+    }
+  },
+
+  async getFeaturedProjects() {
+
+    const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
+
+    const APIcall = `https://api.globalgiving.org/api/public/projectservice/featured/projects?api_key=${APIkey}`;
+
+    try {
+      const response = await fetch(APIcall, {
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error();
+      }
+      const data = await response.json();
       console.log(data);
       return data
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
     }
   },
 
