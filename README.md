@@ -1,70 +1,54 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**About the project**
 
-## Available Scripts
+DB schema:
 
-In the project directory, you can run:
+API routes:
 
-### `npm start`
+GlobalGibingAPI: https://www.globalgiving.org/api/methods/
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**Technologies used:**
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+React.js
+Express.js
+Bootstrap
+MySQL
+(GitKraken here?)
 
-### `npm test`
+**Dependencies**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Run yarn or npm install on root folder to install Express dependencies.
 
-### `npm run build`
+cd client and run yarn install React dependencies.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+(jwt with bcrypt or passport for authentication, to be decided)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Run Your Development Servers**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Run yarn start in project directory to start the Express server on port 5000
 
-### `npm run eject`
+cd client and run yarn start to start client server in development mode with hot reloading in port 3000.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Client is configured so all API calls will be proxied to port 5000 for a smoother development experience. Yay!
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+You can test your client app in http://localhost:3000
+You can test your API in http://localhost:5000/api
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Database Prep
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Create `.env` file in project directory and add
 
-## Learn More
+```
+DB_NAME=charityApp
+DB_PASS=YOUR_PASSWORD
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+(replace `YOUR_PASSWORD` with your actual password)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Type `mysql -u root -p` to access the MySQL CLI using your password.
 
-### Code Splitting
+In the MySQL CLI, type `create database charityApp;` to create a database in MySQL.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Migration
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Type: npm run migrate in the root folder
