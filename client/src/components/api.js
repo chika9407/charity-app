@@ -4,6 +4,7 @@
 export default {
   async getProjects() {
     //fetch all Projects from the API
+    //latest git update attempt
 
     const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
 
