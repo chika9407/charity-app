@@ -6,6 +6,8 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var passport = require("passport");
+var LocalStrategy = require("passport-local").Strategy;
 
 var app = express();
 
@@ -16,7 +18,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(passport.initialize());
 app.use(passport.session());
-require("./passportConfig")(passport);
+//require("./passportConfig")(passport);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
