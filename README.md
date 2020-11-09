@@ -1,4 +1,3 @@
-# fs10-charity-app
 
 **About the project**
 
