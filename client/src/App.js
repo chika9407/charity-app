@@ -10,6 +10,7 @@ import Favorite from "./components/Favorite";
 import About from "./components/About";
 import Search from "./components/Search";
 import Home from "./components/Home";
+import Register from "./components/Register";
 import api from "./components/api";
 
 export default class App extends Component {
@@ -76,12 +77,19 @@ export default class App extends Component {
               <Route path="/favorite" component={Favorite}>
                 <Favorite />
               </Route>
+
               <Route path="/search" component={Search}>
                 <Search />
               </Route>
+
               <Route path="/about">
                 <About />
               </Route>
+
+              <Route path="/register">
+                <Register />
+              </Route>
+
               <Route path="/">
                 <Home />
               </Route>
