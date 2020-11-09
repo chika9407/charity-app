@@ -25,16 +25,16 @@ class Search extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
   }
-  
+
   async componentDidMount() {
     //grabs themes from api and countries with ISO codes from dict to populate select options
     let themesData = await api.getAllThemesByName();
     this.setState({
-      themes: themesData.themes.theme
+      themes: themesData.themes.theme,
     });
     let regionsData = await api.getAllRegions();
     this.setState({
-      regions: regionsData.regions.region
+      regions: regionsData.regions.region,
     });
     let countriesData = CountryDict.countriesAndISO()
     this.setState({
