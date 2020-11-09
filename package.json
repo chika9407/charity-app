@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+<<<<<<< Updated upstream
     "start": "nodemon ./bin/www",
+=======
+    "start": "node ./bin/www",
+>>>>>>> Stashed changes
     "migrate": "npx sequelize-cli db:migrate"
   },
   "dependencies": {
