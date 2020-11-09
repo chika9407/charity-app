@@ -48,12 +48,12 @@ router.get("/:id/projects", async (req, res) => {
 });
 
 //add a user to users
-router.post("/", async (req, res) => {
+/*router.post("/", async (req, res) => {
   const { username } = req.body;
   //const {password} = req.body
   const user = await models.Users.create({ username });
   //add password later as part of the authentication (TBD by Rasini)
-  res.send(user);
+  res.send(user);*/
 
 //Login User
 router.post("/login", async (req, res, next) => {
@@ -72,13 +72,15 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
+//need to pass initializePassport as one of the params in post method
+
 //add a user to users, INSERT (Register) a new user
 router.post("/", async (req, res) => {
   const { username, password } = req.body;
 
   try {
     const hash = await bcrypt.hash(password, saltRounds);
-    const user = await models.Users.create({ username, hash });
+    const user = await models.Users.create({ username, password: hash });
 
     res.send(user);
   } catch (err) {
