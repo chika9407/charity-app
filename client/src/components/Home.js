@@ -35,7 +35,7 @@ class Home extends Component {
         this.props.history.push(`/register`);
       });
   };
-
+  //log out not sure if working
   logout = () => {
     const { username, password } = this.state;
     fetch("/users/logout", {
@@ -64,6 +64,7 @@ class Home extends Component {
 
         <div className="row">
           <div className="col-7"></div>
+          {/* Log IN ................................. */}
           <div className="col">
             <div className="card">
               <h5 className="card-header">Sign into Giving</h5>
