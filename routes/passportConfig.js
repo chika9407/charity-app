@@ -11,6 +11,10 @@ module.exports = function (passport) {
 =======
       //lookup user in the database
       models.Users.findOne({ where: { username: username } }, (err, user) => {
+<<<<<<< HEAD
+>>>>>>> staging
+=======
+        console.log("find 1");
 >>>>>>> staging
         if (err) throw err;
         if (!user) return done(null, false);
