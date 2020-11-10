@@ -16,9 +16,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+require("./routes/passportConfig")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
-//require("./passportConfig")(passport);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

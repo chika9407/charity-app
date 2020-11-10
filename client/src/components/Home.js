@@ -33,7 +33,25 @@ class Home extends Component {
       .catch((error) => {
         console.log(error);
         this.props.history.push(`/register`);
+      });
+  };
 
+  logout = () => {
+    const { username, password } = this.state;
+    fetch("/users/logout", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    })
+      .then((response) => {
+        console.log(response);
+        this.props.history.push(`/`);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -46,7 +64,6 @@ class Home extends Component {
 
         <div className="row">
           <div className="col-7"></div>
-          {/* Log IN ................................. */}
           <div className="col">
             <div className="card">
               <h5 className="card-header">Sign into Giving</h5>
@@ -85,7 +102,7 @@ class Home extends Component {
         </div>
         {/* Log OUT .................*/}
         <div className="text-right mt-3">
-          <button className=" btn btn-dark" /*onClick={this.logout}*/>
+          <button className=" btn btn-dark" onClick={this.logout}>
             Sign out
           </button>
         </div>
