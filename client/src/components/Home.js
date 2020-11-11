@@ -17,6 +17,7 @@ class Home extends Component {
     });
   };
 
+  //.........................
   login = async () => {
     const { username, password } = this.state;
     try {
@@ -30,6 +31,8 @@ class Home extends Component {
       this.props.history.push(`/register`);
     }
   };
+
+  //.........................
   logout = async () => {
     try {
       localStorage.setItem("token", "");
