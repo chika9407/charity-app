@@ -6,8 +6,8 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-var passport = require("passport");
-var LocalStrategy = require("passport-local").Strategy;
+//var passport = require("passport");
+//var LocalStrategy = require("passport-local").Strategy;
 
 var app = express();
 
@@ -17,9 +17,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-require("./routes/passportConfig")(passport);
-app.use(passport.initialize());
-app.use(passport.session());
+require("./routes/passportConfig"); //(passport);
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

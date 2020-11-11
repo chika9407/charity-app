@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
 
 class Home extends Component {
   constructor(props) {
@@ -16,43 +17,26 @@ class Home extends Component {
     });
   };
 
-  login = () => {
+  login = async () => {
     const { username, password } = this.state;
-    fetch("/users/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    })
-      .then((response) => {
-        console.log(response);
-        this.props.history.push(`/search`);
-      })
-      .catch((error) => {
-        console.log(error);
-        this.props.history.push(`/register`);
-      });
+    try {
+      const results = await axios.post("/users/login", { username, password });
+      console.log(results.data);
+
+      localStorage.setItem("token", results.data.token);
+      this.props.history.push(`/favorite`);
+    } catch (err) {
+      console.log(err.message);
+      this.props.history.push(`/register`);
+    }
   };
-  //log out not sure if working
-  logout = () => {
-    const { username, password } = this.state;
-    fetch("/users/logout", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    })
-      .then((response) => {
-        console.log(response);
-        this.props.history.push(`/`);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  logout = async () => {
+    try {
+      localStorage.setItem("token", "");
+      this.props.history.push(`/search`);
+    } catch (err) {
+      console.log(err.message);
+    }
   };
 
   render() {
