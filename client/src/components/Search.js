@@ -8,12 +8,12 @@ class Search extends Component {
     super(props);
     this.state = {
       themes: [],
-      countries:[],
+      countries: [],
       country_input: "",
       theme_input: "",
-      keyword_input:"",
+      keyword_input: "",
       projects: [],
-      searchStatus: "Featured Projects" 
+      searchStatus: "Featured Projects",
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -22,111 +22,136 @@ class Search extends Component {
     //grabs themes from api,countries ISO codes, and featured projects
     let defaultProjects = await api.getFeaturedProjects();
     let themesData = await api.getAllThemesByName();
-    let countriesData = CountryDict.countriesAndISO()
+    let countriesData = CountryDict.countriesAndISO();
     this.setState({
-      projects: defaultProjects.projects.project
+      projects: defaultProjects.projects.project,
     });
     this.setState({
       themes: themesData.themes.theme,
     });
     this.setState({
-      countries: countriesData
+      countries: countriesData,
     });
   }
 
   handleChange(event) {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     this.setState({
-      [name]: value
+      [name]: value,
     });
   }
 
-//only fetches 10 at a time, can deal with later
+  //only fetches 10 at a time, can deal with later
   async filterSearch(event) {
     event.preventDefault();
     this.setState({
-      searchStatus: "loading projects..."})
+      searchStatus: "loading projects...",
+    });
 
-    let keywords = this.state.keyword_input
-    let country = this.state.country_input
-    let theme = this.state.theme_input
+    let keywords = this.state.keyword_input;
+    let country = this.state.country_input;
+    let theme = this.state.theme_input;
 
-    console.log(`keywords:${keywords}, country:${country}, theme:${theme}`)
+    console.log(`keywords:${keywords}, country:${country}, theme:${theme}`);
 
     try {
-    let searchResults= await api.getFilteredProjects(keywords, country, theme)
+      let searchResults = await api.getFilteredProjects(
+        keywords,
+        country,
+        theme
+      );
       this.setState({
-      projects: searchResults.search.response.projects.project
-    })
-    this.setState({
-      searchStatus: "results"})
-
-    }catch (err) {
-      console.log(err.message)
+        projects: searchResults.search.response.projects.project,
+      });
       this.setState({
-        searchStatus: "no projects match the query"})
-      }
+        searchStatus: "results",
+      });
+    } catch (err) {
+      console.log(err.message);
+      this.setState({
+        searchStatus: "no projects match the query",
+      });
     }
+  }
 
-  favorite(){
-    console.log("clicked!")
+  favorite() {
+    console.log("clicked!");
   }
 
   render() {
-    let status = this.state.searchStatus
-    let themes = this.state.themes
-    let countries = this.state.countries
-    let projects = this.state.projects
+    let status = this.state.searchStatus;
+    let themes = this.state.themes;
+    let countries = this.state.countries;
+    let projects = this.state.projects;
 
-    console.log("projects in state are:",this.state.projects)
+    console.log("projects in state are:", this.state.projects);
 
-    let themeOptions = !!themes? themes.map(e=>
-      <option value={e.id}> {e.name}</option>): "loading themes...";
+    let themeOptions = !!themes
+      ? themes.map((e) => <option value={e.id}> {e.name}</option>)
+      : "loading themes...";
 
-    let countryOptions = !!countries? countries.map(e=>
-      <option value={e.code}> {e.name}</option>): "loading countries...";
+    let countryOptions = !!countries
+      ? countries.map((e) => <option value={e.code}> {e.name}</option>)
+      : "loading countries...";
 
-    let projectResults = !!projects.length? projects.map(e=>
-      <div className="container-xl" key={e.id}>
-      <div className="row">
-          <div className="card">
-            <h5 className="card-header">{e.title}</h5>
-            <div className="card-body">
-              <div class="row">
-                <div class="col">
-                  <img src={e.image.imagelink[2].url} alt={e.title} 
-                    class="img-fluid" alt="Responsive image"></img>
-                  <div className="text-left mt-3">
-                    <button className=" btn btn-dark" onClick={this.favorite()}>
-                      Add to favorites +
-                    </button>
+    let projectResults = !!projects.length ? (
+      projects.map((e) => (
+        <div className="container-xl mt-2" key={e.id}>
+          <div className="row">
+            <div className="card border-warning mb-3">
+              <h5 className="card-header">{e.title}</h5>
+              <div className="card-body">
+                <div class="row">
+                  <div class="col">
+                    <img
+                      src={e.image.imagelink[2].url}
+                      alt={e.title}
+                      class="img-fluid"
+                      alt="Responsive image"
+                    ></img>
+                    <div className="text-left mt-3">
+                      <button
+                        className=" btn btn-dark shadow"
+                        onClick={this.favorite()}
+                      >
+                        Add to favorites +
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col ">
+                    <p>{e.summary}</p>
+                    <ul>
+                      <li>
+                        <a href={e.contactUrl}>{e.contactUrl}</a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
-                <div class="col">
-                  <p>{e.summary}</p>
-                  <ul><li><a href="url">{e.contactUrl}</a></li></ul>
-                </div>
-                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    </div>):<div className="mt-4 text-white">loading projects...</div>
+      ))
+    ) : (
+      <div className="mt-4 text-white">loading projects...</div>
+    );
 
     return (
       <div className="container-xl">
-        <div className="mt-4 text-white">Search page</div>
-        <form>
-          <div class="row mt-3">
+        <form class="container  sticky-top bg-secondary mt-4  rounded pt-1">
+          <div class="row mt-3 ">
             <div class="col-sm">
               <div className="text-white">
                 <h5> Goal </h5>
               </div>
 
-              <div className="select-outline ">
-              <select value={this.state.value} onChange={this.handleChange}
-                  className=" form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
+              <div className="select-outline  ">
+                <select
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                  className=" border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
                   name="theme_input"
                 >
                   <option disabled selected>
@@ -142,8 +167,10 @@ class Search extends Component {
               </div>
 
               <div className="select-outline ">
-              <select value={this.state.value} onChange={this.handleChange}
-                  className=" form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
+                <select
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                  className="border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
                   name="country_input"
                 >
                   <option disabled selected>
@@ -159,28 +186,31 @@ class Search extends Component {
               </div>
 
               <div className="select-outline ">
-              <input value={this.state.value} onChange={this.handleChange}
+                <input
+                  value={this.state.value}
+                  onChange={this.handleChange}
                   name="keyword_input"
                   type="text"
-                  className="form-control mb-2"
+                  className="border border-warning form-control mb-2"
                   placeholder="keyword"
                 />
               </div>
             </div>
             <div class="col-2 text-center">
-              <div className="text-white">
-                <h5>Find</h5>
+              <div className="text-white ">
+                <h5> Find</h5>
               </div>
               <button
                 className="btn btn-warning shadow"
-                onClick={(event) => this.filterSearch(event)}>
+                onClick={(event) => this.filterSearch(event)}
+              >
                 SUBMIT
               </button>
             </div>
           </div>
         </form>
         <div className="mt-4 text-white">{status}</div>
-      {projectResults}
+        {projectResults}
       </div>
     );
   }
