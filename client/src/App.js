@@ -37,7 +37,7 @@ export default class App extends Component {
       <div className="Background1">
         <Router>
           <div>
-            <nav className="navbar  navbar-expand-lg navbar-light bg-warning">
+            <nav className=" navbar border border-secondary navbar-expand-lg navbar-light bg-warning">
               <NavLink className=" nav-item nav-link" to="/">
                 Home
               </NavLink>
