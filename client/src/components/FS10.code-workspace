@@ -1,7 +1,19 @@
 {
+<<<<<<< Updated upstream
     "folders": [
         {
             "path": "../../.."
         }
     ]
 }
+=======
+  "folders": [
+    {
+      "path": "../../.."
+    },
+    {
+      "path": "../../../../learning-dashboard"
+    }
+  ]
+}
+>>>>>>> Stashed changes
