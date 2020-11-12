@@ -118,6 +118,12 @@ class Search extends Component {
                       >
                         Add to favorites +
                       </button>
+                      <button
+                        className="ml-3 btn btn-warning shadow"
+                        //onClick={this.donate()}
+                      >
+                        Donate $
+                      </button>
                     </div>
                   </div>
                   <div class="col ">
