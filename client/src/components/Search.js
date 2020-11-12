@@ -80,6 +80,11 @@ class Search extends Component {
     console.log("clicked!");
   }
 
+  donate = () => {
+    console.log("$$ click!");
+    this.props.history.push(`/donate`);
+  };
+
   render() {
     let status = this.state.searchStatus;
     let themes = this.state.themes;
@@ -120,7 +125,7 @@ class Search extends Component {
                       </button>
                       <button
                         className="ml-3 btn btn-warning shadow"
-                        //onClick={this.donate()}
+                        onClick={this.donate}
                       >
                         Donate $
                       </button>
