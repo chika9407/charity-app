@@ -3,12 +3,10 @@ var router = express.Router();
 var models = require("../models");
 require("dotenv").config();
 var bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const passport = require("passport");
-//require("./passportConfig")(passport);
 const passportLocal = require("passport-local").Strategy;
-//const initializePassport = require("./passportConfig");
-
-//require("./passportConfig")(passport, models.users);
+const secret = process.env.SECRET;
 const saltRounds = 10;
 
 /* GET users listing. */
@@ -60,28 +58,43 @@ router.get("/:id/projects", async (req, res) => {
   res.send(user);*/
 =======
 //log out user
+<<<<<<< HEAD
 router.delete("/logout", (req, res) => {
   req.logOut();
   res.send({ message: "Log Out successful" });
 });
 >>>>>>> staging
+=======
+// router.delete("/logout", (req, res) => {
+//   req.logOut();
+//   res.send({ message: "Log Out successful" });
+// });
+>>>>>>> staging
 
 //Login User
-router.post("/login", async (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
-    if (err) throw err;
-    if (!user) res.send("No User Exists");
-    else {
-      req.logIn(user, (err) => {
-        if (err) throw err;
-        res.send({ message: "Log In successful" });
-        console.log(req.user);
+router.post("/login", function (req, res, next) {
+  passport.authenticate("local", { session: false }, (err, user, info) => {
+    if (err || !user) {
+      return res.status(400).json({
+        message: "Something is not right",
+        user: user,
       });
     }
-  })(req, res, next);
-});
+    req.login(user, { session: false }, (err) => {
+      if (err) {
+        res.send(err);
+      }
+      // generate a signed json web token with the contents of user object and return it in the response
+      // console.log({ user, secret });
+      const token = jwt.sign({ user_id: user.id }, secret);
 
-//need to pass initializePassport as one of the params in post method
+      return res.json({
+        user: { id: user.id, username: user.username },
+        token,
+      });
+    });
+  })(req, res);
+});
 
 //add a user to users, INSERT (Register) a new user
 router.post("/", async (req, res) => {
@@ -95,11 +108,6 @@ router.post("/", async (req, res) => {
   } catch (err) {
     res.status(400).send({ message: err.message });
   }
-  //not sure why it's not sending the password? password: null
-
-  //
-  // console.log(password);
-  // console.log(hash);
 });
 
 //add a project to a user
@@ -118,5 +126,18 @@ router.post("/:id/projects", async (req, res) => {
 
   res.send(project);
 });
+
+// GET current logged-in user
+router.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    // we will receive any information from the JWTStrategy in the req.user
+    res.send({
+      message: "Here is the PROTECTED data for user ",
+      user: req.user,
+    });
+  }
+);
 
 module.exports = router;
