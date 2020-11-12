@@ -48,28 +48,10 @@ router.get("/:id/projects", async (req, res) => {
   res.send(projects);
 });
 
-<<<<<<< HEAD
-//add a user to users
-/*router.post("/", async (req, res) => {
-  const { username } = req.body;
-  //const {password} = req.body
-  const user = await models.Users.create({ username });
-  //add password later as part of the authentication (TBD by Rasini)
-  res.send(user);*/
-=======
-//log out user
-<<<<<<< HEAD
 router.delete("/logout", (req, res) => {
   req.logOut();
   res.send({ message: "Log Out successful" });
 });
->>>>>>> staging
-=======
-// router.delete("/logout", (req, res) => {
-//   req.logOut();
-//   res.send({ message: "Log Out successful" });
-// });
->>>>>>> staging
 
 //Login User
 router.post("/login", function (req, res, next) {
