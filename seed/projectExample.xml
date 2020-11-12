@@ -1,0 +1,141 @@
+<project>
+    <active>true</active>
+    <activities>Trap-neuter-return (TNR) is promoted by the ASPCA and HSUS as the most humane and effective alternative to euthanasia for managing and over animal populations.  Working together with local communities it is the only long term solution, most humane and comprehensive approach that includes education and the promotion responsible pet ownership.  These sterilizations will save thousands of helpless puppies and kittens being born into a life of suffering, disease and painful deaths.</activities>
+    <additionalDocumentation>https://www.globalgiving.org/pfil/13583/projdoc.pdf</additionalDocumentation>
+    <approvedDate>2013-04-01T00:00:00-04:00</approvedDate>
+    <contactAddress>Sandyport</contactAddress>
+    <contactCity>Nassau</contactCity>
+    <contactCountry>Bahamas, The</contactCountry>
+    <contactName>sarah kennedy</contactName>
+    <contactPostal>SP-63961</contactPostal>
+    <contactState>New Providence</contactState>
+    <contactUrl>http://www.baarkbahamas.org</contactUrl>
+    <countries>
+        <country>
+            <iso3166CountryCode>BS</iso3166CountryCode>
+            <name>Bahamas, The</name>
+        </country>
+    </countries>
+    <country>Bahamas, The</country>
+    <dateOfMostRecentReport>2020-11-02T15:44:51-05:00</dateOfMostRecentReport>
+    <donationOptions>
+        <donationOption>
+            <amount>10</amount>
+            <description>Will vaccinate and deworm one dog/cat</description>
+        </donationOption>
+        <donationOption>
+            <amount>20</amount>
+            <description>Will vaccinate and deworm two dogs/cats</description>
+        </donationOption>
+        <donationOption>
+            <amount>30</amount>
+            <description>Provide a week at a local animal shelter for animals needing extra care and medicine</description>
+        </donationOption>
+        <donationOption>
+            <amount>50</amount>
+            <description>Will spay or neuter one dog/cat</description>
+        </donationOption>
+        <donationOption>
+            <amount>60</amount>
+            <description>Will spay / neuter and vaccinate one dog or cat</description>
+        </donationOption>
+        <donationOption>
+            <amount>120</amount>
+            <description>Will spay / neuter and vaccinate two dogs or cats</description>
+        </donationOption>
+        <donationOption>
+            <amount>300</amount>
+            <description>Will spay/neuter and vaccinate FIVE dogs or cats</description>
+        </donationOption>
+        <donationOption>
+            <amount>600</amount>
+            <description>Will spay/neuter and vaccinate TEN dogs or cats</description>
+        </donationOption>
+    </donationOptions>
+    <funding>75966.10</funding>
+    <goal>120000.00</goal>
+    <id>13583</id>
+    <image id="0">
+        <imagelink size="small">
+            <url>https://www.globalgiving.org/pfil/13583/pict_grid1.jpg</url>
+        </imagelink>
+        <imagelink size="thumbnail">
+            <url>https://www.globalgiving.org/pfil/13583/pict_thumbnail.jpg</url>
+        </imagelink>
+        <imagelink size="medium">
+            <url>https://www.globalgiving.org/pfil/13583/pict_med.jpg</url>
+        </imagelink>
+        <imagelink size="large">
+            <url>https://www.globalgiving.org/pfil/13583/pict_grid7.jpg</url>
+        </imagelink>
+        <imagelink size="extraLarge">
+            <url>https://www.globalgiving.org/pfil/13583/pict_large.jpg</url>
+        </imagelink>
+        <imagelink size="original">
+            <url>https://www.globalgiving.org/pfil/13583/pict_original.jpg</url>
+        </imagelink>
+        <title>Spay/Neuter 2,000 Stray Dogs &amp; Cats in The Bahamas</title>
+    </image>
+    <imageGallerySize>16</imageGallerySize>
+    <imageLink>https://www.globalgiving.org/pfil/13583/pict.jpg</imageLink>
+    <iso3166CountryCode>BS</iso3166CountryCode>
+    <latitude>25.03708267211914</latitude>
+    <longTermImpact>1 unaltered female dog and her subsequent offspring can produce 67,000 puppies in only 6 years.*(peta) An unspayed female ca and all of their offspring, producing 2 litters of kittens per year, can produce well over 10,000 kittens in 5 years.  This program will provide a dramatic reduction in the number of puppies and kittens will be born to suffer on the streets of Bahamas.   Less stray animals also provide safer and healthier communities. Education will bring more compassionate behavior.</longTermImpact>
+    <longitude>-77.41790771484375</longitude>
+    <modifiedDate>2020-11-05T00:26:07-05:00</modifiedDate>
+    <need>There are approximately 20,000 stray dogs in the Nassau alone, plus at the same amount of cats. They roam neighborhoods seeking food, water and shelter. They fight over the limited amounts of food available and suffer from painful diseases. Some are hit by cars and others are poisoned, the life of a street dog/cat is often one of pain and suffering.  Thousands of dogs and cats are unnecessarily euthanized each year.  The out-islands of the Bahamas do not have access to vets regularly.</need>
+    <numberOfDonations>748</numberOfDonations>
+    <numberOfReports>30</numberOfReports>
+    <organization>
+        <activeProjects>1</activeProjects>
+        <addressLine1>sandyport</addressLine1>
+        <addressLine2 />
+        <city>nassau</city>
+        <countries>
+            <country>
+                <iso3166CountryCode>BS</iso3166CountryCode>
+                <name>Bahamas, The</name>
+            </country>
+        </countries>
+        <country>Bahamas, The</country>
+        <id>14176</id>
+        <iso3166CountryCode>BS</iso3166CountryCode>
+        <logoUrl>https://www.globalgiving.org/pfil/organ/14176/orglogo.jpg</logoUrl>
+        <mission>BAARK! For a Humane Bahamas. BAARK! stands for Bahamas Alliance for Animal Rights and Kindness. We are a new organization formed by the members of the Facebook Group: For a more humane Bahamas Government Dog Pound.
+Mission
+BAARK! has two main objectives:
+1) Immediately improve conditions and treatment of animals at the pound and rescue all potentially adoptable animals.
+2) Dramatically increase public awareness and funding for spay &amp; neuter programs in order to reduce the numbers of stray and unwanted animals in The Bahamas.</mission>
+        <name>Baark!</name>
+        <postal>SP-63961</postal>
+        <state>new providence</state>
+        <themes>
+            <theme>
+                <id>animals</id>
+                <name>Animal Welfare</name>
+            </theme>
+        </themes>
+        <totalProjects>8</totalProjects>
+        <url>http://www.baarkbahamas.org</url>
+    </organization>
+    <progressReportLink>https://www.globalgiving.org/projects/spayneuter-straydogs-bahamas/updates/</progressReportLink>
+    <projectLink>https://www.globalgiving.org/projects/spayneuter-straydogs-bahamas/</projectLink>
+    <region>South/Central America and the Caribbean</region>
+    <remaining>44033.90</remaining>
+    <status>active</status>
+    <summary>Reduce the number of stray and suffering dogs and cats in the Bahamas through spay and neuter. Provide vaccinations, worming and emergency vet care to injured animals or orphaned puppies and kittens  Working with local communities teaching responsible pet ownership helping them to make healthier and safer communities for people and pets alike.</summary>
+    <themeName>Animal Welfare</themeName>
+    <themes>
+        <theme>
+            <id>animals</id>
+            <name>Animal Welfare</name>
+        </theme>
+    </themes>
+    <title>Spay/Neuter 2,000 Stray Dogs &amp; Cats in The Bahamas</title>
+    <type>project</type>
+    <videos>
+        <video>
+            <url>http://www.youtube.com/v/mpXawmgRthY</url>
+        </video>
+    </videos>
+</project>
