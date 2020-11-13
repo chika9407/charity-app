@@ -38,14 +38,18 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/projects", async (req, res) => {
   const { id } = req.params;
   //grab the user by id
-  const user = await models.Users.findOne({
-    where: {
-      id,
-    },
-    //include: models.Projects
-  });
-  const projects = await user.getProjects();
-  res.send(projects);
+  try {
+    const user = await models.Users.findOne({
+      where: {
+        id,
+      },
+      //include: models.Projects
+    });
+    const projects = await user.getProjects();
+    res.send(projects);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
 router.delete("/logout", (req, res) => {
