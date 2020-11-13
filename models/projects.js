@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       Projects.associate = function (models) {
         Projects.belongsToMany(models.Users, { through: "UserProject" });
         Projects.belongsTo(models.Organizations);
-        Projects.belongsTo(models.Regions);
+        Projects.belongsTo(models.Countries);
         Projects.belongsTo(models.Themes);
       };
     }
