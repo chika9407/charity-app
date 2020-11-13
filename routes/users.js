@@ -95,8 +95,8 @@ router.post("/", async (req, res) => {
 //add a project to a user
 
 router.post("/:id/projects", async (req, res) => {
-  const { id } = req.body;
-  const { name } = req.body;
+  const { id } = req.params;
+  const { ProjectId } = req.body;
 
   //grab the user by id first
   const user = await models.Users.findOne({
@@ -104,7 +104,7 @@ router.post("/:id/projects", async (req, res) => {
       id,
     },
   });
-  const project = await user.createProjects({ name });
+  const project = await user.addProjects({ id: ProjectId });
 
   res.send(project);
 });

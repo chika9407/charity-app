@@ -8,15 +8,22 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    await queryInterface.addColumn("Projects", "RegionId", {
+    await queryInterface.addColumn("Projects", "UserId", {
       type: Sequelize.INTEGER,
       references: {
-        model: "Regions",
+        model: "Users",
+        key: "id",
+      },
+    });
+    await queryInterface.addColumn("Projects", "CountryId", {
+      type: Sequelize.STRING,
+      references: {
+        model: "Countries",
         key: "id",
       },
     });
     await queryInterface.addColumn("Projects", "ThemeId", {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
       references: {
         model: "Themes",
         key: "id",
@@ -29,26 +36,12 @@ module.exports = {
         key: "id",
       },
     });
-    await queryInterface.addColumn("Regions", "CountryId", {
-      type: Sequelize.INTEGER,
-      references: {
-        model: "Countries",
-        key: "id",
-      },
-    });
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
     await queryInterface.removeColumn("Projects", "UserId");
-    await queryInterface.removeColumn("Projects", "RegionId");
+    await queryInterface.removeColumn("Projects", "CountryId");
     await queryInterface.removeColumn("Projects", "ThemeId");
     await queryInterface.removeColumn("Projects", "OrganizationId");
-    await queryInterface.removeColumn("Regions", "CountryId");
   },
 };
