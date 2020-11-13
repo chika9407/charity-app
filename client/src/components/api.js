@@ -1,6 +1,8 @@
 //import XMLParser from "react-xml-parser";
 //import { response } from "express";
 
+import AddProject from "./addProject";
+
 export default {
   async getProjects() {
     //fetch all Projects from the API
@@ -21,7 +23,7 @@ export default {
       }
       const data = await response.json();
       console.log(data);
-      return data
+      return data;
     } catch (err) {
       console.log(err);
     }
@@ -41,7 +43,7 @@ export default {
       }
       const data = await response.json();
       // console.log("data",data)
-      return data
+      return data;
     } catch (err) {
       console.log(err);
     }
@@ -61,7 +63,7 @@ export default {
       }
       const data = await response.json();
       // console.log(data);
-      return data
+      return data;
     } catch (err) {
       console.log(err);
     }
@@ -81,7 +83,7 @@ export default {
       }
       const data = await response.json();
       // console.log("data.themes.theme",data.themes.theme)
-      return data
+      return data;
     } catch (err) {
       console.log(err);
     }
@@ -101,25 +103,31 @@ export default {
       }
       const data = await response.json();
       // console.log(data);
-      return data
+      return data;
     } catch (err) {
       console.log(err);
     }
   },
 
-  async getFilteredProjects(key='', countryISO='', themeId='') {
-
+  async getFilteredProjects(key = "", countryISO = "", themeId = "") {
     const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
-    let keyword='*'
+    let keyword = "*";
 
-    if (!!key) {keyword=key}
+    if (!!key) {
+      keyword = key;
+    }
 
-    let countryAndTheme=''
+    let countryAndTheme = "";
     if (!!countryISO && !!themeId) {
-      countryAndTheme="&filter="+"country:"+countryISO+","+"theme:"+themeId
+      countryAndTheme =
+        "&filter=" + "country:" + countryISO + "," + "theme:" + themeId;
     } else if (!!countryISO || !!themeId) {
-      countryAndTheme="&filter="+(!!countryISO?"country:"+countryISO:"theme:"+themeId)
-    } else {countryAndTheme=''}
+      countryAndTheme =
+        "&filter=" +
+        (!!countryISO ? "country:" + countryISO : "theme:" + themeId);
+    } else {
+      countryAndTheme = "";
+    }
 
     const APIcall = `https://api.globalgiving.org/api/public/services/search/projects?api_key=${APIkey}&q=${keyword}${countryAndTheme}`;
 
@@ -134,14 +142,13 @@ export default {
       }
       const data = await response.json();
       // console.log(data);
-      return data
+      return data;
     } catch (err) {
       console.log(err.message);
     }
   },
 
   async getFeaturedProjects() {
-
     const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
 
     const APIcall = `https://api.globalgiving.org/api/public/projectservice/featured/projects?api_key=${APIkey}`;
@@ -157,10 +164,35 @@ export default {
       }
       const data = await response.json();
       console.log(data);
-      return data
+      return data;
     } catch (err) {
       console.log(err.message);
     }
   },
 
+  async addProject(name, themeId, regionId, countryCode, organizationID) {
+    try {
+      const response = await fetch(`/projects`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          themeId,
+          regionId,
+          countryCode,
+          organizationID,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error();
+      }
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } catch (err) {
+      console.log(err.message);
+    }
+  },
 };
