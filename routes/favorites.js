@@ -7,14 +7,14 @@ router.post("/", async (req, res) => {
   const { ProjectId, UserId } = req.body;
 
   try {
-    /*const project = await models.Projects.findOne({
+    /*const project = await models.Project.findOne({
       where: {
         id: ProjectId,
       },
     });
     //res.send(project);*/
 
-    const user = await models.Users.findOne({
+    const user = await models.User.findOne({
       where: {
         id: UserId,
       },
