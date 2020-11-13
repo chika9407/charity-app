@@ -12,6 +12,8 @@ import Search from "./components/Search";
 import Home from "./components/Home";
 import Register from "./components/Register";
 import api from "./components/api";
+import Donate from "./components/Donate.js";
+import Paypal from "./components/Paypal";
 
 export default class App extends Component {
   constructor(props) {
@@ -88,6 +90,14 @@ export default class App extends Component {
 
               <Route path="/register">
                 <Register />
+              </Route>
+
+              <Route path="/donate">
+                <Donate />
+              </Route>
+
+              <Route path="/Paypal">
+                <Paypal />
               </Route>
 
               <Route path="/">

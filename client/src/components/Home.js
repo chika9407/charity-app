@@ -45,9 +45,7 @@ class Home extends Component {
   render() {
     return (
       <div className="container-xl">
-        <div className="row mt-4 text-white">
-          Home Splash! page .... + login page?{" "}
-        </div>
+        <div className="row mt-4 text-white">Welcome to the Charity App</div>
 
         <div className="row">
           <div className="col-7"></div>
