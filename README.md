@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+# Getting Started with Create React App here
+=======
+>>>>>>> staging
 
 **About the project**
 
@@ -5,7 +9,7 @@ DB schema:
 
 API routes:
 
-GlobalGivingAPI: https://www.globalgiving.org/api/methods/
+GlobalGibingAPI: https://www.globalgiving.org/api/methods/
 
 **Technologies used:**
 
@@ -13,7 +17,6 @@ React.js
 Express.js
 Bootstrap
 MySQL
-
 (GitKraken here?)
 
 **Dependencies**
@@ -30,11 +33,10 @@ Run yarn start in project directory to start the Express server on port 5000
 
 cd client and run yarn start to start client server in development mode with hot reloading in port 3000.
 
-Client is configured so API calls will be proxied to port 5000.
+Client is configured so all API calls will be proxied to port 5000 for a smoother development experience. Yay!
 
-Test client app at http://localhost:3000
-
-Test API at http://localhost:5000/api
+You can test your client app in http://localhost:3000
+You can test your API in http://localhost:5000/api
 
 ### Database Prep
 
