@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Countries.associate = function (models) {
-        Countries.belongsTo(models.Regions);
+        Countries.hasMany(models.Projects);
         /*Countries.belongsTo(models.Regions, {
           foreignKey: "",
           targetKey: "isoCode",
