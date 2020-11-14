@@ -1,18 +1,18 @@
 const fs = require("fs");
 const path = require("path");
-const parseString = require("xml2js").parseString;
+const Sequelize = require("sequelize");
 var models = require("../models");
 const themes = require("./themesObj.js");
 ("use strict");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return models.Themes.bulkCreate(themes.returnAll());
+    return models.Theme.bulkCreate(themes.returnAll());
   },
 
   down: async (queryInterface, Sequelize) => {
     const ids = themes.returnAll().map((e) => e.id);
-    return models.Themes.destroy({
+    return models.Theme.destroy({
       where: {
         id: ids,
       },
