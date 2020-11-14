@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+# Getting Started with Create React App here
+=======
+>>>>>>> staging
 
 **About the project**
 

@@ -38,21 +38,24 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/projects", async (req, res) => {
   const { id } = req.params;
   //grab the user by id
-  const user = await models.Users.findOne({
-    where: {
-      id,
-    },
-    //include: models.Projects
-  });
-  const projects = await user.getProjects();
-  res.send(projects);
+  try {
+    const user = await models.Users.findOne({
+      where: {
+        id,
+      },
+      //include: models.Projects
+    });
+    const projects = await user.getProjects();
+    res.send(projects);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
-//log out user
-// router.delete("/logout", (req, res) => {
-//   req.logOut();
-//   res.send({ message: "Log Out successful" });
-// });
+router.delete("/logout", (req, res) => {
+  req.logOut();
+  res.send({ message: "Log Out successful" });
+});
 
 //Login User
 router.post("/login", function (req, res, next) {
@@ -96,8 +99,8 @@ router.post("/", async (req, res) => {
 //add a project to a user
 
 router.post("/:id/projects", async (req, res) => {
-  const { id } = req.body;
-  const { name } = req.body;
+  const { id } = req.params;
+  const { ProjectId } = req.body;
 
   //grab the user by id first
   const user = await models.Users.findOne({
@@ -105,7 +108,7 @@ router.post("/:id/projects", async (req, res) => {
       id,
     },
   });
-  const project = await user.createProjects({ name });
+  const project = await user.addProjects({ id: ProjectId });
 
   res.send(project);
 });
