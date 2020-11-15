@@ -1,7 +1,8 @@
 //import XMLParser from "react-xml-parser";
 //import { response } from "express";
 
-import AddProject from "./addProject";
+//import AddProject from "./AddToFavorites";
+import axios from "axios";
 
 export default {
   async getProjects() {
@@ -170,20 +171,16 @@ export default {
     }
   },
 
-  async addProject(name, themeId, regionId, countryCode, organizationID) {
+  async addToFavorites(ProjectId) {
+    //grab UserID from token
+
     try {
-      const response = await fetch(`/projects`, {
-        method: "POST",
+      const response = await axios.post(`/favorites`, {
         headers: {
+          "x-access-token": localStorage.getItem("token"),
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name,
-          themeId,
-          regionId,
-          countryCode,
-          organizationID,
-        }),
+        body: JSON.stringify({ ProjectId }),
       });
       if (!response.ok) {
         throw new Error();
