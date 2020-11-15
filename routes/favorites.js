@@ -11,7 +11,6 @@ router.post(
     const { UserId } = req.user.id; //grab id from token?
     const { ProjectId } = req.body;
     console.log(UserId);
-
     try {
       const user = await models.User.findOne({
         where: {
@@ -24,7 +23,6 @@ router.post(
     } catch (err) {
       res.status(500).send(err.message);
     }
-  }
 );
 
 module.exports = router;
