@@ -1,5 +1,10 @@
 var express = require("express");
 var router = express.Router();
+/*const bodyParser = require("body-parser");
+router.use(bodyParser.json());
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var jsonParser = bodyParser.json();*/
+
 var models = require("../models");
 require("dotenv").config();
 var bcrypt = require("bcrypt");
@@ -30,25 +35,6 @@ router.get("/:id", async (req, res) => {
     },
   });
   res.send(user);
-});
-
-//get projects for a specific user
-
-router.get("/:id/projects", async (req, res) => {
-  const { id } = req.params;
-  //grab the user by id
-  try {
-    const user = await models.User.findOne({
-      where: {
-        id,
-      },
-      //include: models.Projects
-    });
-    const projects = await user.getProjects();
-    res.send(projects);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
 });
 
 router.delete("/logout", (req, res) => {

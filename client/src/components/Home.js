@@ -6,8 +6,8 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "test",
-      password: "test",
+      username: "",
+      password: "",
     };
   }
 
@@ -25,7 +25,7 @@ class Home extends Component {
       console.log(results.data);
 
       localStorage.setItem("token", results.data.token);
-      this.props.history.push(`/favorite`);
+      this.props.history.push(`/search`);
     } catch (err) {
       console.log(err.message);
       this.props.history.push(`/register`);

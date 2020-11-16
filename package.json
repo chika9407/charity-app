@@ -4,12 +4,16 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "migrate": "npx sequelize-cli db:migrate"
+    "migrate": "npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed:all",
+    "undo-migrate": "npx sequelize-cli db:migrate:undo:all",
+    "undo-seed": "npx sequelize-cli db:seed:undo:all"
   },
   "dependencies": {
     "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",

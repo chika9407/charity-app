@@ -5,18 +5,15 @@ var models = require("../models");
 const passport = require("passport");
 
 /* GET all projects listing. */
-router.get(
-  "/",
-  passport.authenticate("local", { session: false }),
-  async (req, res) => {
-    try {
-      const projects = await models.Project.findAll();
-      res.send(projects);
-    } catch (err) {
-      console.log(err);
-    }
+router.get("/", async (req, res) => {
+  try {
+    const projects = await models.Project.findAll();
+    //console.log(req.user.id)
+    res.send(projects);
+  } catch (err) {
+    console.log(err);
   }
-);
+});
 
 //get a project by id
 
