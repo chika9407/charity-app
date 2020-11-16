@@ -79,24 +79,15 @@ class Search extends Component {
 
   favorite = async (ProjectId) => {
     //event.preventDefault();
-
     //grab the ProjectId
-    let favoriteProjects = this.state.favoriteProjects;
     //let projects = this.state.projects;
     //const ProjectId = projects.find((e) => e === e.id);
     try {
-      //let favorites = await api.addToFavorites(ProjectId);
-      const results = await axios.post(`/favorites`, {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ProjectId }),
-      });
-      console.log(results.data);
-      this.setState({ favoriteProjects: results.data });
+      let favorites = await api.addToFavorites(ProjectId);
+      console.log(favorites);
+      this.setState({ favoriteProjects: favorites });
       console.log("added to Favorites successfully!");
-      console.log(favoriteProjects);
+      //console.log(favoriteProjects);
     } catch (err) {
       console.log(err.message);
     }

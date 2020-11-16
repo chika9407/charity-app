@@ -12,6 +12,7 @@ var favoritesRouter = require("./routes/favorites");
 //var passport = require("passport");
 //var LocalStrategy = require("passport-local").Strategy;
 
+require("./routes/passportConfig"); //(passport);
 var app = express();
 
 app.use(logger("dev"));
@@ -22,8 +23,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-require("./routes/passportConfig"); //(passport);
-
 //app.use(passport.initialize());
 //app.use(passport.session());
 
@@ -31,6 +30,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/projects", projectsRouter);
 app.use("/favorites", favoritesRouter);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
