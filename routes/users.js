@@ -37,25 +37,6 @@ router.get("/:id", async (req, res) => {
   res.send(user);
 });
 
-//get projects for a specific user
-
-router.get("/:id/projects", async (req, res) => {
-  const { id } = req.params;
-  //grab the user by id
-  try {
-    const user = await models.User.findOne({
-      where: {
-        id,
-      },
-      //include: models.Projects
-    });
-    const projects = await user.getProjects();
-    res.send(projects);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
-
 router.delete("/logout", (req, res) => {
   req.logOut();
   res.send({ message: "Log Out successful" });
@@ -120,7 +101,7 @@ router.post("/:id/projects", async (req, res) => {
 // GET current logged-in user
 router.get(
   "/profile",
-  passport.authenticate("local", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     // we will receive any information from the JWTStrategy in the req.user
     res.send({

@@ -175,7 +175,8 @@ export default {
     //grab UserID from token
 
     try {
-      const response = await axios.post(`/favorites`, {
+      const response = await fetch(`/favorites`, {
+        method: "POST",
         headers: {
           "x-access-token": localStorage.getItem("token"),
           "Content-Type": "application/json",
@@ -185,9 +186,58 @@ export default {
       if (!response.ok) {
         throw new Error();
       }
+      console.log(response);
       const data = await response.json();
       console.log(data);
-      return data;
+      const results = data.ProjectId;
+      console.log(results);
+      return results;
+    } catch (err) {
+      console.log(err.message);
+    }
+  },
+
+  async getUserFavorites() {
+    //grab UserID from token
+
+    try {
+      const response = await fetch(`/favorites/projects`, {
+        method: "GET",
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      });
+      if (!response.ok) {
+        throw new Error();
+      }
+      //console.log(response.data);
+      const data = await response.json();
+      console.log(data);
+      const results = data.Projects;
+      console.log(results);
+      return results;
+    } catch (err) {
+      console.log(err.message);
+    }
+  },
+
+  async getUserName() {
+    try {
+      const response = await fetch(`/favorites/projects`, {
+        method: "GET",
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      });
+      if (!response.ok) {
+        throw new Error();
+      }
+      //console.log(response.data);
+      const data = await response.json();
+      console.log(data);
+      const results = data.username;
+      console.log(results);
+      return results;
     } catch (err) {
       console.log(err.message);
     }
