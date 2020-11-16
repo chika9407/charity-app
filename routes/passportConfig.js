@@ -8,6 +8,7 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const secret = process.env.SECRET;
 
+//for login - authentication
 passport.use(
   new LocalStrategy(
     {
@@ -15,7 +16,7 @@ passport.use(
       passwordField: "password",
     },
     async function (username, password, cb) {
-      const user = await models.Users.findOne({ where: { username } });
+      const user = await models.User.findOne({ where: { username } });
 
       if (!user) {
         console.log("user does not exist");
@@ -28,7 +29,7 @@ passport.use(
       //incorrect password
       if (!correctPassword) {
         console.log("wrong pass");
-        return cb(null, false, { message: "Incorrect username or password." });
+        return cb(null, false, { message: "Incorrect password." });
       }
 
       //everything is fine
@@ -48,7 +49,9 @@ passport.use(
     },
     function (jwtPayload, cb) {
       //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
-      return models.Users.findOne({ where: { id: jwtPayload.user_id } })
+      console.log(jwtPayload);
+
+      return models.User.findOne({ where: { id: jwtPayload.user_id } })
         .then((user) => {
           return cb(null, user);
         })

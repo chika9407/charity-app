@@ -1,11 +1,15 @@
 var express = require("express");
 var router = express.Router();
+/*const bodyParser = require("body-parser");
+router.use(bodyParser.json());
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var jsonParser = bodyParser.json();*/
+
 var models = require("../models");
 require("dotenv").config();
 var bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const passportLocal = require("passport-local").Strategy;
 const secret = process.env.SECRET;
 const saltRounds = 10;
 
@@ -13,7 +17,7 @@ const saltRounds = 10;
 
 router.get("/", async (req, res) => {
   //get all users
-  const users = await models.Users.findAll();
+  const users = await models.User.findAll();
   //if we want projects for all users right away then use the expression below
   // instead of the previous one
   //const users = await models.Users.findAll({include: models.Projects});
@@ -25,7 +29,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
-  const user = await models.Users.findOne({
+  const user = await models.User.findOne({
     where: {
       id,
     },
@@ -39,7 +43,7 @@ router.get("/:id/projects", async (req, res) => {
   const { id } = req.params;
   //grab the user by id
   try {
-    const user = await models.Users.findOne({
+    const user = await models.User.findOne({
       where: {
         id,
       },
@@ -61,8 +65,8 @@ router.delete("/logout", (req, res) => {
 router.post("/login", function (req, res, next) {
   passport.authenticate("local", { session: false }, (err, user, info) => {
     if (err || !user) {
-      return res.status(400).json({
-        message: "Something is not right",
+      return res.status(401).json({
+        message: info.message,
         user: user,
       });
     }
@@ -88,7 +92,7 @@ router.post("/", async (req, res) => {
 
   try {
     const hash = await bcrypt.hash(password, saltRounds);
-    const user = await models.Users.create({ username, password: hash });
+    const user = await models.User.create({ username, password: hash });
 
     res.send(user);
   } catch (err) {
@@ -103,7 +107,7 @@ router.post("/:id/projects", async (req, res) => {
   const { ProjectId } = req.body;
 
   //grab the user by id first
-  const user = await models.Users.findOne({
+  const user = await models.User.findOne({
     where: {
       id,
     },
@@ -116,7 +120,7 @@ router.post("/:id/projects", async (req, res) => {
 // GET current logged-in user
 router.get(
   "/profile",
-  passport.authenticate("jwt", { session: false }),
+  passport.authenticate("local", { session: false }),
   (req, res) => {
     // we will receive any information from the JWTStrategy in the req.user
     res.send({
