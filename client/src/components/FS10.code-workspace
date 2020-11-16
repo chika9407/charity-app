@@ -1,12 +1,4 @@
 {
-<<<<<<< Updated upstream
-    "folders": [
-        {
-            "path": "../../.."
-        }
-    ]
-}
-=======
   "folders": [
     {
       "path": "../../.."
@@ -16,4 +8,3 @@
     }
   ]
 }
->>>>>>> Stashed changes
