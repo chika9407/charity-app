@@ -79,7 +79,7 @@ class Home extends Component {
             <div className="card mt-3">
               <h5 className="card-header">Not a member?</h5>
               <div className="card-body">
-                <a href="/Register" class="btn btn-primary mt-2 shadow">
+                <a href="/Register" className="btn btn-primary mt-2 shadow">
                   Register
                 </a>
               </div>
@@ -92,6 +92,15 @@ class Home extends Component {
             Sign out
           </button>
         </div>
+
+        {/* FaceBook .................
+        <div className="text-right text-white mt-3 ">
+          {" "}
+          Or sign in with FaceBook
+          <a href="/auth/facebook" className="btn btn-primary">
+            <span></span> Facebook
+          </a>
+        </div> */}
       </div>
     );
   }

@@ -1,9 +1,4 @@
-//import XMLParser from "react-xml-parser";
-//import { response } from "express";
-
-//import AddProject from "./AddToFavorites";
-import axios from "axios";
-
+//import axios from "axios";
 export default {
   async getProjects() {
     //fetch all Projects from the API
@@ -14,7 +9,8 @@ export default {
     const APIcall = `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${APIkey}&nextProjectId=354`;
 
     try {
-      const response = await fetch(APIcall, {
+      const response = await fetch(`/projects`, {
+        method: "GET",
         headers: {
           Accept: "application/json",
         },
@@ -30,7 +26,7 @@ export default {
     }
   },
 
-  async getAllRegions() {
+  /*async getAllRegions() {
     const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
     const APIcall = `https://api.globalgiving.org/api/public/projectservice/regions/?api_key=${APIkey}`;
     try {
@@ -48,9 +44,9 @@ export default {
     } catch (err) {
       console.log(err);
     }
-  },
+  },*/
 
-  async getProjectsByCountry(country) {
+  /*async getProjectsByCountry(country) {
     const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
     const APIcall = `https://api.globalgiving.org/api/public/projectservice/countries/${country}/projects?api_key=${APIkey}`;
     try {
@@ -68,13 +64,14 @@ export default {
     } catch (err) {
       console.log(err);
     }
-  },
+  },*/
 
   async getAllThemesByName() {
     const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
     const APIcall = `https://api.globalgiving.org/api/public/projectservice/themes?api_key=${APIkey}`;
     try {
-      const response = await fetch(APIcall, {
+      const response = await fetch(`/themes`, {
+        method: "GET",
         headers: {
           Accept: "application/json",
         },
@@ -84,6 +81,7 @@ export default {
       }
       const data = await response.json();
       // console.log("data.themes.theme",data.themes.theme)
+      console.log(data);
       return data;
     } catch (err) {
       console.log(err);
@@ -189,9 +187,9 @@ export default {
       console.log(response);
       const data = await response.json();
       console.log(data);
-      const results = data.ProjectId;
-      console.log(results);
-      return results;
+      //const results = data.ProjectId;
+      //console.log(results);
+      return data;
     } catch (err) {
       console.log(err.message);
     }

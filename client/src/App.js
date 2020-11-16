@@ -11,7 +11,7 @@ import About from "./components/About";
 import Search from "./components/Search";
 import Home from "./components/Home";
 import Register from "./components/Register";
-import api from "./components/api";
+import api from "./services/api";
 import Donate from "./components/Donate.js";
 import Paypal from "./components/Paypal";
 import MapContainer from "./components/MapContainer";

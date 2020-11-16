@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import api from "./api";
+import api from "../services/api";
 import CountryDict from "./CountryDict.js";
 import axios from "axios";
 
@@ -14,8 +14,8 @@ class Search extends Component {
       theme_input: "",
       keyword_input: "",
       projects: [],
-      favoriteProjects: [],
       searchStatus: "Featured Projects",
+      showAlert: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -28,7 +28,7 @@ class Search extends Component {
       projects: defaultProjects.projects.project,
     });
     this.setState({
-      themes: themesData.themes.theme,
+      themes: themesData,
     });
     this.setState({
       countries: countriesData,
@@ -85,9 +85,8 @@ class Search extends Component {
     try {
       let favorites = await api.addToFavorites(ProjectId);
       console.log(favorites);
-      this.setState({ favoriteProjects: favorites });
       console.log("added to Favorites successfully!");
-      //console.log(favoriteProjects);
+      this.setState({ showAlert: true });
     } catch (err) {
       console.log(err.message);
     }
@@ -100,9 +99,11 @@ class Search extends Component {
 
   render() {
     let status = this.state.searchStatus;
-    let themes = this.state.themes;
-    let countries = this.state.countries;
+    let { themes, countries, projects, showAlert } = this.state;
+    console.log(themes);
+    /*let countries = this.state.countries;
     let projects = this.state.projects;
+    let showAlert = this.*/
 
     console.log("projects in state are:", this.state.projects);
 
@@ -234,7 +235,12 @@ class Search extends Component {
           </div>
         </form>
         <div className="mt-4 text-white">{status}</div>
-        {projectResults}
+        {showAlert && (
+          <div className="alert alert-success" role="alert">
+            Added to courses successfully!
+          </div>
+        )}
+        <div>{projectResults}</div>
       </div>
     );
   }
