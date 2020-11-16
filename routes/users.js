@@ -115,12 +115,36 @@ router.post("/:id/projects", async (req, res) => {
 // GET current logged-in user
 router.get(
   "/profile",
-  passport.authenticate("local", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     // we will receive any information from the JWTStrategy in the req.user
     res.send({
       message: "Here is the PROTECTED data for user ",
       user: req.user,
+    });
+  }
+);
+
+router.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: ["email"] }),
+  (req, res) => {
+    res.send({
+      message: "Facebook login",
+    });
+  }
+);
+
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", {
+    successRedirect: "/search",
+    failureRedirect: "/Register",
+  }),
+
+  (req, res) => {
+    res.send({
+      message: "Facebook logged in",
     });
   }
 );
