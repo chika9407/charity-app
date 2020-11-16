@@ -92,10 +92,6 @@ class Search extends Component {
     }
   };
 
-  /*favorite = () => {
-    console.log("$$ click!");
-  };*/
-
   donate = () => {
     console.log("$$ click!");
     this.props.history.push(`/donate`);
