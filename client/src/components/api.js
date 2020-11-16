@@ -189,9 +189,9 @@ export default {
       console.log(response);
       const data = await response.json();
       console.log(data);
-      const results = data.ProjectId;
-      console.log(results);
-      return results;
+      //const results = data.ProjectId;
+      //console.log(results);
+      return data;
     } catch (err) {
       console.log(err.message);
     }
