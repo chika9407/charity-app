@@ -1,5 +1,10 @@
 var express = require("express");
 var router = express.Router();
+/*const bodyParser = require("body-parser");
+router.use(bodyParser.json());
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var jsonParser = bodyParser.json();*/
+
 var models = require("../models");
 require("dotenv").config();
 var bcrypt = require("bcrypt");
