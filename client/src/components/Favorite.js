@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import api from "./api";
+import api from "../services/api";
 
 class Favorite extends Component {
   constructor(props) {
@@ -46,9 +46,10 @@ class Favorite extends Component {
           <h3>Welcome to Your Dashboard, {username}</h3>
         </div>
         <ul className="text-white">
-          {favoriteProjects.map((project, i) => (
-            <li key={i}> {project.name}</li>
-          ))}
+          {favoriteProjects &&
+            favoriteProjects.map((project, i) => (
+              <li key={i}> {project.name}</li>
+            ))}
         </ul>
       </div>
     );

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import api from "./api";
+import api from "../services/api";
 import CountryDict from "./CountryDict.js";
 import axios from "axios";
 
@@ -28,7 +28,7 @@ class Search extends Component {
       projects: defaultProjects.projects.project,
     });
     this.setState({
-      themes: themesData.themes.theme,
+      themes: themesData,
     });
     this.setState({
       countries: countriesData,
@@ -104,6 +104,7 @@ class Search extends Component {
   render() {
     let status = this.state.searchStatus;
     let { themes, countries, projects, showAlert } = this.state;
+    console.log(themes);
     /*let countries = this.state.countries;
     let projects = this.state.projects;
     let showAlert = this.*/

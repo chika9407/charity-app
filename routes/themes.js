@@ -3,13 +3,13 @@ var router = express.Router();
 var models = require("../models");
 
 router.get("/", async (req, res) => {
-  const themes = await models.Themes.findAll();
+  const themes = await models.Theme.findAll();
   res.send(themes);
 });
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
-  const theme = await models.Themes.findOne({
+  const theme = await models.Theme.findOne({
     where: {
       id,
     },
@@ -22,7 +22,7 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/projects", async (req, res) => {
   const { id } = req.params;
   //grab the user by id
-  const theme = await models.Themes.findOne({
+  const theme = await models.Theme.findOne({
     where: {
       id,
     },
@@ -34,7 +34,7 @@ router.get("/:id/projects", async (req, res) => {
 
 router.get("/:name", async (req, res) => {
   const { name } = req.params;
-  const theme = await models.Themes.findOne({
+  const theme = await models.Theme.findOne({
     where: {
       name,
     },
@@ -47,7 +47,7 @@ router.get("/:name", async (req, res) => {
 router.get("/:name/projects", async (req, res) => {
   const { name } = req.params;
   //grab the user by id
-  const theme = await models.Themes.findOne({
+  const theme = await models.Theme.findOne({
     where: {
       name,
     },
@@ -58,7 +58,7 @@ router.get("/:name/projects", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { name } = req.body;
-  const theme = await models.Themes.create({ name });
+  const theme = await models.Theme.create({ name });
   res.send(theme);
 });
 
