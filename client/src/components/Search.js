@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import api from "./api";
 import CountryDict from "./CountryDict.js";
+import axios from "axios";
 
 class Search extends Component {
   constructor(props) {
@@ -13,11 +14,11 @@ class Search extends Component {
       theme_input: "",
       keyword_input: "",
       projects: [],
+      favoriteProjects: [],
       searchStatus: "Featured Projects",
     };
     this.handleChange = this.handleChange.bind(this);
   }
-
   async componentDidMount() {
     //grabs themes from api,countries ISO codes, and featured projects
     let defaultProjects = await api.getFeaturedProjects();
@@ -76,9 +77,34 @@ class Search extends Component {
     }
   }
 
-  favorite() {
-    console.log("clicked!");
-  }
+  favorite = async (ProjectId) => {
+    //event.preventDefault();
+
+    //grab the ProjectId
+    let favoriteProjects = this.state.favoriteProjects;
+    //let projects = this.state.projects;
+    //const ProjectId = projects.find((e) => e === e.id);
+    try {
+      //let favorites = await api.addToFavorites(ProjectId);
+      const results = await axios.post(`/favorites`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ProjectId }),
+      });
+      console.log(results.data);
+      this.setState({ favoriteProjects: results.data });
+      console.log("added to Favorites successfully!");
+      console.log(favoriteProjects);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  /*favorite = () => {
+    console.log("$$ click!");
+  };*/
 
   donate = () => {
     console.log("$$ click!");
@@ -119,9 +145,9 @@ class Search extends Component {
                     <div className="text-left mt-3">
                       <button
                         className=" btn btn-dark shadow"
-                        onClick={this.favorite()}
+                        onClick={() => this.favorite(e.id)}
                       >
-                        Add to favorites +
+                        Add to favorites +{e.id}
                       </button>
                       <button
                         className="ml-3 btn btn-warning shadow"
