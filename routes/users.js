@@ -111,28 +111,28 @@ router.get(
   }
 );
 
-router.get(
-  "/auth/facebook",
-  passport.authenticate("facebook", { scope: ["email"] }),
-  (req, res) => {
-    res.send({
-      message: "Facebook login",
-    });
-  }
-);
+// router.get(
+//   "/auth/facebook",
+//   passport.authenticate("facebook", { scope: ["email"] }),
+//   (req, res) => {
+//     res.send({
+//       message: "Facebook login",
+//     });
+//   }
+// );
 
-router.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", {
-    successRedirect: "/search",
-    failureRedirect: "/Register",
-  }),
+// router.get(
+//   "/auth/facebook/callback",
+//   passport.authenticate("facebook", {
+//     successRedirect: "/search",
+//     failureRedirect: "/Register",
+//   }),
 
-  (req, res) => {
-    res.send({
-      message: "Facebook logged in",
-    });
-  }
-);
+//   (req, res) => {
+//     res.send({
+//       message: "Facebook logged in",
+//     });
+//   }
+// );
 
 module.exports = router;
