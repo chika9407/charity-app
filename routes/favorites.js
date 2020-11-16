@@ -5,12 +5,14 @@ const passport = require("passport");
 const bodyParser = require("body-parser");
 router.use(bodyParser.json());
 
+
 //add a new project to users in UserProjects model
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const UserId = req.user.id; //grab id from token
+    console.log(typeof req.user.id);
     const { ProjectId } = req.body;
     console.log(UserId);
     try {

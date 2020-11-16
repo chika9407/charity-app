@@ -1,6 +1,15 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const Project = sequelize.define("Project", { name: DataTypes.STRING }, {});
+  const Project = sequelize.define(
+    "Project",
+    {
+      name: DataTypes.STRING,
+      summary: DataTypes.TEXT,
+      url: DataTypes.STRING,
+      imageUrl: DataTypes.STRING,
+    },
+    {}
+  );
   Project.associate = function (models) {
     //Users.hasMany(models.Projects);
     Project.belongsToMany(models.User, { through: "UserProjects" });
