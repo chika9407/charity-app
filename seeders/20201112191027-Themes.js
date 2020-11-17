@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 var models = require("../models");
-const themes = require("./themesObj.js");
+const themes = require("../seed/themesObj.js");
 ("use strict");
 
 module.exports = {
@@ -11,11 +11,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    const ids = themes.returnAll().map((e) => e.id);
-    return models.Theme.destroy({
-      where: {
-        id: ids,
-      },
-    });
+    queryInterface.bulkDelete("Themes");
   },
 };

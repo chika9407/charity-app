@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 var models = require("../models");
-const organizations = require("./orgsObj.js");
+const organizations = require("../seed/orgsObj.js");
 ("use strict");
 
 module.exports = {
@@ -11,11 +11,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    const id = organizations.returnAll().map((e) => e.id);
-    return models.Organization.destroy({
-      where: {
-        id: id,
-      },
-    });
+    queryInterface.bulkDelete("Organizations");
   },
 };

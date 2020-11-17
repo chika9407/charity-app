@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 var models = require("../models");
-var countries = require("./countryObj.js");
+var countries = require("../seed/countryObj.js");
 ("use strict");
 
 module.exports = {
@@ -11,11 +11,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    const id = countries.returnAll().map((e) => e.id);
-    return models.Country.destroy({
-      where: {
-        id: id,
-      },
-    });
+    queryInterface.bulkDelete("Countries");
   },
 };

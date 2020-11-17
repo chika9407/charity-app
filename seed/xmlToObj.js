@@ -14,7 +14,9 @@ parseString(xml, function (err, result) {
   return (res = result.projects.project);
 });
 
-//optional field fuction, adds a space, remove final [0]
+console.log("file read");
+
+//make sure optional fields don't throw errors
 function checkField(field, ifNone = "none") {
   let str = "";
   try {
@@ -24,19 +26,29 @@ function checkField(field, ifNone = "none") {
   }
   return str;
 }
+
+//write files for each object
+function makeFile(dataName, data) {
+  fs.writeFileSync(
+    path.join(__dirname, `./${dataName}Obj.js`),
+    `function returnAll() {
+      const ${dataName} =${JSON.stringify(data)};
+      return ${dataName};
+    }
+    exports.returnAll = returnAll;`
+  );
+  console.log(`${dataName} file written`);
+}
+
 //create project object
 let projects = res.map((e) => {
   let themeStr = "";
   //not all projects have a theme
   try {
-    themeStr =
-      String(e.themes[0].theme[0].id[0]) +
-      ":" +
-      String(e.themes[0].theme[0].name[0]);
+    themeStr = String(e.themes[0].theme[0].id[0]);
   } catch {
-    themeStr = "";
+    themeStr = "none";
   }
-
   let projObj = {
     id: e.id[0],
     name: e.title[0],
@@ -60,6 +72,8 @@ let projects = res.map((e) => {
   return projObj;
 });
 
+console.log("project object created");
+
 //create array of unique orgs
 let orgsSet = Array.from(
   new Set(
@@ -82,7 +96,7 @@ for (let i = 0; i < orgsSet.length; i++) {
   };
   organizations.push(orgObj);
 }
-
+console.log("org object created");
 //create array of unique countries
 let countriesSet = Array.from(
   new Set(
@@ -105,7 +119,7 @@ for (let i = 0; i < countriesSet.length; i++) {
   };
   countries.push(countryObj);
 }
-
+console.log("country object created");
 // create array of unique themes
 let noThemeCount = 0;
 let themeSet = Array.from(
@@ -136,25 +150,9 @@ for (let i = 0; i < themeSet.length; i++) {
   };
   themes.push(themeObj);
 }
+console.log("theme object created");
 
-//write files for each object
-
-fs.writeFileSync(
-  path.join(__dirname, "./projectsObj.js"),
-  JSON.stringify(projects)
-);
-
-fs.writeFileSync(
-  path.join(__dirname, "./orgsObj.js"),
-  JSON.stringify(organizations)
-);
-
-fs.writeFileSync(
-  path.join(__dirname, "./countryObj.js"),
-  JSON.stringify(countries)
-);
-
-fs.writeFileSync(
-  path.join(__dirname, "./themesObj.js"),
-  JSON.stringify(themes)
-);
+makeFile("themes", themes);
+makeFile("countries", countries);
+makeFile("organizations", organizations);
+makeFile("projects", projects);
