@@ -13,7 +13,7 @@ class Search extends Component {
       theme_input: "",
       keyword_input: "",
       projects: [],
-      searchStatus: "Featured Projects",
+      searchStatus: "Featured Projects :",
       showAlert: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -66,12 +66,12 @@ class Search extends Component {
         projects: searchResults.search.response.projects.project,
       });
       this.setState({
-        searchStatus: "results",
+        searchStatus: "Results :",
       });
     } catch (err) {
       console.log(err.message);
       this.setState({
-        searchStatus: "no projects match the query",
+        searchStatus: "Sorry no projects match the query",
       });
     }
   }
