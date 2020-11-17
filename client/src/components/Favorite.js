@@ -36,6 +36,11 @@ class Favorite extends Component {
     }
   }
 
+  donate = () => {
+    console.log("$$ click!");
+    this.props.history.push(`/donate`);
+  };
+
   render() {
     const { favoriteProjects, username } = this.state;
     console.log(favoriteProjects);
@@ -45,12 +50,46 @@ class Favorite extends Component {
         <div className="row mt-4 text-white">
           <h3>Welcome to Your Dashboard, {username}</h3>
         </div>
-        <ul className="text-white">
+        <div>
           {favoriteProjects &&
             favoriteProjects.map((project, i) => (
-              <li key={i}> {project.name}</li>
+              <div className="container-xl mt-2" key={i}>
+                <div className="row">
+                  <div className="card border-warning mb-3">
+                    <h5 className="card-header">{project.name}</h5>
+                    <div className="card-body">
+                      <div class="row">
+                        <div class="col">
+                          <img
+                            src={project.imageUrl}
+                            alt={project.name}
+                            class="img-fluid"
+                            alt="Responsive image"
+                          ></img>
+                          <div className="text-left mt-3">
+                            <button
+                              className="ml-3 btn btn-warning shadow"
+                              onClick={this.donate}
+                            >
+                              Donate $
+                            </button>
+                          </div>
+                        </div>
+                        <div class="col ">
+                          <p>{project.summary}</p>
+                          <ul>
+                            <li>
+                              <a href={project.url}>{project.url}</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
-        </ul>
+        </div>
       </div>
     );
   }
