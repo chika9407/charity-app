@@ -47,14 +47,14 @@ class Favorite extends Component {
     console.log(username);
     return (
       <div className="container-xl">
-        <div className="row mt-4 text-white">
-          <h3>Welcome to Your Dashboard, {username}</h3>
+        <div className="row mt-5">
+          <h3 className=" text-white">Welcome to Your Dashboard: {username}</h3>
         </div>
         <div>
           {favoriteProjects &&
             favoriteProjects.map((project, i) => (
-              <div className="container-xl mt-2" key={i}>
-                <div className="row">
+              <div className="mt-2" key={i}>
+                <div className="row  ">
                   <div className="card border-warning mb-3">
                     <h5 className="card-header">{project.name}</h5>
                     <div className="card-body">
@@ -66,9 +66,9 @@ class Favorite extends Component {
                             class="img-fluid"
                             alt="Responsive image"
                           ></img>
-                          <div className="text-left mt-3">
+                          <div className=" mt-3">
                             <button
-                              className="ml-3 btn btn-warning shadow"
+                              className=" btn btn-warning shadow"
                               onClick={this.donate}
                             >
                               Donate $

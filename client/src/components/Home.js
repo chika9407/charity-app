@@ -6,8 +6,8 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
-      password: "",
+      username: "test",
+      password: "test",
     };
   }
 
@@ -25,7 +25,7 @@ class Home extends Component {
       console.log(results.data);
 
       localStorage.setItem("token", results.data.token);
-      this.props.history.push(`/search`);
+      this.props.history.push(`/favorite`);
     } catch (err) {
       console.log(err.message);
       this.props.history.push(`/register`);
@@ -33,22 +33,34 @@ class Home extends Component {
   };
 
   //.........................
-  logout = async () => {
-    try {
-      localStorage.setItem("token", "");
-      this.props.history.push(`/search`);
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
 
   render() {
     return (
       <div className="container-xl">
-        <div className="row mt-4 text-white">Welcome to the Charity App</div>
-
-        <div className="row">
-          <div className="col-7"></div>
+        <div className="row mt-5">
+          <div className="col-5">
+            <div className="card shadow-lg">
+              <h5 className="card-header">
+                Welcome to Your Global Charity Finder!
+              </h5>
+              <div className="card-body">
+                <h6 className="card-title "> Find your perfect charity</h6>
+                <p className="card-text">
+                  This site uses the{" "}
+                  <a className="card-text" href="https://www.globalgiving.org/">
+                    GlobalGiving API
+                  </a>{" "}
+                  to get up to date information on charities around the world
+                  and lets you filter them according to your needs.
+                </p>
+                <p className="card-text mb-3">
+                  Sign In to save your favorite charities and donate to them
+                  whenever you like.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col"></div>
           {/* Log IN ................................. */}
           <div className="col">
             <div className="card">
@@ -87,11 +99,6 @@ class Home extends Component {
           </div>
         </div>
         {/* Log OUT .................*/}
-        <div className="text-right mt-3">
-          <button className=" btn btn-dark" onClick={this.logout}>
-            Sign out
-          </button>
-        </div>
 
         {/* FaceBook .................
         <div className="text-right text-white mt-3 ">
