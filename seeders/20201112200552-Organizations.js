@@ -12,11 +12,5 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     queryInterface.bulkDelete("Organizations");
-    // const id = organizations.returnAll().map((e) => e.id);
-    // return models.Organization.destroy({
-    //   where: {
-    //     id: id,
-    //   },
-    // });
   },
 };

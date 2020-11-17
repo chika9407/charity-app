@@ -27,6 +27,19 @@ function checkField(field, ifNone = "none") {
   return str;
 }
 
+//write files for each object
+function makeFile(dataName, data) {
+  fs.writeFileSync(
+    path.join(__dirname, `./${dataName}Obj.js`),
+    `function returnAll() {
+      const ${dataName} =${JSON.stringify(data)};
+      return ${dataName};
+    }
+    exports.returnAll = returnAll;`
+  );
+  console.log(`${dataName} file written`);
+}
+
 //create project object
 let projects = res.map((e) => {
   let themeStr = "";
@@ -34,9 +47,8 @@ let projects = res.map((e) => {
   try {
     themeStr = String(e.themes[0].theme[0].id[0]);
   } catch {
-    themeStr = "";
+    themeStr = "none";
   }
-
   let projObj = {
     id: e.id[0],
     name: e.title[0],
@@ -139,20 +151,6 @@ for (let i = 0; i < themeSet.length; i++) {
   themes.push(themeObj);
 }
 console.log("theme object created");
-
-//write files for each object
-
-function makeFile(dataName, data) {
-  fs.writeFileSync(
-    path.join(__dirname, `./${dataName}Obj.js`),
-    `function returnAll() {
-      const ${dataName} =${JSON.stringify(data)};
-      return ${dataName};
-    }
-    exports.returnAll = returnAll;`
-  );
-  console.log(`${dataName} file written`);
-}
 
 makeFile("themes", themes);
 makeFile("countries", countries);
