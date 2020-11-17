@@ -1,6 +1,9 @@
 function returnAll() {
   const countries = [
-    { id: "BS", name: "Bahamas, The" },
+    {
+      id: "BS",
+      name: "Bahamas, The",
+    },
     { id: "BR", name: "Brazil" },
     { id: "CA", name: "Canada" },
     { id: "CO", name: "Colombia" },
