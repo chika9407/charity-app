@@ -47,7 +47,7 @@ class Search extends Component {
   async filterSearch(event) {
     event.preventDefault();
     this.setState({
-      searchStatus: "loading projects...",
+      searchStatus: "loading projects . . .",
     });
 
     let keywords = this.state.keyword_input;
@@ -108,11 +108,11 @@ class Search extends Component {
 
     let themeOptions = !!themes
       ? themes.map((e) => <option value={e.id}> {e.name}</option>)
-      : "loading themes...";
+      : "loading themes ...";
 
     let countryOptions = !!countries
       ? countries.map((e) => <option value={e.code}> {e.name}</option>)
-      : "loading countries...";
+      : "loading countries ...";
 
     let projectResults = !!projects.length ? (
       projects.map((e) => (
@@ -233,7 +233,7 @@ class Search extends Component {
             </div>
           </div>
         </form>
-        <h5 className="mt-4 sticky-top text-white container border border-warning bg-secondary rounded p-3">
+        <h5 className="mt-4 sticky-top text-white container border border-warning bg-secondary rounded p-2">
           {status}
         </h5>
         {showAlert && (
