@@ -12,11 +12,5 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     queryInterface.bulkDelete("Themes");
-    // const ids = themes.returnAll().map((e) => e.id);
-    // return models.Theme.destroy({
-    //   where: {
-    //     id: ids,
-    //   },
-    // });
   },
 };
