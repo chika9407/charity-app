@@ -164,7 +164,7 @@ class Search extends Component {
 
     return (
       <div className="container-xl">
-        <form class="container  sticky-top bg-secondary mt-4  rounded pt-1">
+        <form class="container bg-secondary mt-4  rounded pt-1">
           <div class="row mt-3 ">
             <div class="col-sm">
               <div className="text-white">
@@ -233,10 +233,12 @@ class Search extends Component {
             </div>
           </div>
         </form>
-        <div className="mt-4 text-white">{status}</div>
+        <div className="mt-3 mb-4 sticky-top text-white container border border-warning bg-secondary rounded p-2">
+          {status}
+        </div>
         {showAlert && (
-          <div className="alert alert-success" role="alert">
-            Added to courses successfully!
+          <div className="alert alert-success sticky-top" role="alert">
+            Added to favorites successfully!
           </div>
         )}
         <div>{projectResults}</div>
