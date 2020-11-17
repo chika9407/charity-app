@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 import CountryDict from "./CountryDict.js";
-import api from "./api";
+import api from "../services/api";
 
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
