@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import api from "../services/api";
 import CountryDict from "./CountryDict.js";
-import axios from "axios";
 
 class Search extends Component {
   constructor(props) {
@@ -135,7 +134,7 @@ class Search extends Component {
                         className=" btn btn-dark shadow"
                         onClick={() => this.favorite(e.id)}
                       >
-                        Add to favorites +{e.id}
+                        Add to favorites +
                       </button>
                       <button
                         className="ml-3 btn btn-warning shadow"
