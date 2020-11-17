@@ -116,7 +116,7 @@ class Search extends Component {
 
     let projectResults = !!projects.length ? (
       projects.map((e) => (
-        <div className="container-xl mt-2" key={e.id}>
+        <div className="container-xl mt-1" key={e.id}>
           <div className="row">
             <div className="card border-warning mb-3">
               <h5 className="card-header">{e.title}</h5>
@@ -233,9 +233,9 @@ class Search extends Component {
             </div>
           </div>
         </form>
-        <div className="mt-3 mb-4 sticky-top text-white container border border-warning bg-secondary rounded p-2">
+        <h5 className="mt-4 sticky-top text-white container border border-warning bg-secondary rounded p-3">
           {status}
-        </div>
+        </h5>
         {showAlert && (
           <div className="alert alert-success sticky-top" role="alert">
             Added to favorites successfully!
