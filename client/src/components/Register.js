@@ -39,14 +39,12 @@ class Register extends Component {
   render() {
     return (
       <div className="container-xl">
-        <div className="row mt-4 text-white">Registration Page </div>
-
         <div className="row">
           <div className="col-7"></div>
 
           {/* Register...........................*/}
           <div className="card mt-3">
-            <h5 className="card-header">Not a member?</h5>
+            <h5 className="card-header">Not a member? sign in</h5>
             <div className="card-body">
               <input
                 value={this.state.username}

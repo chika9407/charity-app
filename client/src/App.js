@@ -11,9 +11,10 @@ import About from "./components/About";
 import Search from "./components/Search";
 import Home from "./components/Home";
 import Register from "./components/Register";
-import api from "./components/api";
+import api from "./services/api";
 import Donate from "./components/Donate.js";
 import Paypal from "./components/Paypal";
+import MapContainer from "./components/MapContainer";
 
 export default class App extends Component {
   constructor(props) {
@@ -23,16 +24,6 @@ export default class App extends Component {
       theme_input: "",
     };
   }
-
-  /*componentDidMount() {
-    // let country_input = "IN";
-    // let themeId = "edu";
-    //api.getProjects();
-    //api.getProjectsByCountry(country_input);
-    //api.getAllThemesByName();
-    // api.getProjectsByTheme(themeId);
-    // api.getAllRegions();
-  }*/
 
   render() {
     return (
@@ -71,6 +62,11 @@ export default class App extends Component {
                       Favorite
                     </NavLink>
                   </li>
+                  <li className="nav-item  ">
+                    <NavLink className="nav-link" to="/map">
+                      Map
+                    </NavLink>
+                  </li>
                 </ul>
               </div>
             </nav>
@@ -82,6 +78,10 @@ export default class App extends Component {
 
               <Route path="/search" component={Search}>
                 <Search />
+              </Route>
+
+              <Route path="/map" component={MapContainer}>
+                <MapContainer />
               </Route>
 
               <Route path="/about">

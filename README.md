@@ -51,3 +51,10 @@ In the MySQL CLI, type `create database charityApp;` to create a database in MyS
 ### Migration
 
 Type: npm run migrate in the root folder
+
+### todo
+
+-make backend api routes for accessing project data in database
+-call said routes for search, favorites, and map
+
+-show when a project has been favorited
