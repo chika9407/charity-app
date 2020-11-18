@@ -16,8 +16,11 @@ class Favorite extends Component {
     try {
       const favoriteProjects = await api.getUserFavorites();
       console.log(favoriteProjects);
+      const sortedFavoriteprojects = favoriteProjects
+        .sort((a, b) => b.UserProjects.createdAt - a.UserProjects.createdAt)
+        .reverse();
       this.setState({
-        favoriteProjects,
+        favoriteProjects: sortedFavoriteprojects,
       });
     } catch (err) {
       console.log(err.message);
@@ -54,7 +57,6 @@ class Favorite extends Component {
   render() {
     const { favoriteProjects, username, showAlert } = this.state;
     console.log(favoriteProjects);
-    console.log(username);
     return (
       <div className="container-xl">
         <div className="row mt-5">
