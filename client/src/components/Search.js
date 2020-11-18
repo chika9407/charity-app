@@ -91,11 +91,6 @@ class Search extends Component {
     }
   };
 
-  donate = () => {
-    console.log("$$ click!");
-    this.props.history.push(`/donate`);
-  };
-
   render() {
     let status = this.state.searchStatus;
     let { themes, countries, projects, showAlert } = this.state;
@@ -135,12 +130,6 @@ class Search extends Component {
                         onClick={() => this.favorite(e.id)}
                       >
                         Add to favorites +
-                      </button>
-                      <button
-                        className="ml-3 btn btn-warning shadow"
-                        onClick={this.donate}
-                      >
-                        Donate $
                       </button>
                     </div>
                   </div>
