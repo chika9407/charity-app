@@ -4,9 +4,9 @@ export default {
     //fetch all Projects from the API
     //latest git update attempt
 
-    const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
+    //const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
 
-    const APIcall = `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${APIkey}&nextProjectId=354`;
+    //const APIcall = `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${APIkey}&nextProjectId=354`;
 
     try {
       const response = await fetch(`/projects`, {
@@ -164,7 +164,6 @@ export default {
       }
       console.log(response);
       const data = await response.json();
-      console.log(data);
       //const results = data.ProjectId;
       //console.log(results);
       return data;

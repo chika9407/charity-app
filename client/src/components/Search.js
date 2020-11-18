@@ -80,12 +80,13 @@ class Search extends Component {
     }
   }
 
-  favorite = async (ProjectId) => {
+  addFavorite = async (ProjectId) => {
     try {
       let favorites = await api.addToFavorites(ProjectId);
       console.log(favorites);
       console.log("added to Favorites successfully!");
       this.setState({ showAlert: true });
+      //this.props.history.push("/favorite");
     } catch (err) {
       console.log(err.message);
     }
@@ -127,7 +128,7 @@ class Search extends Component {
                     <div className="text-left mt-3">
                       <button
                         className=" btn btn-dark shadow"
-                        onClick={() => this.favorite(e.id)}
+                        onClick={() => this.addFavorite(e.id)}
                       >
                         Add to favorites +
                       </button>
