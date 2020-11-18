@@ -173,6 +173,25 @@ export default {
     }
   },
 
+  async deleteFromFavorites(ProjectId) {
+    //grab UserID from token
+
+    try {
+      const response = await fetch(`/favorites`, {
+        method: "DELETE",
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ProjectId }),
+      });
+      if (response.ok) return;
+      else throw new Error();
+    } catch (err) {
+      console.log(err.message);
+    }
+  },
+
   async getUserFavorites() {
     //grab UserID from token
 
