@@ -32,15 +32,15 @@ router.get("/search/:themeId?/:countryId?/:keyword?", async (req, res) => {
   let { countryId } = req.params;
   let { keyword } = req.params;
   let sqlAr = [];
-  if (!!themeId) {
+  if (themeId != 0) {
     themeId = `themeId='${String(themeId)}'`;
     sqlAr.push(themeId);
   }
-  if (!!countryId) {
+  if (countryId != 0) {
     countryId = `countryId='${String(countryId)}'`;
     sqlAr.push(countryId);
   }
-  if (!!keyword) {
+  if (keyword != 0) {
     keyword = `name like '%${String(keyword)}%'`;
     sqlAr.push(keyword);
   }

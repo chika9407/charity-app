@@ -52,9 +52,9 @@ class Search extends Component {
       searchStatus: "loading projects...",
     });
 
-    let keywords = this.state.keyword_input;
-    let country = this.state.country_input;
-    let theme = this.state.theme_input;
+    let keywords = this.state.keyword_input || 0;
+    let country = this.state.country_input || 0;
+    let theme = this.state.theme_input || 0;
 
     console.log(`keywords:${keywords}, country:${country}, theme:${theme}`);
 
