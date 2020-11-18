@@ -71,7 +71,6 @@ class Search extends Component {
 
       this.setState({
         searchStatus: searchResults.length > 1 ? "Results" : "No results",
-
       });
     } catch (err) {
       console.log(err.message);
@@ -82,10 +81,6 @@ class Search extends Component {
   }
 
   favorite = async (ProjectId) => {
-    //event.preventDefault();
-    //grab the ProjectId
-    //let projects = this.state.projects;
-    //const ProjectId = projects.find((e) => e === e.id);
     try {
       let favorites = await api.addToFavorites(ProjectId);
       console.log(favorites);
@@ -227,8 +222,17 @@ class Search extends Component {
             </div>
           </div>
         </form>
-        <div className="mt-4 text-white">{status}</div>
-        <div>{projectResults}</div>
+        <div className="mt-3 mb-4 text-white sticky-top container border border-warning bg-secondary rounded p-2">
+          {status}
+        </div>
+        <div>
+          {showAlert && (
+            <div className="alert alert-success sticky-top" role="alert">
+              Added to favorites successfully!
+            </div>
+          )}
+          <div>{projectResults}</div>
+        </div>
       </div>
     );
   }

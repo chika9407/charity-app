@@ -5,7 +5,6 @@ const passport = require("passport");
 const bodyParser = require("body-parser");
 router.use(bodyParser.json());
 
-
 //add a new project to users in UserProjects model
 router.post(
   "/",
@@ -46,8 +45,33 @@ router.get(
         },
         include: models.Project,
       });
-      //const projects = await user.getProject();
       res.send(user);
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
+  }
+);
+
+//delete from favorites
+
+router.delete(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const id = req.user.id;
+    const { ProjectId } = req.body;
+
+    //grab the user by id
+    try {
+      const user = await models.User.findOne({
+        where: {
+          id: id,
+        },
+        include: models.Project,
+      });
+      //const projects = await user.getProject();
+      const favorite = await user.removeProject(ProjectId);
+      res.send("deleted successfully");
     } catch (err) {
       res.status(500).send(err.message);
     }

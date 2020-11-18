@@ -8,6 +8,7 @@ class Favorite extends Component {
     this.state = {
       favoriteProjects: [],
       username: "",
+      showAlert: false,
     };
   }
 
@@ -35,6 +36,15 @@ class Favorite extends Component {
       console.log(err.message);
     }
   }
+  async deleteFromFavorites(ProjectId) {
+    try {
+      await api.deleteFromFavorites(ProjectId);
+      await this.getUserFavorites();
+      this.setState({ showAlert: true });
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
 
   donate = () => {
     console.log("$$ click!");
@@ -42,7 +52,7 @@ class Favorite extends Component {
   };
 
   render() {
-    const { favoriteProjects, username } = this.state;
+    const { favoriteProjects, username, showAlert } = this.state;
     console.log(favoriteProjects);
     console.log(username);
     return (
@@ -51,6 +61,11 @@ class Favorite extends Component {
           <h3 className=" text-white">Welcome to Your Dashboard: {username}</h3>
         </div>
         <div>
+          {showAlert && (
+            <div className="alert alert-success sticky-top" role="alert">
+              Deleted from favorites successfully!
+            </div>
+          )}
           {favoriteProjects &&
             favoriteProjects.map((project, i) => (
               <div className="mt-2" key={i}>
@@ -72,6 +87,16 @@ class Favorite extends Component {
                               onClick={this.donate}
                             >
                               Donate $
+                            </button>
+                          </div>
+                          <div className=" mt-3">
+                            <button
+                              className=" btn btn-warning shadow"
+                              onClick={() =>
+                                this.deleteFromFavorites(project.id)
+                              }
+                            >
+                              Delete from Favorites
                             </button>
                           </div>
                         </div>
