@@ -12,7 +12,7 @@ class Search extends Component {
       theme_input: "",
       keyword_input: "",
       projects: [],
-      searchStatus: "loading Featured projects",
+      searchStatus: "Featured Projects :",
       showAlert: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -49,7 +49,7 @@ class Search extends Component {
   async filterSearch(event) {
     event.preventDefault();
     this.setState({
-      searchStatus: "loading projects...",
+      searchStatus: "loading projects . . .",
     });
 
     let keywords = this.state.keyword_input || 0;
@@ -71,11 +71,12 @@ class Search extends Component {
 
       this.setState({
         searchStatus: searchResults.length > 1 ? "Results" : "No results",
+
       });
     } catch (err) {
       console.log(err.message);
       this.setState({
-        searchStatus: "no projects match the query",
+        searchStatus: "Sorry no projects match the query",
       });
     }
   }
@@ -95,11 +96,6 @@ class Search extends Component {
     }
   };
 
-  donate = () => {
-    console.log("$$ click!");
-    this.props.history.push(`/donate`);
-  };
-
   render() {
     let status = this.state.searchStatus;
     let { themes, countries, projects, showAlert } = this.state;
@@ -112,7 +108,7 @@ class Search extends Component {
 
     let themeOptions = !!themes
       ? themes.map((e) => <option value={e.id}> {e.name}</option>)
-      : "loading themes...";
+      : "loading themes ...";
 
     let countryOptions = !!countries
       ? countries.map((e) => <option value={e.id}> {e.name}</option>)
@@ -120,7 +116,7 @@ class Search extends Component {
 
     let projectResults = !!projects.length ? (
       projects.map((e) => (
-        <div className="container-xl mt-2" key={e.id}>
+        <div className="container-xl mt-1" key={e.id}>
           <div className="row">
             <div className="card border-warning mb-3">
               <h5 className="card-header">{e.name}</h5>
@@ -139,12 +135,6 @@ class Search extends Component {
                         onClick={() => this.favorite(e.id)}
                       >
                         Add to favorites +
-                      </button>
-                      <button
-                        className="ml-3 btn btn-warning shadow"
-                        onClick={this.donate}
-                      >
-                        Donate $
                       </button>
                     </div>
                   </div>
@@ -168,7 +158,7 @@ class Search extends Component {
 
     return (
       <div className="container-xl">
-        <form class="container  sticky-top bg-secondary mt-4  rounded pt-1">
+        <form class="container bg-secondary mt-4  rounded pt-1">
           <div class="row mt-3 ">
             <div class="col-sm">
               <div className="text-white">
