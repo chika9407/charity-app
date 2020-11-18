@@ -3,20 +3,39 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "migrate": "node model/database migration.sql"
+    "start": "nodemon ./bin/www",
+    "migrate": "npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed:all",
+    "undo-migrate": "npx sequelize-cli db:migrate:undo:all",
+    "undo-seed": "npx sequelize-cli db:seed:undo:all"
   },
   "dependencies": {
     "axios": "^0.21.0",
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "google-maps-react": "^2.0.6",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
     "nodemon": "^2.0.6",
+    "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "react-router-dom": "^5.2.0",
-    "react-xml-parser": "^1.1.8"
+    "react-xml-parser": "^1.1.8",
+    "sequelize": "^6.3.5",
+    "uuid": "^8.3.1",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.2.0"
   }
 }
