@@ -26,51 +26,9 @@ export default {
     }
   },
 
-  /*async getAllRegions() {
-    const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
-    const APIcall = `https://api.globalgiving.org/api/public/projectservice/regions/?api_key=${APIkey}`;
-    try {
-      const response = await fetch(APIcall, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      if (!response.ok) {
-        throw new Error();
-      }
-      const data = await response.json();
-      // console.log("data",data)
-      return data;
-    } catch (err) {
-      console.log(err);
-    }
-  },*/
-
-  /*async getProjectsByCountry(country) {
-    const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
-    const APIcall = `https://api.globalgiving.org/api/public/projectservice/countries/${country}/projects?api_key=${APIkey}`;
-    try {
-      const response = await fetch(APIcall, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      if (!response.ok) {
-        throw new Error();
-      }
-      const data = await response.json();
-      // console.log(data);
-      return data;
-    } catch (err) {
-      console.log(err);
-    }
-  },*/
-
   async getAllThemesByName() {
-    const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
-    const APIcall = `https://api.globalgiving.org/api/public/projectservice/themes?api_key=${APIkey}`;
     try {
-      const response = await fetch(`/themes`, {
+      const response = await fetch(`/filters/themes`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -80,7 +38,6 @@ export default {
         throw new Error();
       }
       const data = await response.json();
-      // console.log("data.themes.theme",data.themes.theme)
       console.log(data);
       return data;
     } catch (err) {
@@ -88,11 +45,10 @@ export default {
     }
   },
 
-  async getProjectsByTheme(themeId) {
-    const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
-    const APIcall = `https://api.globalgiving.org/api/public/projectservice/themes/${themeId}/projects/active?api_key=${APIkey}`;
+  async getAllCountries() {
     try {
-      const response = await fetch(APIcall, {
+      const response = await fetch(`/filters/countries`, {
+        method: "GET",
         headers: {
           Accept: "application/json",
         },
@@ -101,46 +57,68 @@ export default {
         throw new Error();
       }
       const data = await response.json();
-      // console.log(data);
+      console.log(data);
       return data;
     } catch (err) {
       console.log(err);
     }
   },
 
-  async getFilteredProjects(key = "", countryISO = "", themeId = "") {
-    const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
-    let keyword = "*";
+  // async getFilteredProjects(key = "", countryISO = "", themeId = "") {
+  //   const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
+  //   let keyword = "*";
 
-    if (!!key) {
-      keyword = key;
-    }
+  //   if (!!key) {
+  //     keyword = key;
+  //   }
 
-    let countryAndTheme = "";
-    if (!!countryISO && !!themeId) {
-      countryAndTheme =
-        "&filter=" + "country:" + countryISO + "," + "theme:" + themeId;
-    } else if (!!countryISO || !!themeId) {
-      countryAndTheme =
-        "&filter=" +
-        (!!countryISO ? "country:" + countryISO : "theme:" + themeId);
-    } else {
-      countryAndTheme = "";
-    }
+  //   let countryAndTheme = "";
+  //   if (!!countryISO && !!themeId) {
+  //     countryAndTheme =
+  //       "&filter=" + "country:" + countryISO + "," + "theme:" + themeId;
+  //   } else if (!!countryISO || !!themeId) {
+  //     countryAndTheme =
+  //       "&filter=" +
+  //       (!!countryISO ? "country:" + countryISO : "theme:" + themeId);
+  //   } else {
+  //     countryAndTheme = "";
+  //   }
 
-    const APIcall = `https://api.globalgiving.org/api/public/services/search/projects?api_key=${APIkey}&q=${keyword}${countryAndTheme}`;
+  //   const APIcall = `https://api.globalgiving.org/api/public/services/search/projects?api_key=${APIkey}&q=${keyword}${countryAndTheme}`;
 
+  //   try {
+  //     const response = await fetch(APIcall, {
+  //       headers: {
+  //         Accept: "application/json",
+  //       },
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error();
+  //     }
+  //     const data = await response.json();
+  //     // console.log(data);
+  //     return data;
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // },
+
+  async getFilteredProjects(keyword = 0, countryId = 0, themeId = 0) {
     try {
-      const response = await fetch(APIcall, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
+      const response = await fetch(
+        `/filters/search/${themeId}/${countryId}/${keyword}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error();
       }
       const data = await response.json();
-      // console.log(data);
+      console.log("response data", data);
       return data;
     } catch (err) {
       console.log(err.message);

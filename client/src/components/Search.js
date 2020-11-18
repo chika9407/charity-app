@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import api from "../services/api";
-import CountryDict from "./CountryDict.js";
 
 class Search extends Component {
   constructor(props) {
@@ -13,7 +12,7 @@ class Search extends Component {
       theme_input: "",
       keyword_input: "",
       projects: [],
-      searchStatus: "Featured Projects",
+      searchStatus: "loading Featured projects",
       showAlert: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -22,7 +21,7 @@ class Search extends Component {
     //grabs themes from api,countries ISO codes, and featured projects
     let defaultProjects = await api.getFeaturedProjects();
     let themesData = await api.getAllThemesByName();
-    let countriesData = CountryDict.countriesAndISO();
+    let countriesData = await api.getAllCountries();
     this.setState({
       projects: defaultProjects.projects.project,
     });
@@ -31,6 +30,9 @@ class Search extends Component {
     });
     this.setState({
       countries: countriesData,
+    });
+    this.setState({
+      searchStatus: "Featured Projects",
     });
   }
 
@@ -62,11 +64,13 @@ class Search extends Component {
         country,
         theme
       );
+
       this.setState({
-        projects: searchResults.search.response.projects.project,
+        projects: searchResults,
       });
+
       this.setState({
-        searchStatus: "results",
+        searchStatus: searchResults.length > 1 ? "Results" : "No results",
       });
     } catch (err) {
       console.log(err.message);
@@ -111,7 +115,7 @@ class Search extends Component {
       : "loading themes...";
 
     let countryOptions = !!countries
-      ? countries.map((e) => <option value={e.code}> {e.name}</option>)
+      ? countries.map((e) => <option value={e.id}> {e.name}</option>)
       : "loading countries...";
 
     let projectResults = !!projects.length ? (
@@ -119,13 +123,13 @@ class Search extends Component {
         <div className="container-xl mt-2" key={e.id}>
           <div className="row">
             <div className="card border-warning mb-3">
-              <h5 className="card-header">{e.title}</h5>
+              <h5 className="card-header">{e.name}</h5>
               <div className="card-body">
                 <div class="row">
                   <div class="col">
                     <img
-                      src={e.image.imagelink[2].url}
-                      alt={e.title}
+                      src={e.imageUrl}
+                      alt={e.name}
                       class="img-fluid"
                       alt="Responsive image"
                     ></img>
@@ -148,7 +152,7 @@ class Search extends Component {
                     <p>{e.summary}</p>
                     <ul>
                       <li>
-                        <a href={e.contactUrl}>{e.contactUrl}</a>
+                        <a href={e.url}>{e.url}</a>
                       </li>
                     </ul>
                   </div>
@@ -159,7 +163,7 @@ class Search extends Component {
         </div>
       ))
     ) : (
-      <div className="mt-4 text-white">loading projects...</div>
+      <div className="mt-4 text-white">{status}</div>
     );
 
     return (
@@ -206,7 +210,7 @@ class Search extends Component {
             </div>
             <div class="col-sm">
               <div className="text-white">
-                <h5> Project </h5>
+                <h5> Project title</h5>
               </div>
 
               <div className="select-outline ">
@@ -234,11 +238,6 @@ class Search extends Component {
           </div>
         </form>
         <div className="mt-4 text-white">{status}</div>
-        {showAlert && (
-          <div className="alert alert-success" role="alert">
-            Added to courses successfully!
-          </div>
-        )}
         <div>{projectResults}</div>
       </div>
     );
