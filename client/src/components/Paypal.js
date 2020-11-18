@@ -1,7 +1,10 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
+import { Redirect } from "react-router";
 
-export default function Paypal() {
+export default function Paypal(props) {
   const paypal = useRef();
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     window.paypal
@@ -14,7 +17,7 @@ export default function Paypal() {
                 description: "Donate to this charity",
                 amount: {
                   currency_code: "EUR",
-                  value: 5,
+                  value: 35,
                 },
               },
             ],
@@ -23,6 +26,7 @@ export default function Paypal() {
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
           console.log(order);
+          setSuccess(true);
         },
         onError: (err) => {
           console.log(err);
@@ -31,9 +35,14 @@ export default function Paypal() {
       .render(paypal.current);
   }, []);
 
-  return (
-    <div>
-      <div ref={paypal}></div>
-    </div>
-  );
+  if (success) {
+    console.log("Redirect");
+    return <Redirect to="/favorite" />;
+  } else {
+    return (
+      <div>
+        <div ref={paypal}></div>
+      </div>
+    );
+  }
 }

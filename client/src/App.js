@@ -7,7 +7,6 @@ import {
   NavLink,
 } from "react-router-dom";
 import Favorite from "./components/Favorite";
-import About from "./components/About";
 import Search from "./components/Search";
 import Home from "./components/Home";
 import Register from "./components/Register";
@@ -24,7 +23,14 @@ export default class App extends Component {
       theme_input: "",
     };
   }
-
+  logout = async () => {
+    try {
+      localStorage.setItem("token", "");
+      this.props.history.push(`/`);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
   render() {
     return (
       <div className="Background1">
@@ -52,14 +58,10 @@ export default class App extends Component {
                       Search for Charities
                     </NavLink>
                   </li>
-                  <li className="nav-item  ">
-                    <NavLink className="nav-link" to="/about">
-                      About us
-                    </NavLink>
-                  </li>
+
                   <li className="nav-item  ">
                     <NavLink className="nav-link" to="/favorite">
-                      Favorite
+                      Favorites
                     </NavLink>
                   </li>
                   <li className="nav-item  ">
@@ -68,6 +70,15 @@ export default class App extends Component {
                     </NavLink>
                   </li>
                 </ul>
+                <form className="form-inline ml-auto my-2 my-lg-0 ">
+                  <NavLink
+                    className="btn btn-Warning"
+                    to="/"
+                    onClick={this.logout}
+                  >
+                    Sign out
+                  </NavLink>
+                </form>
               </div>
             </nav>
 
@@ -82,10 +93,6 @@ export default class App extends Component {
 
               <Route path="/map" component={MapContainer}>
                 <MapContainer />
-              </Route>
-
-              <Route path="/about">
-                <About />
               </Route>
 
               <Route path="/register">
