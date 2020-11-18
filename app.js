@@ -9,7 +9,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var projectsRouter = require("./routes/projects");
 var favoritesRouter = require("./routes/favorites");
-var themesRouter = require("./routes/themes");
+var filtersRouter = require("./routes/filters");
 //var passport = require("passport");
 //var LocalStrategy = require("passport-local").Strategy;
 
@@ -31,7 +31,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/projects", projectsRouter);
 app.use("/favorites", favoritesRouter);
-app.use("/themes", themesRouter);
+app.use("/filters", filtersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

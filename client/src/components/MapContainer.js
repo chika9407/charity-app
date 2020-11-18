@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
-import CountryDict from "./CountryDict.js";
 import api from "../services/api";
 
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
@@ -31,7 +30,7 @@ export class MapContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
   async componentDidMount() {
-    let countriesData = CountryDict.countriesAndISO();
+    let countriesData = await api.getAllCountries();
     this.setState({
       countries: countriesData,
     });
