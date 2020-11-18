@@ -20,6 +20,18 @@ module.exports = {
       imageUrl: {
         type: Sequelize.STRING,
       },
+      address: {
+        type: Sequelize.STRING,
+      },
+      latlon: {
+        type: Sequelize.STRING,
+      },
+      funding: {
+        type: Sequelize.INTEGER,
+      },
+      goal: {
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

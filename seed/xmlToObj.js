@@ -68,91 +68,94 @@ let projects = res.map((e) => {
       " " +
       checkField(e.contactPostal, "") +
       checkField(e.contactState, ""),
+    latlon: checkField(e.latitude) + checkField(e.longitude),
+    funding: checkField(e.funding),
+    goal: checkField(e.goal),
   };
   return projObj;
 });
 
 console.log("project object created");
 
-//create array of unique orgs
-let orgsSet = Array.from(
-  new Set(
-    res.map((e) => {
-      return (
-        String(e.organization[0].id[0]) +
-        ":" +
-        String(e.organization[0].name[0])
-      );
-    })
-  )
-);
-//put in object
-const organizations = [];
-for (let i = 0; i < orgsSet.length; i++) {
-  let idAndName = orgsSet[i].split(":");
-  let orgObj = {
-    id: idAndName[0],
-    name: idAndName[1],
-  };
-  organizations.push(orgObj);
-}
-console.log("org object created");
-//create array of unique countries
-let countriesSet = Array.from(
-  new Set(
-    res.map((e) => {
-      return (
-        String(e.countries[0].country[0].iso3166CountryCode[0]) +
-        ":" +
-        String(e.countries[0].country[0].name[0])
-      );
-    })
-  )
-);
-//put in object
-const countries = [];
-for (let i = 0; i < countriesSet.length; i++) {
-  let idAndName = countriesSet[i].split(":");
-  let countryObj = {
-    id: idAndName[0],
-    name: idAndName[1],
-  };
-  countries.push(countryObj);
-}
-console.log("country object created");
-// create array of unique themes
-let noThemeCount = 0;
-let themeSet = Array.from(
-  new Set(
-    res.map((e) => {
-      let themeStr = "";
-      //not all projects have a theme
-      try {
-        themeStr =
-          String(e.themes[0].theme[0].id[0]) +
-          ":" +
-          String(e.themes[0].theme[0].name[0]);
-      } catch {
-        noThemeCount++;
-        themeStr = "none: noTheme";
-      }
-      return themeStr;
-    })
-  )
-);
-//put in object
-const themes = [];
-for (let i = 0; i < themeSet.length; i++) {
-  let idAndName = themeSet[i].split(":");
-  let themeObj = {
-    id: idAndName[0],
-    name: idAndName[1],
-  };
-  themes.push(themeObj);
-}
-console.log("theme object created");
+// //create array of unique orgs
+// let orgsSet = Array.from(
+//   new Set(
+//     res.map((e) => {
+//       return (
+//         String(e.organization[0].id[0]) +
+//         ":" +
+//         String(e.organization[0].name[0])
+//       );
+//     })
+//   )
+// );
+// //put in object
+// const organizations = [];
+// for (let i = 0; i < orgsSet.length; i++) {
+//   let idAndName = orgsSet[i].split(":");
+//   let orgObj = {
+//     id: idAndName[0],
+//     name: idAndName[1],
+//   };
+//   organizations.push(orgObj);
+// }
+// console.log("org object created");
+// //create array of unique countries
+// let countriesSet = Array.from(
+//   new Set(
+//     res.map((e) => {
+//       return (
+//         String(e.countries[0].country[0].iso3166CountryCode[0]) +
+//         ":" +
+//         String(e.countries[0].country[0].name[0])
+//       );
+//     })
+//   )
+// );
+// //put in object
+// const countries = [];
+// for (let i = 0; i < countriesSet.length; i++) {
+//   let idAndName = countriesSet[i].split(":");
+//   let countryObj = {
+//     id: idAndName[0],
+//     name: idAndName[1],
+//   };
+//   countries.push(countryObj);
+// }
+// console.log("country object created");
+// // create array of unique themes
+// let noThemeCount = 0;
+// let themeSet = Array.from(
+//   new Set(
+//     res.map((e) => {
+//       let themeStr = "";
+//       //not all projects have a theme
+//       try {
+//         themeStr =
+//           String(e.themes[0].theme[0].id[0]) +
+//           ":" +
+//           String(e.themes[0].theme[0].name[0]);
+//       } catch {
+//         noThemeCount++;
+//         themeStr = "none: noTheme";
+//       }
+//       return themeStr;
+//     })
+//   )
+// );
+// //put in object
+// const themes = [];
+// for (let i = 0; i < themeSet.length; i++) {
+//   let idAndName = themeSet[i].split(":");
+//   let themeObj = {
+//     id: idAndName[0],
+//     name: idAndName[1],
+//   };
+//   themes.push(themeObj);
+// }
+// console.log("theme object created");
 
-makeFile("themes", themes);
-makeFile("countries", countries);
-makeFile("organizations", organizations);
+// makeFile("themes", themes);
+// makeFile("countries", countries);
+// makeFile("organizations", organizations);
 makeFile("projects", projects);
