@@ -39,7 +39,7 @@ class Home extends Component {
       <div className="container-xl">
         <div className="row mt-5">
           <div className="col-5">
-            <div className="card shadow-lg">
+            <div className="card  shadow-lg">
               <h5 className="card-header">
                 Welcome to Your Global Charity Finder!
               </h5>
@@ -55,8 +55,18 @@ class Home extends Component {
                 </p>
                 <p className="card-text mb-3">
                   Sign In to save your favorite charities and donate to them
-                  whenever you like.
+                  whenever you like -
                 </p>
+                <p className="card-text mb-3">
+                  Or Search for Charities around the world using the map or our
+                  filtered search options -
+                </p>
+                <a href="/search" className="btn btn-warning  shadow">
+                  Search for Charities
+                </a>
+                <a href="/map" className="btn btn-dark ml-3 shadow">
+                  Map
+                </a>
               </div>
             </div>
           </div>
@@ -82,7 +92,7 @@ class Home extends Component {
                   className="form-control mb-2"
                   placeholder="Your Password"
                 />
-                <button className=" btn btn-primary" onClick={this.login}>
+                <button className=" btn btn-dark" onClick={this.login}>
                   Sign In
                 </button>
               </div>
@@ -91,7 +101,7 @@ class Home extends Component {
             <div className="card mt-3">
               <h5 className="card-header">Not a member?</h5>
               <div className="card-body">
-                <a href="/Register" className="btn btn-primary mt-2 shadow">
+                <a href="/Register" className="btn btn-warning mt-2 shadow">
                   Register
                 </a>
               </div>

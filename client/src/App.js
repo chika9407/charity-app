@@ -61,7 +61,7 @@ export default class App extends Component {
 
                   <li className="nav-item  ">
                     <NavLink className="nav-link" to="/favorite">
-                      Favorites
+                      Dashboard
                     </NavLink>
                   </li>
                   <li className="nav-item  ">

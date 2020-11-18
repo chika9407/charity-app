@@ -60,11 +60,13 @@ class Favorite extends Component {
     return (
       <div className="container-xl">
         <div className="row mt-5">
-          <h3 className=" text-white">Welcome to Your Dashboard: {username}</h3>
+          <h4 className=" mb-2 text-white sticky-top container border border-warning bg-secondary rounded p-2">
+            Welcome to Your Dashboard: {username}
+          </h4>
         </div>
         <div>
           {showAlert && (
-            <div className="alert alert-success sticky-top" role="alert">
+            <div className="alert alert-success  sticky-top" role="alert">
               Deleted from favorites successfully!
             </div>
           )}
@@ -90,15 +92,13 @@ class Favorite extends Component {
                             >
                               Donate $
                             </button>
-                          </div>
-                          <div className=" mt-3">
                             <button
-                              className=" btn btn-warning shadow"
+                              className="ml-4 btn btn-dark shadow"
                               onClick={() =>
                                 this.deleteFromFavorites(project.id)
                               }
                             >
-                              Delete from Favorites
+                              Delete from Favorites -
                             </button>
                           </div>
                         </div>

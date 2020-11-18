@@ -23,12 +23,14 @@ export default function CheckOutForm() {
           </h5>
           <div className=" card-body ">
             <h5 className=" card-title "> Thank you for your donation !</h5>
-            <PayPal />
+            <PayPal price={amount} />
           </div>
         </div>
       ) : (
         <div className="card text-center mt-3 border border-warning">
-          <h5 className=" card-header">How much would you like to donate :</h5>
+          <h5 className=" card-header">
+            How much would you like to donate : *demo*
+          </h5>
           <div className="card-body">
             <div className=" card-title h4 font-weight-bold">
               {amount} €

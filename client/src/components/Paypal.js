@@ -17,7 +17,7 @@ export default function Paypal(props) {
                 description: "Donate to this charity",
                 amount: {
                   currency_code: "EUR",
-                  value: 35,
+                  value: props.price,
                 },
               },
             ],

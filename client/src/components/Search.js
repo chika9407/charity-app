@@ -223,7 +223,7 @@ class Search extends Component {
             </div>
           </div>
         </form>
-        <div className="mt-3 mb-4 text-white sticky-top container border border-warning bg-secondary rounded p-2">
+        <div className="mt-4 mb-2 text-white sticky-top container border border-warning bg-secondary rounded p-2">
           {status}
         </div>
         <div>
