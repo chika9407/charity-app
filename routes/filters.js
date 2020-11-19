@@ -1,18 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var models = require("../models");
-const Sequelize = require("sequelize");
-const sequelize = require("sequelize");
 
-const sequelize2 = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS,
-  {
-    host: process.env.DB_HOST,
-    dialect: "mysql",
-  }
-);
 router.get("/", async (req, res) => {
   res.send("hi");
 });
@@ -28,9 +17,7 @@ router.get("/countries", async (req, res) => {
 });
 
 router.get("/search/:themeId?/:countryId?/:keyword?", async (req, res) => {
-  let { themeId } = req.params;
-  let { countryId } = req.params;
-  let { keyword } = req.params;
+  let { themeId, countryId, keyword } = req.params;
   let sqlAr = [];
   if (themeId != 0) {
     themeId = `themeId='${String(themeId)}'`;
@@ -44,11 +31,14 @@ router.get("/search/:themeId?/:countryId?/:keyword?", async (req, res) => {
     keyword = `name like '%${String(keyword)}%'`;
     sqlAr.push(keyword);
   }
-  let final = "WHERE " + sqlAr.join(" AND ");
+  let final = sqlAr.leng > 0 ? " WHERE " + sqlAr.join(" AND ") : "";
   console.log("final", final);
-  const results = await sequelize2.query(`SELECT * FROM Projects ${final};`, {
-    type: sequelize.QueryTypes.SELECT,
-  });
+  const results = await models.sequelize.query(
+    `SELECT * FROM Projects${final} LIMIT 50;`,
+    {
+      type: sequelize.QueryTypes.SELECT,
+    }
+  );
   res.send(results);
 });
 

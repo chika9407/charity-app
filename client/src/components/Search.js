@@ -12,18 +12,18 @@ class Search extends Component {
       theme_input: "",
       keyword_input: "",
       projects: [],
-      searchStatus: "Featured Projects :",
+      searchStatus: "loading...",
       showAlert: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
   async componentDidMount() {
     //grabs themes from api,countries ISO codes, and featured projects
-    let defaultProjects = await api.getFeaturedProjects();
+    let defaultProjects = await api.getFilteredProjects("teach", "TH", "edu");
     let themesData = await api.getAllThemesByName();
     let countriesData = await api.getAllCountries();
     this.setState({
-      projects: defaultProjects.projects.project,
+      projects: defaultProjects,
     });
     this.setState({
       themes: themesData,
@@ -32,7 +32,7 @@ class Search extends Component {
       countries: countriesData,
     });
     this.setState({
-      searchStatus: "Featured Projects",
+      searchStatus: "Theme: edu, Country: TH, Keyword: teach",
     });
   }
 
@@ -70,8 +70,10 @@ class Search extends Component {
       });
 
       this.setState({
-        searchStatus: searchResults.length > 1 ? "Results" : "No results",
-
+        searchStatus:
+          searchResults.length > 0
+            ? `Theme: ${theme}, Country${country}, Keyword: ${keywords}`
+            : "No results",
       });
     } catch (err) {
       console.log(err.message);
@@ -82,10 +84,6 @@ class Search extends Component {
   }
 
   favorite = async (ProjectId) => {
-    //event.preventDefault();
-    //grab the ProjectId
-    //let projects = this.state.projects;
-    //const ProjectId = projects.find((e) => e === e.id);
     try {
       let favorites = await api.addToFavorites(ProjectId);
       console.log(favorites);
@@ -100,9 +98,6 @@ class Search extends Component {
     let status = this.state.searchStatus;
     let { themes, countries, projects, showAlert } = this.state;
     console.log(themes);
-    /*let countries = this.state.countries;
-    let projects = this.state.projects;
-    let showAlert = this.*/
 
     console.log("projects in state are:", this.state.projects);
 
@@ -114,47 +109,48 @@ class Search extends Component {
       ? countries.map((e) => <option value={e.id}> {e.name}</option>)
       : "loading countries...";
 
-    let projectResults = !!projects.length ? (
-      projects.map((e) => (
-        <div className="container-xl mt-1" key={e.id}>
-          <div className="row">
-            <div className="card border-warning mb-3">
-              <h5 className="card-header">{e.name}</h5>
-              <div className="card-body">
-                <div class="row">
-                  <div class="col">
-                    <img
-                      src={e.imageUrl}
-                      alt={e.name}
-                      class="img-fluid"
-                      alt="Responsive image"
-                    ></img>
-                    <div className="text-left mt-3">
-                      <button
-                        className=" btn btn-dark shadow"
-                        onClick={() => this.favorite(e.id)}
-                      >
-                        Add to favorites +
-                      </button>
+    let projectResults =
+      !!projects && !!projects.length ? (
+        projects.map((e) => (
+          <div className="container-xl mt-1" key={e.id}>
+            <div className="row">
+              <div className="card border-warning mb-3">
+                <h5 className="card-header">{e.name}</h5>
+                <div className="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <img
+                        src={e.imageUrl}
+                        alt={e.name}
+                        class="img-fluid"
+                        alt="Responsive image"
+                      ></img>
+                      <div className="text-left mt-3">
+                        <button
+                          className=" btn btn-dark shadow"
+                          onClick={() => this.favorite(e.id)}
+                        >
+                          Add to favorites +
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col ">
-                    <p>{e.summary}</p>
-                    <ul>
-                      <li>
-                        <a href={e.url}>{e.url}</a>
-                      </li>
-                    </ul>
+                    <div class="col ">
+                      <p>{e.summary}</p>
+                      <ul>
+                        <li>
+                          <a href={e.url}>{e.url}</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      ))
-    ) : (
-      <div className="mt-4 text-white">{status}</div>
-    );
+        ))
+      ) : (
+        <div className="mt-4 text-white">{status}</div>
+      );
 
     return (
       <div className="container-xl">
@@ -172,9 +168,7 @@ class Search extends Component {
                   className=" border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
                   name="theme_input"
                 >
-                  <option disabled selected>
-                    theme
-                  </option>
+                  <option value={0}>select</option>
                   {themeOptions}
                 </select>
               </div>
@@ -191,9 +185,7 @@ class Search extends Component {
                   className="border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
                   name="country_input"
                 >
-                  <option disabled selected>
-                    select a country
-                  </option>
+                  <option value={0}>select</option>
                   {countryOptions}
                 </select>
               </div>
