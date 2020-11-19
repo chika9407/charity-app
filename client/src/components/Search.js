@@ -82,7 +82,8 @@ class Search extends Component {
       });
     }
   }
-  addFavorite = async (ProjectId) => {
+
+  favorite = async (ProjectId) => {
     try {
       let favorites = await api.addToFavorites(ProjectId);
       console.log(favorites);
