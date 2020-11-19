@@ -70,14 +70,10 @@ class Search extends Component {
       });
 
       this.setState({
-<<<<<<< HEAD
-        searchStatus: searchResults.length > 1 ? "Results" : "No results",
-=======
         searchStatus:
           searchResults.length > 0
             ? `Theme: ${theme}, Country${country}, Keyword: ${keywords}`
             : "No results",
->>>>>>> 100 project limit for haroku
       });
     } catch (err) {
       console.log(err.message);
@@ -86,12 +82,7 @@ class Search extends Component {
       });
     }
   }
-
-<<<<<<< HEAD
   addFavorite = async (ProjectId) => {
-=======
-  favorite = async (ProjectId) => {
->>>>>>> 100 project limit for haroku
     try {
       let favorites = await api.addToFavorites(ProjectId);
       console.log(favorites);
@@ -117,7 +108,6 @@ class Search extends Component {
     let countryOptions = !!countries
       ? countries.map((e) => <option value={e.id}> {e.name}</option>)
       : "loading countries...";
-
 
     let projectResults =
       !!projects && !!projects.length ? (

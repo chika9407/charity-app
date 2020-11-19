@@ -14,6 +14,9 @@ module.exports = {
       summary: {
         type: Sequelize.TEXT,
       },
+      organization: {
+        type: Sequelize.STRING,
+      },
       url: {
         type: Sequelize.STRING,
       },

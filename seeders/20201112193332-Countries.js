@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 var models = require("../models");
-var countries = require("../seed/countryObj.js");
+var countries = require("../seed/countriesObj.js");
 ("use strict");
 
 module.exports = {
