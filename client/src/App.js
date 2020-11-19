@@ -14,6 +14,7 @@ import api from "./services/api";
 import Donate from "./components/Donate.js";
 import Paypal from "./components/Paypal";
 import MapContainer from "./components/MapContainer";
+import ThankYou from "./components/ThankYou";
 
 export default class App extends Component {
   constructor(props) {
@@ -105,6 +106,10 @@ export default class App extends Component {
 
               <Route path="/Paypal">
                 <Paypal />
+              </Route>
+
+              <Route path="/ThankYou">
+                <ThankYou />
               </Route>
 
               <Route path="/">
