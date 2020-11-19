@@ -15,6 +15,7 @@ import Paypal from "./components/Paypal";
 import MapContainer from "./components/MapContainer";
 import ThankYou from "./components/ThankYou";
 import Scatterplot from "./components/Scatterplot";
+import PrivateRoute from "./components/PrivateRoute";
 
 export default class App extends Component {
   constructor(props) {
@@ -90,9 +91,9 @@ export default class App extends Component {
             </nav>
 
             <Switch>
-              <Route path="/favorite" component={Favorite}>
+              <PrivateRoute path="/favorite" component={Favorite}>
                 <Favorite />
-              </Route>
+              </PrivateRoute>
 
               <Route path="/search" component={Search}>
                 <Search />
