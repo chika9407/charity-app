@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import * as d3 from "d3";
 import api from "../services/api";
 import { useD3 } from "./useD3";
+import { zoom, zoomTransform } from "d3";
 
 function Scatterplot() {
   const [data, setData] = useState([]);
+  const [currentZoomState, setCurrentZoomState] = useState();
 
   useEffect(() => {
     async function fetchData() {
@@ -14,7 +16,7 @@ function Scatterplot() {
     fetchData();
   }, []);
 
-  //function do be able to do d3.select(svg)
+  //useD3 hook is imported to be able to do d3.select(svg)
   const ref = useD3(
     (svg) => {
       const height = 500;
@@ -26,11 +28,14 @@ function Scatterplot() {
       const xScale = d3
         .scaleSqrt()
         .range([margin.left, width - margin.right])
-        .domain([
-          d3.min(data, (d) => d.funding),
-          d3.max(data, (d) => d.funding),
-        ]);
+        .domain([d3.min(data, (d) => d.funding), d3.max(data, (d) => d.goal)]);
 
+      if (currentZoomState) {
+        const newXScale = currentZoomState.rescaleX(xScale);
+        console.log(xScale.domain());
+        console.log(newXScale.domain());
+        xScale.domain(newXScale.domain());
+      }
       //scale fory var represents initial goal
       const yScale = d3
         .scaleSqrt()
@@ -101,8 +106,23 @@ function Scatterplot() {
         .on("mouseover", mouseover)
         .on("mouseleave", mouseleave)
         .on("mousemove", mousemove);
+
+      const zoomBehavior = d3
+        .zoom()
+        .scaleExtent([0.5, 5])
+        .translateExtent([
+          [0, 0],
+          [width, height],
+        ])
+        .on("zoom", () => {
+          const zoomState = zoomTransform(svg.node());
+          setCurrentZoomState(zoomState);
+          console.log(zoomState);
+        });
+
+      svg.call(zoomBehavior);
     },
-    [data.length]
+    [currentZoomState, data]
   );
 
   return (
