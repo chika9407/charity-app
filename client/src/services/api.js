@@ -1,13 +1,5 @@
-//import axios from "axios";
 export default {
   async getProjects() {
-    //fetch all Projects from the API
-    //latest git update attempt
-
-    //const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
-
-    //const APIcall = `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${APIkey}&nextProjectId=354`;
-
     try {
       const response = await fetch(`/projects`, {
         method: "GET",
@@ -64,45 +56,6 @@ export default {
     }
   },
 
-  // async getFilteredProjects(key = "", countryISO = "", themeId = "") {
-  //   const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
-  //   let keyword = "*";
-
-  //   if (!!key) {
-  //     keyword = key;
-  //   }
-
-  //   let countryAndTheme = "";
-  //   if (!!countryISO && !!themeId) {
-  //     countryAndTheme =
-  //       "&filter=" + "country:" + countryISO + "," + "theme:" + themeId;
-  //   } else if (!!countryISO || !!themeId) {
-  //     countryAndTheme =
-  //       "&filter=" +
-  //       (!!countryISO ? "country:" + countryISO : "theme:" + themeId);
-  //   } else {
-  //     countryAndTheme = "";
-  //   }
-
-  //   const APIcall = `https://api.globalgiving.org/api/public/services/search/projects?api_key=${APIkey}&q=${keyword}${countryAndTheme}`;
-
-  //   try {
-  //     const response = await fetch(APIcall, {
-  //       headers: {
-  //         Accept: "application/json",
-  //       },
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error();
-  //     }
-  //     const data = await response.json();
-  //     // console.log(data);
-  //     return data;
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // },
-
   async getFilteredProjects(keyword = 0, countryId = 0, themeId = 0) {
     try {
       const response = await fetch(
@@ -118,20 +71,18 @@ export default {
         throw new Error();
       }
       const data = await response.json();
-      console.log("response data", data);
+      console.log("filtered project search", data);
       return data;
     } catch (err) {
       console.log(err.message);
     }
   },
 
-  async getFeaturedProjects() {
-    const APIkey = "90faea83-2c92-44b7-b864-020af87ad518";
-
-    const APIcall = `https://api.globalgiving.org/api/public/projectservice/featured/projects?api_key=${APIkey}`;
-
+  async getNearby(lat, lon) {
+    console.log("reached api get nearby");
     try {
-      const response = await fetch(APIcall, {
+      const response = await fetch(`filters/location/${lat}/${lon}`, {
+        method: "GET",
         headers: {
           Accept: "application/json",
         },
@@ -140,7 +91,7 @@ export default {
         throw new Error();
       }
       const data = await response.json();
-      console.log(data);
+      console.log("location search", data);
       return data;
     } catch (err) {
       console.log(err.message);

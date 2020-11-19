@@ -1,7 +1,6 @@
 const fs = require("fs");
 const path = require("path");
 const parseString = require("xml2js").parseString;
-var models = require("../models");
 
 // parse doc into object res
 var xml = fs.readFileSync(
@@ -68,7 +67,8 @@ let projects = res.map((e) => {
       " " +
       checkField(e.contactPostal, "") +
       checkField(e.contactState, ""),
-    latlon: checkField(e.latitude) + checkField(e.longitude),
+    lat: checkField(e.latitude, "0"),
+    lon: checkField(e.longitude, "0"),
     funding: checkField(e.funding),
     goal: checkField(e.goal),
   };
@@ -77,62 +77,62 @@ let projects = res.map((e) => {
 
 console.log("project object created");
 
-//create array of unique countries
-let countriesSet = Array.from(
-  new Set(
-    res.map((e) => {
-      return (
-        String(e.countries[0].country[0].iso3166CountryCode[0]) +
-        ":" +
-        String(e.countries[0].country[0].name[0])
-      );
-    })
-  )
-);
-//put in object
-const countries = [];
-for (let i = 0; i < countriesSet.length; i++) {
-  let idAndName = countriesSet[i].split(":");
-  let countryObj = {
-    id: idAndName[0],
-    name: idAndName[1],
-  };
-  countries.push(countryObj);
-}
-console.log("country object created");
+// //create array of unique countries
+// let countriesSet = Array.from(
+//   new Set(
+//     res.map((e) => {
+//       return (
+//         String(e.countries[0].country[0].iso3166CountryCode[0]) +
+//         ":" +
+//         String(e.countries[0].country[0].name[0])
+//       );
+//     })
+//   )
+// );
+// //put in object
+// const countries = [];
+// for (let i = 0; i < countriesSet.length; i++) {
+//   let idAndName = countriesSet[i].split(":");
+//   let countryObj = {
+//     id: idAndName[0],
+//     name: idAndName[1],
+//   };
+//   countries.push(countryObj);
+// }
+// console.log("country object created");
 
-// create array of unique themes
-let noThemeCount = 0;
-let themeSet = Array.from(
-  new Set(
-    res.map((e) => {
-      let themeStr = "";
-      //not all projects have a theme
-      try {
-        themeStr =
-          String(e.themes[0].theme[0].id[0]) +
-          ":" +
-          String(e.themes[0].theme[0].name[0]);
-      } catch {
-        noThemeCount++;
-        themeStr = "none: noTheme";
-      }
-      return themeStr;
-    })
-  )
-);
-//put in object
-const themes = [];
-for (let i = 0; i < themeSet.length; i++) {
-  let idAndName = themeSet[i].split(":");
-  let themeObj = {
-    id: idAndName[0],
-    name: idAndName[1],
-  };
-  themes.push(themeObj);
-}
-console.log("theme object created");
+// // create array of unique themes
+// let noThemeCount = 0;
+// let themeSet = Array.from(
+//   new Set(
+//     res.map((e) => {
+//       let themeStr = "";
+//       //not all projects have a theme
+//       try {
+//         themeStr =
+//           String(e.themes[0].theme[0].id[0]) +
+//           ":" +
+//           String(e.themes[0].theme[0].name[0]);
+//       } catch {
+//         noThemeCount++;
+//         themeStr = "none: noTheme";
+//       }
+//       return themeStr;
+//     })
+//   )
+// );
+// //put in object
+// const themes = [];
+// for (let i = 0; i < themeSet.length; i++) {
+//   let idAndName = themeSet[i].split(":");
+//   let themeObj = {
+//     id: idAndName[0],
+//     name: idAndName[1],
+//   };
+//   themes.push(themeObj);
+// }
+// console.log("theme object created");
 
-makeFile("themes", themes);
-makeFile("countries", countries);
+// makeFile("themes", themes);
+// makeFile("countries", countries);
 makeFile("projects", projects);

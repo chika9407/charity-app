@@ -7,7 +7,7 @@ const projects = require("../seed/projectsObj.js");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return models.Project.bulkCreate(projects.returnAll().splice(0, 100));
+    return models.Project.bulkCreate(projects.returnAll());
   },
 
   down: async (queryInterface, Sequelize) => {

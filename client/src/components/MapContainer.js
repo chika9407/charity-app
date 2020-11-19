@@ -1,20 +1,8 @@
 import React, { Component } from "react";
-import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
+import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import api from "../services/api";
 
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
-
-const mapStyles = {
-  width: "100%",
-  height: "400px",
-};
-
-const center = {
-  lat: 41.3851,
-  lng: 2.1734,
-};
-
-let service = null;
 
 export class MapContainer extends Component {
   constructor(props) {
@@ -23,187 +11,127 @@ export class MapContainer extends Component {
     this.state = {
       countries: [],
       country_input: "",
-      suggestions: [],
-      places: [],
-      projects: [],
+      projects: null,
+      userLocation: { lat: null, lon: null },
     };
-    this.handleChange = this.handleChange.bind(this);
   }
+
   async componentDidMount() {
     let countriesData = await api.getAllCountries();
     this.setState({
       countries: countriesData,
     });
+    this.getUserLocation();
   }
 
-  savePlace = (place) => {
-    this.setState({ places: [...this.state.places, place] });
-  };
-
-  handleChange(event) {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value,
-    });
-  }
-
-  handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      this.search();
-    }
-  };
-
-  onMarkerClick = (props, marker, e) => {
-    console.log(props, marker, e);
-  };
-
-  initPlaces(mapProps, map) {
-    const { google } = mapProps;
-    service = new google.maps.places.PlacesService(map);
-  }
-
-  async filterSearch(event) {
-    event.preventDefault();
-    this.setState({
-      searchStatus: "loading projects...",
-    });
-
-    let keywords = "*";
-    let country = this.state.country_input;
-    let theme = "";
-
-    console.log(`keywords:${keywords}, country:${country}, theme:${theme}`);
-
-    try {
-      let searchResults = await api.getFilteredProjects(
-        keywords,
-        country,
-        theme
-      );
+  getUserLocation() {
+    const success = (position) => {
+      const { latitude, longitude } = position.coords;
+      console.log("lat lon", latitude, longitude);
       this.setState({
-        projects: searchResults.search.response.projects.project,
+        userLocation: { lat: latitude, lon: longitude },
       });
-      this.setState({
-        searchStatus: "results",
-      });
-      console.log(this.state.projects);
-    } catch (err) {
-      console.log(err.message);
-      this.setState({
-        searchStatus: "no projects match the query",
-      });
+      this.getNearbyProjects(latitude, longitude);
+    };
+    const err = (message) => {
+      console.log(message);
+    };
+    if (window.navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition(success, err);
     }
   }
+
+  async getNearbyProjects(lat, lon) {
+    let projectsData = await api.getNearby(lat, lon);
+    this.setState({
+      projects: projectsData,
+    });
+    console.log("projects:", this.state.projects);
+  }
+  showProjects() {}
 
   render() {
-    let countries = this.state.countries;
-    let projects = this.state.projects;
+    let projList =
+      this.state.projects === null
+        ? "no projects"
+        : this.state.projects.map((e) => e.name);
+    console.log("projlist", projList);
 
-    const { suggestions, places } = this.state;
+    const mapStyles = {
+      width: "100%",
+      height: "400px",
+    };
 
-    var bounds = new this.props.google.maps.LatLngBounds();
-    for (var i = 0; i < places.length; i++) {
-      bounds.extend(places[i].geometry.location);
-    }
-    let countryOptions = !!countries
-      ? countries.map((e) => <option value={e.code}> {e.name}</option>)
-      : "loading countries...";
+    const center =
+      this.state.userLocation.lat === null
+        ? { lat: 0, lng: 0 }
+        : {
+            lat: this.state.userLocation.lat,
+            lng: this.state.userLocation.lon,
+          };
 
-    let projectResults = !!projects.length ? (
-      projects.map((e) => (
-        <div className="container-xl mt-2" key={e.id}>
-          <div className="row">
-            <div className="card border-warning mb-3">
-              <h5 className="card-header">{e.title}</h5>
-              <div className="card-body">
-                <div class="row">
-                  <div class="col">
-                    <div className="text-left mt-3">
-                      <button
-                        className=" btn btn-dark shadow"
-                        onClick={() => this.favorite(e.id)}
-                      >
-                        Add to favorites
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col ">
-                    <ul>
-                      <li>
-                        <a href={e.contactUrl}>{e.contactUrl}</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))
-    ) : (
-      <div className="mt-4 text-white">loading projects...</div>
-    );
+    this.state.projects === null
+      ? console.log("projects not loaded")
+      : console.log(this.state.projects);
+
+    let markers =
+      this.state.projects === null
+        ? ""
+        : this.state.projects.map((project, i) => (
+            <Marker
+              name={project.name}
+              position={{ lat: project.lat, lng: project.lon }}
+              key={project.id}
+            />
+          ));
 
     return (
       <div className="container">
         <div className="row">
           <div className="col">
-            <form class="container  sticky-top bg-secondary mt-4  rounded pt-1">
-              <div class="row mt-3 ">
-                <div class="col-sm">
-                  <div className="text-white">
-                    <h5> Countries</h5>
-                  </div>
-                  <div className="select-outline ">
-                    <select
-                      value={this.state.value}
-                      onChange={this.handleChange}
-                      className="border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
-                      name="country_input"
-                    >
-                      <option disabled selected>
-                        select a country
-                      </option>
-                      {countryOptions}
-                    </select>
-                  </div>
-                </div>
-                <div class="col-2 text-center">
-                  <div className="text-white ">
-                    <h5> Find</h5>
-                  </div>
-                  <button
-                    className="btn btn-warning shadow"
-                    onClick={(event) => this.filterSearch(event)}
-                  >
-                    SUBMIT
-                  </button>
-                </div>
-              </div>
-            </form>
+            <div className="form-inline d-flex justify-content-between mb-4">
+              <input
+                type="text"
+                value={this.state.input}
+                className="form-control flex-grow-1"
+                placeholder="Search for places on Google Maps"
+              />
+              <button className="btn btn-primary ml-2">Search</button>
+            </div>
             <h3>Suggestions</h3>
-            <ul className="list-group">{projectResults}</ul>
+            <ul className="list-group">
+              {this.state.projects === null
+                ? "no projects"
+                : this.state.projects.map((project, i) => (
+                    <li
+                      key={project.id}
+                      className="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                      <div>
+                        <div>
+                          <strong>{project.name}</strong>
+                        </div>
+                        <span className="text-muted">{project.address}</span>
+                      </div>
+
+                      <button className="btn btn-outline-primary">Show</button>
+                    </li>
+                  ))}
+            </ul>
           </div>
           <div className="col">
-            <Map
-              google={this.props.google}
-              onReady={this.initPlaces}
-              zoom={14}
-              style={mapStyles}
-              bounds={bounds}
-              initialCenter={center}
-            >
-              {places.map((marker, i) => (
-                <Marker
-                  onClick={this.onMarkerClick}
-                  name={marker.name}
-                  position={marker.geometry.location}
-                  key={i}
-                />
-              ))}
-            </Map>
+            {this.state.userLocation.lat === null ? (
+              "no location data"
+            ) : (
+              <Map
+                google={this.props.google}
+                zoom={10}
+                style={mapStyles}
+                initialCenter={center}
+              >
+                {markers}
+              </Map>
+            )}
           </div>
         </div>
       </div>
@@ -212,5 +140,5 @@ export class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey,
+  apiKey: "AIzaSyCFyKaFulGi1pbr2WKiQFLpcrK-CDLCPvM",
 })(MapContainer);
