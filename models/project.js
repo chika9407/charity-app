@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       summary: DataTypes.TEXT,
+      organization: DataTypes.STRING,
       url: DataTypes.STRING,
       imageUrl: DataTypes.STRING,
       address: DataTypes.STRING,
@@ -17,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
   Project.associate = function (models) {
     //Users.hasMany(models.Projects);
     Project.belongsToMany(models.User, { through: "UserProjects" });
-    Project.belongsTo(models.Organization);
     Project.belongsTo(models.Country);
     Project.belongsTo(models.Theme);
   };
