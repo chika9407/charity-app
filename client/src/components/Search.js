@@ -12,8 +12,9 @@ class Search extends Component {
       theme_input: "",
       keyword_input: "",
       projects: [],
-      searchStatus: "loading...",
+      query: "Example query - Theme: edu, Country: TH, Keyword: teach",
       showAlert: false,
+      status: "loading...",
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -31,9 +32,6 @@ class Search extends Component {
     this.setState({
       countries: countriesData,
     });
-    this.setState({
-      searchStatus: "Theme: edu, Country: TH, Keyword: teach",
-    });
   }
 
   handleChange(event) {
@@ -47,16 +45,16 @@ class Search extends Component {
 
   //only fetches 10 at a time, can deal with later
   async filterSearch(event) {
-    event.preventDefault();
     this.setState({
-      searchStatus: "loading projects . . .",
+      status: "loading...",
     });
+    event.preventDefault();
 
     let keywords = this.state.keyword_input || 0;
     let country = this.state.country_input || 0;
     let theme = this.state.theme_input || 0;
 
-    console.log(`keywords:${keywords}, country:${country}, theme:${theme}`);
+    console.log(`keywords: ${keywords}, country: ${country}, theme: ${theme}`);
 
     try {
       let searchResults = await api.getFilteredProjects(
@@ -70,16 +68,13 @@ class Search extends Component {
       });
 
       this.setState({
-        searchStatus:
-          searchResults.length > 0
-            ? `Theme: ${theme}, Country${country}, Keyword: ${keywords}`
-            : "No results",
+        query: `Theme: ${theme}, Country: ${country}, Keyword: ${keywords}`,
+      });
+      this.setState({
+        status: this.state.projects.length > 0 ? "Results:" : "No results",
       });
     } catch (err) {
       console.log(err.message);
-      this.setState({
-        searchStatus: "Sorry no projects match the query",
-      });
     }
   }
 
@@ -96,7 +91,8 @@ class Search extends Component {
   };
 
   render() {
-    let status = this.state.searchStatus;
+    let query = this.state.query;
+    let status = this.state.status;
     let { themes, countries, projects, showAlert } = this.state;
     console.log(themes);
 
@@ -221,7 +217,7 @@ class Search extends Component {
           </div>
         </form>
         <div className="mt-4 mb-2 text-white sticky-top container border border-warning bg-secondary rounded p-2">
-          {status}
+          {query}
         </div>
         <div>
           {showAlert && (
