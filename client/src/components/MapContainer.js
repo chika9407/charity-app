@@ -42,6 +42,7 @@ export class MapContainer extends Component {
       projects: projectsData,
     });
   }
+  showProjects() {}
 
   select = (project) => {
     console.log("select clicked");

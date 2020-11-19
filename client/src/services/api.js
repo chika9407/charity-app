@@ -1,13 +1,7 @@
 export default {
   async getProjects() {
-<<<<<<< HEAD
-=======
-    //fetch all Projects from the API
-    //latest git update attempt
-
     //const APIcall = `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${APIkey}&nextProjectId=354`;
 
->>>>>>> scale updated to ScaleLog, Navbar made separate component, PrivateRoute kinda working
     try {
       const response = await fetch(`/projects`, {
         method: "GET",
@@ -63,7 +57,6 @@ export default {
       console.log(err);
     }
   },
-
 
   // async getFilteredProjects(key = "", countryISO = "", themeId = "") {
   //   let keyword = "*";
