@@ -13,6 +13,7 @@ import Register from "./components/Register";
 import Donate from "./components/Donate.js";
 import Paypal from "./components/Paypal";
 import MapContainer from "./components/MapContainer";
+import ThankYou from "./components/ThankYou";
 import Scatterplot from "./components/Scatterplot";
 
 export default class App extends Component {
@@ -62,7 +63,7 @@ export default class App extends Component {
 
                   <li className="nav-item  ">
                     <NavLink className="nav-link" to="/favorite">
-                      Favorites
+                      Dashboard
                     </NavLink>
                   </li>
                   <li className="nav-item  ">
@@ -114,6 +115,10 @@ export default class App extends Component {
               </Route>
               <Route path="/Data">
                 <Scatterplot />
+              </Route>
+
+              <Route path="/ThankYou">
+                <ThankYou />
               </Route>
 
               <Route path="/">

@@ -12,27 +12,25 @@ class Search extends Component {
       theme_input: "",
       keyword_input: "",
       projects: [],
-      searchStatus: "Featured Projects :",
+      query: "Example query - Theme: edu, Country: TH, Keyword: teach",
       showAlert: false,
+      status: "loading...",
     };
     this.handleChange = this.handleChange.bind(this);
   }
   async componentDidMount() {
     //grabs themes from api,countries ISO codes, and featured projects
-    let defaultProjects = await api.getFeaturedProjects();
+    let defaultProjects = await api.getFilteredProjects("teach", "TH", "edu");
     let themesData = await api.getAllThemesByName();
     let countriesData = await api.getAllCountries();
     this.setState({
-      projects: defaultProjects.projects.project,
+      projects: defaultProjects,
     });
     this.setState({
       themes: themesData,
     });
     this.setState({
       countries: countriesData,
-    });
-    this.setState({
-      searchStatus: "Featured Projects",
     });
   }
 
@@ -47,16 +45,16 @@ class Search extends Component {
 
   //only fetches 10 at a time, can deal with later
   async filterSearch(event) {
-    event.preventDefault();
     this.setState({
-      searchStatus: "loading projects . . .",
+      status: "loading...",
     });
+    event.preventDefault();
 
     let keywords = this.state.keyword_input || 0;
     let country = this.state.country_input || 0;
     let theme = this.state.theme_input || 0;
 
-    console.log(`keywords:${keywords}, country:${country}, theme:${theme}`);
+    console.log(`keywords: ${keywords}, country: ${country}, theme: ${theme}`);
 
     try {
       let searchResults = await api.getFilteredProjects(
@@ -70,13 +68,13 @@ class Search extends Component {
       });
 
       this.setState({
-        searchStatus: searchResults.length > 1 ? "Results" : "No results",
+        query: `Theme: ${theme}, Country: ${country}, Keyword: ${keywords}`,
+      });
+      this.setState({
+        status: this.state.projects.length > 0 ? "Results:" : "No results",
       });
     } catch (err) {
       console.log(err.message);
-      this.setState({
-        searchStatus: "Sorry no projects match the query",
-      });
     }
   }
 
@@ -93,12 +91,10 @@ class Search extends Component {
   };
 
   render() {
-    let status = this.state.searchStatus;
+    let query = this.state.query;
+    let status = this.state.status;
     let { themes, countries, projects, showAlert } = this.state;
     console.log(themes);
-    /*let countries = this.state.countries;
-    let projects = this.state.projects;
-    let showAlert = this.*/
 
     console.log("projects in state are:", this.state.projects);
 
@@ -110,47 +106,48 @@ class Search extends Component {
       ? countries.map((e) => <option value={e.id}> {e.name}</option>)
       : "loading countries...";
 
-    let projectResults = !!projects.length ? (
-      projects.map((e) => (
-        <div className="container-xl mt-1" key={e.id}>
-          <div className="row">
-            <div className="card border-warning mb-3">
-              <h5 className="card-header">{e.name}</h5>
-              <div className="card-body">
-                <div class="row">
-                  <div class="col">
-                    <img
-                      src={e.imageUrl}
-                      alt={e.name}
-                      class="img-fluid"
-                      alt="Responsive image"
-                    ></img>
-                    <div className="text-left mt-3">
-                      <button
-                        className=" btn btn-dark shadow"
-                        onClick={() => this.addFavorite(e.id)}
-                      >
-                        Add to favorites +
-                      </button>
+    let projectResults =
+      !!projects && !!projects.length ? (
+        projects.map((e) => (
+          <div className="container-xl mt-1" key={e.id}>
+            <div className="row">
+              <div className="card border-warning mb-3">
+                <h5 className="card-header">{e.name}</h5>
+                <div className="card-body">
+                  <div class="row">
+                    <div class="col">
+                      <img
+                        src={e.imageUrl}
+                        alt={e.name}
+                        class="img-fluid"
+                        alt="Responsive image"
+                      ></img>
+                      <div className="text-left mt-3">
+                        <button
+                          className=" btn btn-dark shadow"
+                          onClick={() => this.addFavorite(e.id)}
+                        >
+                          Add to favorites +
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col ">
-                    <p>{e.summary}</p>
-                    <ul>
-                      <li>
-                        <a href={e.url}>{e.url}</a>
-                      </li>
-                    </ul>
+                    <div class="col ">
+                      <p>{e.summary}</p>
+                      <ul>
+                        <li>
+                          <a href={e.url}>{e.url}</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      ))
-    ) : (
-      <div className="mt-4 text-white">{status}</div>
-    );
+        ))
+      ) : (
+        <div className="mt-4 text-white">{status}</div>
+      );
 
     return (
       <div className="container-xl">
@@ -168,9 +165,7 @@ class Search extends Component {
                   className=" border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
                   name="theme_input"
                 >
-                  <option disabled selected>
-                    theme
-                  </option>
+                  <option value={0}>select</option>
                   {themeOptions}
                 </select>
               </div>
@@ -187,9 +182,7 @@ class Search extends Component {
                   className="border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
                   name="country_input"
                 >
-                  <option disabled selected>
-                    select a country
-                  </option>
+                  <option value={0}>select</option>
                   {countryOptions}
                 </select>
               </div>
@@ -223,8 +216,8 @@ class Search extends Component {
             </div>
           </div>
         </form>
-        <div className="mt-3 mb-4 text-white sticky-top container border border-warning bg-secondary rounded p-2">
-          {status}
+        <div className="mt-4 mb-2 text-white sticky-top container border border-warning bg-secondary rounded p-2">
+          {query}
         </div>
         <div>
           {showAlert && (

@@ -44,11 +44,14 @@ router.get("/search/:themeId?/:countryId?/:keyword?", async (req, res) => {
     keyword = `name like '%${String(keyword)}%'`;
     sqlAr.push(keyword);
   }
-  let final = "WHERE " + sqlAr.join(" AND ");
+  let final = sqlAr.length > 0 ? " WHERE " + sqlAr.join(" AND ") : "";
   console.log("final", final);
-  const results = await sequelize2.query(`SELECT * FROM Projects ${final};`, {
-    type: sequelize.QueryTypes.SELECT,
-  });
+  const results = await sequelize2.query(
+    `SELECT * FROM Projects${final} LIMIT 50;`,
+    {
+      type: sequelize.QueryTypes.SELECT,
+    }
+  );
   res.send(results);
 });
 
