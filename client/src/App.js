@@ -72,7 +72,7 @@ export default class App extends Component {
                   </li>
                   <li className="nav-item  ">
                     <NavLink className="nav-link" to="/Data">
-                      Scatterplot
+                      Data Snapshot
                     </NavLink>
                   </li>
                 </ul>
