@@ -9,7 +9,6 @@
     "undo-migrate": "npx sequelize-cli db:migrate:undo:all",
     "undo-seed": "npx sequelize-cli db:seed:undo:all",
     "heroku-postbuild": "cd client && npm install && npm run build"
-
   },
   "dependencies": {
     "axios": "^0.21.0",

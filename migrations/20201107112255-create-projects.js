@@ -26,8 +26,11 @@ module.exports = {
       address: {
         type: Sequelize.STRING,
       },
-      latlon: {
-        type: Sequelize.STRING,
+      lat: {
+        type: Sequelize.INTEGER,
+      },
+      lon: {
+        type: Sequelize.INTEGER,
       },
       funding: {
         type: Sequelize.INTEGER,
