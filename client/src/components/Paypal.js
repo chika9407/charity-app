@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
 import { Redirect } from "react-router";
 
 export default function Paypal(props) {

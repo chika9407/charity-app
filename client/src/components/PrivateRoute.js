@@ -1,25 +1,17 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
-//import AuthButton from "./AuthButton";
-import { userIsLoggedIn } from "./userIsLoggedIn";
-import { checkUser } from "./checkUser";
+import React, { Component } from "react";
+import { Redirect, Route } from "react-router-dom";
 
-export default function PrivateRoute({ children, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) => {
-        return checkUser() ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: location },
-            }}
-          />
-        );
-      }}
-    />
-  );
-}
+export const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      localStorage.getItem("token") ? (
+        <div>
+          <Component {...props} />
+        </div>
+      ) : (
+        <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+      )
+    }
+  />
+);

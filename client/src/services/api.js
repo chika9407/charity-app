@@ -1,9 +1,5 @@
-//import axios from "axios";
 export default {
   async getProjects() {
-    //fetch all Projects from the API
-    //latest git update attempt
-
     //const APIcall = `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${APIkey}&nextProjectId=354`;
 
     try {
@@ -115,19 +111,19 @@ export default {
         throw new Error();
       }
       const data = await response.json();
-      console.log("response data", data);
+      console.log("filtered project search", data);
       return data;
     } catch (err) {
       console.log(err.message);
     }
   },
 
-  /*async getFeaturedProjects() {
-
-    const APIcall = `https://api.globalgiving.org/api/public/projectservice/featured/projects?api_key=${APIkey}`;
+  async getNearby(lat, lon) {
+    console.log("reached api get nearby");
 
     try {
-      const response = await fetch(APIcall, {
+      const response = await fetch(`filters/location/${lat}/${lon}`, {
+        method: "GET",
         headers: {
           Accept: "application/json",
         },
@@ -136,12 +132,12 @@ export default {
         throw new Error();
       }
       const data = await response.json();
-      console.log(data);
+      console.log("location search", data);
       return data;
     } catch (err) {
       console.log(err.message);
     }
-  },*/
+  },
 
   async addToFavorites(ProjectId) {
     //grab UserID from token

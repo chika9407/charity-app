@@ -32,6 +32,7 @@ function Scatterplot() {
         .range([margin.left, width - margin.right])
         .domain([d3.min(data, (d) => d.goal), d3.max(data, (d) => d.goal)]);
 
+
       if (currentZoomState) {
         const newXScale = currentZoomState.rescaleX(xScale);
         console.log(xScale.domain());
