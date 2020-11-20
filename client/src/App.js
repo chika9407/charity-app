@@ -1,11 +1,7 @@
 import "./App.css";
 import React, { Component } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  NavLink,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import Favorite from "./components/Favorite";
 import Search from "./components/Search";
 import Home from "./components/Home";
@@ -18,83 +14,16 @@ import Scatterplot from "./components/Scatterplot";
 import PrivateRoute from "./components/PrivateRoute";
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      country_input: "",
-      theme_input: "",
-    };
-  }
-
-  logout = async () => {
-    try {
-      localStorage.setItem("token", "");
-      this.props.history.push(`/`);
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
   render() {
     return (
       <div className="Background1">
         <Router>
+          <Navbar />
           <div>
-            <nav className=" navbar border border-secondary navbar-expand-lg navbar-light bg-warning">
-              <NavLink className=" nav-item nav-link" to="/">
-                Home
-              </NavLink>
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-                <span className="navbar-toggler-icon"></span>
-              </button>
-              <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav">
-                  <li className="nav-item">
-                    <NavLink className="nav-link" to="/search">
-                      Search for Charities
-                    </NavLink>
-                  </li>
-
-                  <li className="nav-item  ">
-                    <NavLink className="nav-link" to="/favorite">
-                      Dashboard
-                    </NavLink>
-                  </li>
-                  <li className="nav-item  ">
-                    <NavLink className="nav-link" to="/map">
-                      Map
-                    </NavLink>
-                  </li>
-                  <li className="nav-item  ">
-                    <NavLink className="nav-link" to="/Data">
-                      Data Snapshot
-                    </NavLink>
-                  </li>
-                </ul>
-                <form className="form-inline ml-auto my-2 my-lg-0 ">
-                  <NavLink
-                    className="btn btn-Warning"
-                    to="/"
-                    onClick={this.logout}
-                  >
-                    Sign out
-                  </NavLink>
-                </form>
-              </div>
-            </nav>
-
             <Switch>
               <PrivateRoute path="/favorite" component={Favorite}>
                 <Favorite />
               </PrivateRoute>
-
               <Route path="/search" component={Search}>
                 <Search />
               </Route>

@@ -108,16 +108,6 @@ class Home extends Component {
             </div>
           </div>
         </div>
-        {/* Log OUT .................*/}
-
-        {/* FaceBook .................
-        <div className="text-right text-white mt-3 ">
-          {" "}
-          Or sign in with FaceBook
-          <a href="/auth/facebook" className="btn btn-primary">
-            <span></span> Facebook
-          </a>
-        </div> */}
       </div>
     );
   }
