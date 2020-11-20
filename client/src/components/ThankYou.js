@@ -8,7 +8,7 @@ export default class ThankYou extends Component {
           Thank you for your donation !
         </h2>
         <div className="text-center  ">
-          <a href="/Register" className="btn btn-warning mt-2 shadow">
+          <a href="/favorite" className="btn btn-warning mt-2 shadow">
             Back to your Dashboard
           </a>
         </div>

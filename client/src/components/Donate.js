@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import PayPal from "./Paypal";
 
 export default function CheckOutForm() {

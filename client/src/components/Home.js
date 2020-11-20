@@ -25,7 +25,7 @@ class Home extends Component {
       console.log(results.data);
 
       localStorage.setItem("token", results.data.token);
-      this.props.history.push(`/favorite`);
+      this.props.history.push(`/search`);
     } catch (err) {
       console.log(err.message);
       this.props.history.push(`/register`);
@@ -54,8 +54,8 @@ class Home extends Component {
                   and lets you filter them according to your needs.
                 </p>
                 <p className="card-text mb-3">
-                  Sign In to save your favorite charities and donate to them
-                  whenever you like -
+                  Sign In to save your favorite charities to your dashboard and
+                  donate to them whenever you like -
                 </p>
                 <p className="card-text mb-3">
                   Or Search for Charities around the world using the map or our
