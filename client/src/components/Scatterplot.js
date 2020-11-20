@@ -51,12 +51,7 @@ function Scatterplot() {
           d3.min(data, (d) => d.funding),
           d3.max(data, (d) => d.funding),
         ]);
-      }
-      //scale fory var represents initial goal
-      const yScale = d3
-        .scaleSqrt()
-        .range([height - margin.bottom, margin.top])
-        .domain([d3.min(data, (d) => d.funding), d3.max(data, (d) => d.funding)]);
+      
 
       //color represents the themeId
       const color = d3.scaleOrdinal().range(d3.schemeTableau10);
