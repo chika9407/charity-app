@@ -9,20 +9,48 @@ export class MapContainer extends Component {
     super(props);
 
     this.state = {
+      lat_input: null,
+      lon_input: null,
       projects: null,
       selectedProject: null,
       userLocation: { lat: null, lon: null },
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
     this.getUserLocation();
   }
 
+  handleChange(event) {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+    this.setState({
+      [name]: [value],
+    });
+  }
+  async locSearch(event) {
+    event.preventDefault();
+    this.setState({
+      userLocation: { lat: this.state.lat_input, lon: this.state.lon_input },
+    });
+    try {
+      let projectsData = await api.getNearby(
+        this.state.lat_input,
+        this.state.lon_input
+      );
+      this.setState({
+        projects: projectsData,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   getUserLocation() {
     const success = (position) => {
       const { latitude, longitude } = position.coords;
-      console.log("lat lon", latitude, longitude);
       this.setState({
         userLocation: { lat: latitude, lon: longitude },
       });
@@ -37,10 +65,14 @@ export class MapContainer extends Component {
   }
 
   async getNearbyProjects(lat, lon) {
-    let projectsData = await api.getNearby(lat, lon);
-    this.setState({
-      projects: projectsData,
-    });
+    try {
+      let projectsData = await api.getNearby(lat, lon);
+      this.setState({
+        projects: projectsData,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
   showProjects() {}
 
@@ -86,10 +118,12 @@ export class MapContainer extends Component {
 
     const latRange = [];
 
-    for (var i = -180; i <= 180; i++) {
+    for (var i = -80; i <= 80; i++) {
       latRange.push(i);
     }
-    let latOptions = latRange.map((e) => <option value={e}>{e}</option>);
+    let latOptions = latRange.map((e, i) => (
+      <option value={latRange[i]}>{latRange[i]}</option>
+    ));
 
     const lonRange = [];
 
@@ -121,7 +155,7 @@ export class MapContainer extends Component {
                     value={this.state.value}
                     onChange={this.handleChange}
                     className=" border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
-                    name="theme_input"
+                    name="lat_input"
                   >
                     <option value={0}>select</option>
                     {latOptions}
@@ -138,7 +172,7 @@ export class MapContainer extends Component {
                     value={this.state.value}
                     onChange={this.handleChange}
                     className="border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
-                    name="country_input"
+                    name="lon_input"
                   >
                     <option value={0}>select</option>
                     {lonOptions}
@@ -151,7 +185,7 @@ export class MapContainer extends Component {
                 </div>
                 <button
                   className="btn btn-warning shadow"
-                  onClick={(event) => this.filterSearch(event)}
+                  onClick={(event) => this.locSearch(event)}
                 >
                   SUBMIT
                 </button>
@@ -202,7 +236,10 @@ export class MapContainer extends Component {
                   google={this.props.google}
                   zoom={6}
                   style={mapStyles}
-                  initialCenter={center}
+                  center={{
+                    lat: this.state.userLocation.lat,
+                    lng: this.state.userLocation.lon,
+                  }}
                 >
                   {marker}
                 </Map>
