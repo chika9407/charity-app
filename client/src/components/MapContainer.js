@@ -1,209 +1,250 @@
 import React, { Component } from "react";
-import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
+import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import api from "../services/api";
 
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
-
-const mapStyles = {
-  width: "100%",
-  height: "400px",
-};
-
-const center = {
-  lat: 41.3851,
-  lng: 2.1734,
-};
-
-let service = null;
 
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      countries: [],
-      country_input: "",
-      suggestions: [],
-      places: [],
-      projects: [],
+      lat_input: null,
+      lon_input: null,
+      projects: null,
+      selectedProject: null,
+      userLocation: { lat: null, lon: null },
     };
     this.handleChange = this.handleChange.bind(this);
   }
-  async componentDidMount() {
-    let countriesData = await api.getAllCountries();
-    this.setState({
-      countries: countriesData,
-    });
-  }
 
-  savePlace = (place) => {
-    this.setState({ places: [...this.state.places, place] });
-  };
+  componentDidMount() {
+    this.getUserLocation();
+  }
 
   handleChange(event) {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
     this.setState({
-      [name]: value,
+      [name]: [value],
     });
   }
-
-  handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      this.search();
-    }
-  };
-
-  onMarkerClick = (props, marker, e) => {
-    console.log(props, marker, e);
-  };
-
-  initPlaces(mapProps, map) {
-    const { google } = mapProps;
-    service = new google.maps.places.PlacesService(map);
-  }
-
-  async filterSearch(event) {
+  async locSearch(event) {
     event.preventDefault();
     this.setState({
-      searchStatus: "loading projects...",
+      userLocation: { lat: this.state.lat_input, lon: this.state.lon_input },
     });
-
-    let keywords = "*";
-    let country = this.state.country_input;
-    let theme = "";
-
-    console.log(`keywords:${keywords}, country:${country}, theme:${theme}`);
-
     try {
-      let searchResults = await api.getFilteredProjects(
-        keywords,
-        country,
-        theme
+      let projectsData = await api.getNearby(
+        this.state.lat_input,
+        this.state.lon_input
       );
       this.setState({
-        projects: searchResults.search.response.projects.project,
+        projects: projectsData,
       });
-      this.setState({
-        searchStatus: "results",
-      });
-      console.log(this.state.projects);
     } catch (err) {
-      console.log(err.message);
-      this.setState({
-        searchStatus: "no projects match the query",
-      });
+      console.log(err);
     }
   }
 
-  render() {
-    let countries = this.state.countries;
-    let projects = this.state.projects;
-
-    const { suggestions, places } = this.state;
-
-    var bounds = new this.props.google.maps.LatLngBounds();
-    for (var i = 0; i < places.length; i++) {
-      bounds.extend(places[i].geometry.location);
+  getUserLocation() {
+    const success = (position) => {
+      const { latitude, longitude } = position.coords;
+      this.setState({
+        userLocation: { lat: latitude, lon: longitude },
+      });
+      this.getNearbyProjects(latitude, longitude);
+    };
+    const err = (message) => {
+      console.log(message);
+    };
+    if (window.navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition(success, err);
     }
-    let countryOptions = !!countries
-      ? countries.map((e) => <option value={e.code}> {e.name}</option>)
-      : "loading countries...";
+  }
 
-    let projectResults = !!projects.length ? (
-      projects.map((e) => (
-        <div className="container-xl mt-2" key={e.id}>
-          <div className="row">
-            <div className="card border-warning mb-3">
-              <h5 className="card-header">{e.title}</h5>
-              <div className="card-body">
-                <div class="row">
-                  <div class="col">
-                    <div className="text-left mt-3">
-                      <button
-                        className=" btn btn-dark shadow"
-                        onClick={() => this.favorite(e.id)}
-                      >
-                        Add to favorites
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col ">
-                    <ul>
-                      <li>
-                        <a href={e.contactUrl}>{e.contactUrl}</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))
-    ) : (
-      <div className="mt-4 text-white">loading projects...</div>
-    );
+  async getNearbyProjects(lat, lon) {
+    try {
+      let projectsData = await api.getNearby(lat, lon);
+      this.setState({
+        projects: projectsData,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  showProjects() {}
+
+  select = (project) => {
+    console.log("select clicked");
+    this.setState({
+      selectedProject: project,
+    });
+    console.log("selected", this.state.selectedProject);
+  };
+
+  render() {
+    const mapStyles = {
+      width: "100%",
+      height: "400px",
+    };
+
+    const center =
+      this.state.userLocation.lat === null
+        ? { lat: 0, lng: 0 }
+        : {
+            lat: this.state.userLocation.lat,
+            lng: this.state.userLocation.lon,
+          };
+
+    this.state.projects === null
+      ? console.log("projects not loaded")
+      : console.log(this.state.projects);
+
+    let marker =
+      this.state.selectedProject === null ? (
+        ""
+      ) : (
+        <Marker
+          name={this.state.selectedProject.name}
+          position={{
+            lat: this.state.selectedProject.lat,
+            lng: this.state.selectedProject.lon,
+          }}
+          key={this.state.selectedProject.id}
+        />
+      );
+
+    const latRange = [];
+
+    for (var i = -80; i <= 80; i++) {
+      latRange.push(i);
+    }
+    let latOptions = latRange.map((e, i) => (
+      <option value={latRange[i]}>{latRange[i]}</option>
+    ));
+
+    const lonRange = [];
+
+    for (var i = -180; i <= 180; i++) {
+      lonRange.push(i);
+    }
+    let lonOptions = lonRange.map((e) => <option value={e}>{e}</option>);
+
+    // var bounds = new this.props.google.maps.LatLngBounds();
+    // for (var i = 0; i < this.state.selectedProjects.length; i++) {
+    //   bounds.extend({
+    //     lat: this.state.selectedProjects[i].lat,
+    //     lng: this.state.selectedProjects[i].lng,
+    //   });
+    // }
 
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <form class="container  sticky-top bg-secondary mt-4  rounded pt-1">
-              <div class="row mt-3 ">
-                <div class="col-sm">
-                  <div className="text-white">
-                    <h5> Countries</h5>
-                  </div>
-                  <div className="select-outline ">
-                    <select
-                      value={this.state.value}
-                      onChange={this.handleChange}
-                      className="border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
-                      name="country_input"
-                    >
-                      <option disabled selected>
-                        select a country
-                      </option>
-                      {countryOptions}
-                    </select>
-                  </div>
+      <div className="container-xl">
+        <div className="row mt-5">
+          <div className="col-5">
+            <form class="container bg-secondary mt-4  rounded pt-1">
+              <div class="col-sm">
+                <div className="text-white">
+                  <h5> Latitude </h5>
                 </div>
-                <div class="col-2 text-center">
-                  <div className="text-white ">
-                    <h5> Find</h5>
-                  </div>
-                  <button
-                    className="btn btn-warning shadow"
-                    onClick={(event) => this.filterSearch(event)}
+
+                <div className="select-outline  ">
+                  <select
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    className=" border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
+                    name="lat_input"
                   >
-                    SUBMIT
-                  </button>
+                    <option value={0}>select</option>
+                    {latOptions}
+                  </select>
                 </div>
               </div>
+              <div class="col-sm">
+                <div className="text-white">
+                  <h5> longitude</h5>
+                </div>
+
+                <div className="select-outline ">
+                  <select
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    className="border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
+                    name="lon_input"
+                  >
+                    <option value={0}>select</option>
+                    {lonOptions}
+                  </select>
+                </div>
+              </div>
+              <div class="col-2 text-center">
+                <div className="text-white ">
+                  <h5> Find</h5>
+                </div>
+                <button
+                  className="btn btn-warning shadow"
+                  onClick={(event) => this.locSearch(event)}
+                >
+                  SUBMIT
+                </button>
+              </div>
             </form>
-            <h3>Suggestions</h3>
-            <ul className="list-group">{projectResults}</ul>
+            <div className="card">
+              <ul className="list-group">
+                {this.state.projects === null
+                  ? "no projects"
+                  : this.state.projects.map((project) => (
+                      <li
+                        key={project.id}
+                        className="list-group-item d-flex justify-content-between align-items-center"
+                      >
+                        <div>
+                          <div>
+                            <strong>{project.name}</strong>
+                          </div>
+                          <span className="text-muted">{project.address}</span>
+                          <div>
+                            <strong>
+                              <a href={project.url}>{project.url}</a>
+                            </strong>
+                          </div>
+                        </div>
+
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={() => this.select(project)}
+                        >
+                          {this.state.selectedProject
+                            ? project.id === this.state.selectedProject.id
+                              ? "Selected"
+                              : "Select"
+                            : "Select"}
+                        </button>
+                      </li>
+                    ))}
+              </ul>
+            </div>
           </div>
           <div className="col">
-            <Map
-              google={this.props.google}
-              onReady={this.initPlaces}
-              zoom={14}
-              style={mapStyles}
-              bounds={bounds}
-              initialCenter={center}
-            >
-              {places.map((marker, i) => (
-                <Marker
-                  onClick={this.onMarkerClick}
-                  name={marker.name}
-                  position={marker.geometry.location}
-                  key={i}
-                />
-              ))}
-            </Map>
+            <div className="card">
+              {this.state.userLocation.lat === null ? (
+                "no location data"
+              ) : (
+                <Map
+                  google={this.props.google}
+                  zoom={6}
+                  style={mapStyles}
+                  center={{
+                    lat: this.state.userLocation.lat,
+                    lng: this.state.userLocation.lon,
+                  }}
+                >
+                  {marker}
+                </Map>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -212,5 +253,5 @@ export class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey,
+  apiKey: "AIzaSyCFyKaFulGi1pbr2WKiQFLpcrK-CDLCPvM",
 })(MapContainer);

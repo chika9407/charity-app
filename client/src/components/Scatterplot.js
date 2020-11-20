@@ -10,7 +10,6 @@ function Scatterplot() {
 
   //fetch data when you land on the page
 
-
   useEffect(() => {
     async function fetchData() {
       const response = await api.getProjects();
@@ -20,7 +19,6 @@ function Scatterplot() {
   }, []);
 
   //useD3 (aka useRef) hook is imported to be able to do d3.select(svg)
-
   const ref = useD3(
     (svg) => {
       const height = 500;
@@ -32,7 +30,6 @@ function Scatterplot() {
       const xScale = d3
         .scaleLog()
         .range([margin.left, width - margin.right])
-
         .domain([d3.min(data, (d) => d.goal), d3.max(data, (d) => d.goal)]);
 
 
@@ -51,7 +48,6 @@ function Scatterplot() {
           d3.min(data, (d) => d.funding),
           d3.max(data, (d) => d.funding),
         ]);
-      
 
       //color represents the themeId
       const color = d3.scaleOrdinal().range(d3.schemeTableau10);
@@ -124,7 +120,6 @@ function Scatterplot() {
         .on("mouseover", mouseover)
         .on("mouseleave", mouseleave)
         .on("mousemove", mousemove);
-
 
       /*const zoomBehavior = d3
         .zoom()
