@@ -32,6 +32,7 @@ function Scatterplot() {
         .range([margin.left, width - margin.right])
         .domain([d3.min(data, (d) => d.goal), d3.max(data, (d) => d.goal)]);
 
+
       if (currentZoomState) {
         const newXScale = currentZoomState.rescaleX(xScale);
         console.log(xScale.domain());
@@ -57,9 +58,17 @@ function Scatterplot() {
         g.attr("transform", `translate(0,${height - margin.bottom})`).call(
           d3
             .axisBottom(xScale)
-            .tickValues(d3.ticks(...d3.extent(xScale.domain()), width / 100))
+            .tickValues(d3.ticks(...d3.extent(xScale.domain()), width / 120))
             .tickSizeOuter(0)
         );
+      /*const xAxisText = (text) =>
+        text
+          .attr(
+            "transform",
+            `translate( + ${width / 2} + " ," + ${height + margin.top + 20} + )`
+          )
+          .style("text-anchor", "middle")
+          .text("Fundraising goal");*/
 
       const yAxis = (g) =>
         g
@@ -77,6 +86,7 @@ function Scatterplot() {
 
       svg.select(".x-axis").call(xAxis);
       svg.select(".y-axis").call(yAxis);
+      //svg.select(".x-axis-text").call(xAxisText);
 
       var tooltip = d3.select(".tooltip-area").style("opacity", 0);
 
@@ -140,8 +150,9 @@ function Scatterplot() {
       }}
       className="bg-white"
     >
-      <g className="x-axis" />
-
+      <g className="x-axis">
+        <text className="x-axis-text" />
+      </g>
       <g className="y-axis" />
       <g className="tooltip-area">
         <text className="tooltip-area__text">aas</text>

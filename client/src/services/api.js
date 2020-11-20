@@ -1,5 +1,7 @@
 export default {
   async getProjects() {
+
+
     //const APIcall = `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${APIkey}&nextProjectId=354`;
 
     try {
@@ -120,6 +122,7 @@ export default {
 
   async getNearby(lat, lon) {
     console.log("reached api get nearby");
+
     try {
       const response = await fetch(`filters/location/${lat}/${lon}`, {
         method: "GET",
@@ -136,7 +139,7 @@ export default {
     } catch (err) {
       console.log(err.message);
     }
-  },
+  },*/
 
   async addToFavorites(ProjectId) {
     //grab UserID from token
