@@ -58,7 +58,7 @@ router.get("/search/:themeId?/:countryId?/:keyword?", async (req, res) => {
 router.get("/location/:lat/:lon", async (req, res) => {
   let { lat, lon } = req.params;
   const results = await sequelize2.query(
-    `select *  from Projects  order by (abs(lat -${lat})+abs(lon-${lon})) limit 15;`,
+    `select *  from Projects  order by abs(abs(lat -${lat})+abs(lon-${lon})) limit 15;`,
     {
       type: sequelize.QueryTypes.SELECT,
     }
@@ -67,4 +67,4 @@ router.get("/location/:lat/:lon", async (req, res) => {
 });
 
 module.exports = router;
-// SELECT * FROM Projects WHERE themeId='edu' AND countryId='TH' AND name LIKE '%teach%';
+// select *  from Projects  order by abs(abs(lat -54)+abs(lon+1)) limit 15;';

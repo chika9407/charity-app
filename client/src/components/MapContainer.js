@@ -9,18 +9,13 @@ export class MapContainer extends Component {
     super(props);
 
     this.state = {
-      countries: [],
-      country_input: "",
       projects: null,
+      selectedProject: null,
       userLocation: { lat: null, lon: null },
     };
   }
 
-  async componentDidMount() {
-    let countriesData = await api.getAllCountries();
-    this.setState({
-      countries: countriesData,
-    });
+  componentDidMount() {
     this.getUserLocation();
   }
 
@@ -46,17 +41,17 @@ export class MapContainer extends Component {
     this.setState({
       projects: projectsData,
     });
-    console.log("projects:", this.state.projects);
   }
-  showProjects() {}
+
+  select = (project) => {
+    console.log("select clicked");
+    this.setState({
+      selectedProject: project,
+    });
+    console.log("selected", this.state.selectedProject);
+  };
 
   render() {
-    let projList =
-      this.state.projects === null
-        ? "no projects"
-        : this.state.projects.map((e) => e.name);
-    console.log("projlist", projList);
-
     const mapStyles = {
       width: "100%",
       height: "400px",
@@ -74,16 +69,27 @@ export class MapContainer extends Component {
       ? console.log("projects not loaded")
       : console.log(this.state.projects);
 
-    let markers =
-      this.state.projects === null
-        ? ""
-        : this.state.projects.map((project, i) => (
-            <Marker
-              name={project.name}
-              position={{ lat: project.lat, lng: project.lon }}
-              key={project.id}
-            />
-          ));
+    let marker =
+      this.state.selectedProject === null ? (
+        ""
+      ) : (
+        <Marker
+          name={this.state.selectedProject.name}
+          position={{
+            lat: this.state.selectedProject.lat,
+            lng: this.state.selectedProject.lon,
+          }}
+          key={this.state.selectedProject.id}
+        />
+      );
+
+    // var bounds = new this.props.google.maps.LatLngBounds();
+    // for (var i = 0; i < this.state.selectedProjects.length; i++) {
+    //   bounds.extend({
+    //     lat: this.state.selectedProjects[i].lat,
+    //     lng: this.state.selectedProjects[i].lng,
+    //   });
+    // }
 
     return (
       <div className="container">
@@ -102,7 +108,7 @@ export class MapContainer extends Component {
             <ul className="list-group">
               {this.state.projects === null
                 ? "no projects"
-                : this.state.projects.map((project, i) => (
+                : this.state.projects.map((project) => (
                     <li
                       key={project.id}
                       className="list-group-item d-flex justify-content-between align-items-center"
@@ -112,9 +118,23 @@ export class MapContainer extends Component {
                           <strong>{project.name}</strong>
                         </div>
                         <span className="text-muted">{project.address}</span>
+                        <div>
+                          <strong>
+                            <a href={project.url}>{project.url}</a>
+                          </strong>
+                        </div>
                       </div>
 
-                      <button className="btn btn-outline-primary">Show</button>
+                      <button
+                        className="btn btn-outline-primary"
+                        onClick={() => this.select(project)}
+                      >
+                        {this.state.selectedProject
+                          ? project.id === this.state.selectedProject.id
+                            ? "Selected"
+                            : "Select"
+                          : "Select"}
+                      </button>
                     </li>
                   ))}
             </ul>
@@ -125,11 +145,11 @@ export class MapContainer extends Component {
             ) : (
               <Map
                 google={this.props.google}
-                zoom={10}
+                zoom={6}
                 style={mapStyles}
                 initialCenter={center}
               >
-                {markers}
+                {marker}
               </Map>
             )}
           </div>
