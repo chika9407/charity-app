@@ -1,5 +1,13 @@
 export default {
   async getProjects() {
+<<<<<<< HEAD
+=======
+    //fetch all Projects from the API
+    //latest git update attempt
+
+    //const APIcall = `https://api.globalgiving.org/api/public/projectservice/all/projects/active?api_key=${APIkey}&nextProjectId=354`;
+
+>>>>>>> scale updated to ScaleLog, Navbar made separate component, PrivateRoute kinda working
     try {
       const response = await fetch(`/projects`, {
         method: "GET",
@@ -55,6 +63,45 @@ export default {
       console.log(err);
     }
   },
+
+
+  // async getFilteredProjects(key = "", countryISO = "", themeId = "") {
+  //   let keyword = "*";
+
+  //   if (!!key) {
+  //     keyword = key;
+  //   }
+
+  //   let countryAndTheme = "";
+  //   if (!!countryISO && !!themeId) {
+  //     countryAndTheme =
+  //       "&filter=" + "country:" + countryISO + "," + "theme:" + themeId;
+  //   } else if (!!countryISO || !!themeId) {
+  //     countryAndTheme =
+  //       "&filter=" +
+  //       (!!countryISO ? "country:" + countryISO : "theme:" + themeId);
+  //   } else {
+  //     countryAndTheme = "";
+  //   }
+
+  //   const APIcall = `https://api.globalgiving.org/api/public/services/search/projects?api_key=${APIkey}&q=${keyword}${countryAndTheme}`;
+
+  //   try {
+  //     const response = await fetch(APIcall, {
+  //       headers: {
+  //         Accept: "application/json",
+  //       },
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error();
+  //     }
+  //     const data = await response.json();
+  //     // console.log(data);
+  //     return data;
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // },
 
   async getFilteredProjects(keyword = 0, countryId = 0, themeId = 0) {
     try {
