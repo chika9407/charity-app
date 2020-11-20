@@ -37,7 +37,7 @@ export default function Paypal(props) {
 
   if (success) {
     console.log("Redirect");
-    return <Redirect to="/favorite" />;
+    return <Redirect to="/ThankYou" />;
   } else {
     return (
       <div>

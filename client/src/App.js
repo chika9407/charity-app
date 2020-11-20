@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { Component, useState, useEffect } from "react";
+import React, { Component } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,10 +10,12 @@ import Favorite from "./components/Favorite";
 import Search from "./components/Search";
 import Home from "./components/Home";
 import Register from "./components/Register";
-import api from "./services/api";
 import Donate from "./components/Donate.js";
 import Paypal from "./components/Paypal";
 import MapContainer from "./components/MapContainer";
+import ThankYou from "./components/ThankYou";
+import Scatterplot from "./components/Scatterplot";
+import PrivateRoute from "./components/PrivateRoute";
 
 export default class App extends Component {
   constructor(props) {
@@ -23,6 +25,7 @@ export default class App extends Component {
       theme_input: "",
     };
   }
+
   logout = async () => {
     try {
       localStorage.setItem("token", "");
@@ -69,6 +72,11 @@ export default class App extends Component {
                       Map
                     </NavLink>
                   </li>
+                  <li className="nav-item  ">
+                    <NavLink className="nav-link" to="/Data">
+                      Data Snapshot
+                    </NavLink>
+                  </li>
                 </ul>
                 <form className="form-inline ml-auto my-2 my-lg-0 ">
                   <NavLink
@@ -83,9 +91,9 @@ export default class App extends Component {
             </nav>
 
             <Switch>
-              <Route path="/favorite" component={Favorite}>
+              <PrivateRoute path="/favorite" component={Favorite}>
                 <Favorite />
-              </Route>
+              </PrivateRoute>
 
               <Route path="/search" component={Search}>
                 <Search />
@@ -105,6 +113,13 @@ export default class App extends Component {
 
               <Route path="/Paypal">
                 <Paypal />
+              </Route>
+              <Route path="/Data">
+                <Scatterplot />
+              </Route>
+
+              <Route path="/ThankYou">
+                <ThankYou />
               </Route>
 
               <Route path="/">

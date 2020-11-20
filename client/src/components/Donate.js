@@ -18,11 +18,13 @@ export default function CheckOutForm() {
     <div className="container-sm text-center w-50 mt-5">
       {checkout ? (
         <div className="card mt-3 border border-warning">
-          <h5 className="card-header">
-            Choose your payment method for {amount} €
-          </h5>
+          <h5 className="card-header">*Donation Demo*</h5>
           <div className=" card-body ">
-            <h5 className=" card-title "> Thank you for your donation !</h5>
+            <h3 className=" card-title  mb-2">
+              {" "}
+              Choose your payment method for Donation of:
+            </h3>
+            <h2 className=" card-title  mb-4">{amount} €</h2>
             <PayPal price={amount} />
           </div>
         </div>
