@@ -84,6 +84,20 @@ export class MapContainer extends Component {
         />
       );
 
+    const latRange = [];
+
+    for (var i = -180; i <= 180; i++) {
+      latRange.push(i);
+    }
+    let latOptions = latRange.map((e) => <option value={e}>{e}</option>);
+
+    const lonRange = [];
+
+    for (var i = -180; i <= 180; i++) {
+      lonRange.push(i);
+    }
+    let lonOptions = lonRange.map((e) => <option value={e}>{e}</option>);
+
     // var bounds = new this.props.google.maps.LatLngBounds();
     // for (var i = 0; i < this.state.selectedProjects.length; i++) {
     //   bounds.extend({
@@ -93,66 +107,107 @@ export class MapContainer extends Component {
     // }
 
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <div className="form-inline d-flex justify-content-between mb-4">
-              <input
-                type="text"
-                value={this.state.input}
-                className="form-control flex-grow-1"
-                placeholder="Search for places on Google Maps"
-              />
-              <button className="btn btn-primary ml-2">Search</button>
-            </div>
-            <h3>Suggestions</h3>
-            <ul className="list-group">
-              {this.state.projects === null
-                ? "no projects"
-                : this.state.projects.map((project) => (
-                    <li
-                      key={project.id}
-                      className="list-group-item d-flex justify-content-between align-items-center"
-                    >
-                      <div>
-                        <div>
-                          <strong>{project.name}</strong>
-                        </div>
-                        <span className="text-muted">{project.address}</span>
-                        <div>
-                          <strong>
-                            <a href={project.url}>{project.url}</a>
-                          </strong>
-                        </div>
-                      </div>
+      <div className="container-xl">
+        <div className="row mt-5">
+          <div className="col-5">
+            <form class="container bg-secondary mt-4  rounded pt-1">
+              <div class="col-sm">
+                <div className="text-white">
+                  <h5> Latitude </h5>
+                </div>
 
-                      <button
-                        className="btn btn-outline-primary"
-                        onClick={() => this.select(project)}
+                <div className="select-outline  ">
+                  <select
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    className=" border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
+                    name="theme_input"
+                  >
+                    <option value={0}>select</option>
+                    {latOptions}
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm">
+                <div className="text-white">
+                  <h5> longitude</h5>
+                </div>
+
+                <div className="select-outline ">
+                  <select
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    className="border border-warning form-group form-control mdb-select  md-outline colorful-select dropdown-primary shadow"
+                    name="country_input"
+                  >
+                    <option value={0}>select</option>
+                    {lonOptions}
+                  </select>
+                </div>
+              </div>
+              <div class="col-2 text-center">
+                <div className="text-white ">
+                  <h5> Find</h5>
+                </div>
+                <button
+                  className="btn btn-warning shadow"
+                  onClick={(event) => this.filterSearch(event)}
+                >
+                  SUBMIT
+                </button>
+              </div>
+            </form>
+            <div className="card">
+              <ul className="list-group">
+                {this.state.projects === null
+                  ? "no projects"
+                  : this.state.projects.map((project) => (
+                      <li
+                        key={project.id}
+                        className="list-group-item d-flex justify-content-between align-items-center"
                       >
-                        {this.state.selectedProject
-                          ? project.id === this.state.selectedProject.id
-                            ? "Selected"
-                            : "Select"
-                          : "Select"}
-                      </button>
-                    </li>
-                  ))}
-            </ul>
+                        <div>
+                          <div>
+                            <strong>{project.name}</strong>
+                          </div>
+                          <span className="text-muted">{project.address}</span>
+                          <div>
+                            <strong>
+                              <a href={project.url}>{project.url}</a>
+                            </strong>
+                          </div>
+                        </div>
+
+                        <button
+                          className="btn btn-outline-primary"
+                          onClick={() => this.select(project)}
+                        >
+                          {this.state.selectedProject
+                            ? project.id === this.state.selectedProject.id
+                              ? "Selected"
+                              : "Select"
+                            : "Select"}
+                        </button>
+                      </li>
+                    ))}
+              </ul>
+            </div>
           </div>
           <div className="col">
-            {this.state.userLocation.lat === null ? (
-              "no location data"
-            ) : (
-              <Map
-                google={this.props.google}
-                zoom={6}
-                style={mapStyles}
-                initialCenter={center}
-              >
-                {marker}
-              </Map>
-            )}
+            <div className="card">
+              {this.state.userLocation.lat === null ? (
+                "no location data"
+              ) : (
+                <Map
+                  google={this.props.google}
+                  zoom={6}
+                  style={mapStyles}
+                  initialCenter={center}
+                >
+                  {marker}
+                </Map>
+              )}
+            </div>
           </div>
         </div>
       </div>
