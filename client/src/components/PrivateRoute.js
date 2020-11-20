@@ -2,18 +2,19 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 //import AuthButton from "./AuthButton";
 import { userIsLoggedIn } from "./userIsLoggedIn";
+import { checkUser } from "./checkUser";
 
 export default function PrivateRoute({ children, ...rest }) {
   return (
     <Route
       {...rest}
       render={({ location }) => {
-        return userIsLoggedIn() ? (
+        return checkUser() ? (
           children
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/",
               state: { from: location },
             }}
           />
